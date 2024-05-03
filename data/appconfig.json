@@ -1,0 +1,17 @@
+{
+  "web_services": {
+    "default": {
+	  "descripcion": "Servidor de Aplicaciones 02",
+      "url2": "http://192.168.50.71/web_apps",
+	  "url": "http://localhost/fase3web"
+    },
+    "cutcsa_web": {
+	  "descripcion": "Servidor Web de Cutcsa",
+      "url": "http://www.cutcsa.com.uy/fase3web",
+	  "url2": "http://localhost/Web/fase3web/index.php"
+    }
+  },
+  "otros": {
+	  "clave": "valor"
+  }
+}

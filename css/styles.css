@@ -1,0 +1,46 @@
+/* Sobre-escribe el estilo por defecto de jQuery para el fondo de las paginas */
+.ui-page {
+   background-image: url('../img/fondo_17.jpg');         
+   background-size: auto;   
+   background-repeat: repeat;
+}
+
+.ui-li-static.ui-collapsible > .ui-collapsible-heading {
+    margin: 0;
+}
+.ui-li-static.ui-collapsible {
+    padding: 0;
+}
+.ui-li-static.ui-collapsible > .ui-collapsible-heading > .ui-btn {
+    border-top-width: 0;
+}
+.ui-li-static.ui-collapsible > .ui-collapsible-heading.ui-collapsible-heading-collapsed > .ui-btn,
+.ui-li-static.ui-collapsible > .ui-collapsible-content {
+    border-bottom-width: 0;
+}
+
+@media only screen and ( max-width: 62.5em ) /* 1000 */
+{
+   
+}
+
+@media only screen and ( max-width: 40em ) /* 640 */
+{
+	
+}
+
+div[data-role="content"] {
+    position: absolute;
+    top:0;
+    left:0;
+    bottom:0;
+    right:0;
+}
+
+div.ui-grid-b {
+    height: 75%;
+}
+
+.ui-block-a, .ui-block-b, .ui-block-c {
+    height: 20%;
+}
