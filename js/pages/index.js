@@ -34,6 +34,8 @@ function Iniciar() {
                 $('#numGamePrice').attr("disabled", "disabled");
                 $('#numPledgePrice').attr("disabled", "disabled");
             }
+            SetShipsDataTable(shipsData.data);
+           // SetShipsDataTable(shipsData);
 
             /*
             //Muestra el Captcha de Google (Requiere una Clave):            
@@ -94,7 +96,6 @@ function Iniciar() {
         var found = shipsData.data.find((element) => element.ID == SelectedShip.ID);
         CargarNaveSeleccionada(found);
     });
-
     $(document).on("click", "#listShipCCU li", function (evt) {
         /* AGREGA UNA NUEVA NAVE A LA LISTA DESDE DONDE SE PUEDE HACER CCU */
         var SelectedShip = $(this).data("datos"); //<- Obtiene los datos del elemento seleccionado
@@ -127,7 +128,6 @@ function Iniciar() {
             $('#listShipCCU').focus();
         }
     });
-
     $(document).on("click", "#listCCUFrom li", function (evt) {
         /* MUESTRA EL COSTO DE LA ACTUALIZACION (Desde la Nave Seleccionada hacia la Nave Actual) */        
         if (currentShip != null) {
@@ -378,6 +378,7 @@ function GetUpgradesToShip(ShipID) {
     }
     return _ret;
 }
+
 /** Obtiene todas las naves más baratas que la indicada. 
  * @param {int} ShipID - ID de la Nave a la que se quiere actualizar.
  * @returns {object[]} Array de Naves encontradas
@@ -394,7 +395,7 @@ function GetDowngradeShips(ShipID) {
                     }
                 });
             }
-           console.log(_ret);
+           //console.log(_ret);
 
             //Ordena x Precio:
             if (_ret.length > 0) {
@@ -406,12 +407,181 @@ function GetDowngradeShips(ShipID) {
     }
     return _ret;
 }
+function SetShipsDataTable(shipsDataRaw){
+    console.log(shipsDataRaw);
+    $('#shipTableBody').empty(); 
+    if (shipsDataRaw != null && shipsDataRaw.length > 0) {
+        shipsDataRaw.forEach(function (DataRow) {
+            try {
+                var _rowHTML = '<tr>'; //</tr>
+
+                // Fields:
+                // Name,Manufacturer,Type,Career,Role,Pledge Value,inGame Value,Buy Location,Vehicle Size,Weapons,Turrets,MissileRacks,
+                // QT Drive,Power Plant,Shields,Shield Type,HP,Crew Max,Cargo Grid,Inventory,Scm Speed,Agility (PYR),Hidrogen,QT Fuel,Weapons Capacitor,Cap Refill,
+
+                _rowHTML += '<td>'+ DataRow.Name +'</td>'; //TODO: Colorear en rojo si la nave no es FlyReady
+                // ---------------------
+                var found = shipsData.Manufacturers.find((element) => element.ID == DataRow.Manufacturer);
+                if (found != null) {
+                    _rowHTML += '<td>'+ found.Name +'</td>';
+                }
+                else { _rowHTML += '<td></td>' }
+                // ---------------------
+                found = shipsData.Types.find((element) => element.ID == DataRow.Type);
+                if (found != null) {
+                    _rowHTML += '<td>'+ found.Name +'</td>';
+                }
+                else { _rowHTML += '<td></td>' }
+                // ---------------------
+                found = shipsData.Careers.find((element) => element.ID == DataRow.Career);
+                if (found != null) {
+                    _rowHTML += '<td>'+ found.Name +'</td>';
+                }
+                else { _rowHTML += '<td></td>' }
+                // ---------------------
+                _rowHTML += '<td>'+ DataRow.Role +'</td>';
+                _rowHTML += '<td>$'+ formatNumber(DataRow.PledgeUSD, 0) +' USD</td>';
+                _rowHTML += '<td>$'+ formatNumber(DataRow.aUEC, 0) +' aUEC</td>';
+                _rowHTML += '<td>'+ DataRow.BuyLocation +'</td>';
+                _rowHTML += '<td>'+ DataRow.VehicleSize +'</td>';
+                _rowHTML += '<td>'+ DataRow.Weapons +'</td>';
+                _rowHTML += '<td>'+ DataRow.Turrets +'</td>';
+                _rowHTML += '<td>'+ DataRow.MissileRacks +'</td>';
+                _rowHTML += '<td>'+ DataRow.QTDrive +'</td>';
+                _rowHTML += '<td>'+ DataRow.PowPlant +'</td>';
+                _rowHTML += '<td>'+ DataRow.Shields +'</td>';
+                _rowHTML += '<td>'+ DataRow.ShieldType +'</td>';
+                _rowHTML += '<td>'+ DataRow.HP +'</td>';
+                _rowHTML += '<td>'+ DataRow.Crew +'</td>';
+                _rowHTML += '<td>'+ DataRow.CargoGrid +' SCU</td>';
+                _rowHTML += '<td>'+ DataRow.Inventory +' SCU</td>';
+                _rowHTML += '<td>'+ DataRow.ScmSpeed +' m/s</td>';
+                _rowHTML += '<td>'+ DataRow.Agility_PYR +'</td>';
+                _rowHTML += '<td>'+ DataRow.Fuel_H +'</td>';
+                _rowHTML += '<td>'+ DataRow.Fuel_QT +'</td>';
+                _rowHTML += '<td>'+ formatNumber(DataRow.Capacitor,0) +'</td>';
+                _rowHTML += '<td>'+ DataRow.CapRefill +'</td>';
+                
+                _rowHTML += '</tr>';
+                $('#shipTableBody').append(_rowHTML);
+
+            } catch (error) { }             
+        });
+    }
+    $('#shipTable').table();
+}
+function SetShipsDataTable_OLD(shipsDataRaw) {
+    console.log(shipsDataRaw);
+    if (shipsDataRaw != null && shipsDataRaw.data.length > 0) {
+        new DataTable('#TableOfShips', {
+            select: true,                
+            scrollX: true,            
+            scrollY: '74vh',  
+            colReorder: true,
+            responsive: true,
+            data: shipsDataRaw.data,
+            scrollCollapse: true,
+            orderMulti: true,
+            paging: false,
+            columns: [
+                { data: 'Name', title: 'Name' },
+                {
+                    data: 'Manufacturer',
+                    title: 'Manufacturer',
+                    render: function (ShipID, type) {
+                        if (type === 'display') {
+                            const found = shipsData.Manufacturers.find((element) => element.ID == ShipID);
+                            if (found != null) {
+                                return found.Name;
+                            }
+                        }
+                        return ShipID;
+                    }
+                },
+                {
+                    data: 'Type', title: 'Type',
+                    render: function (ShipID, type) {
+                        if (type === 'display') {
+                            const found = shipsData.Types.find((element) => element.ID == ShipID);
+                            if (found != null) {
+                                return found.Name;
+                            }
+                        }
+                        return ShipID;
+                    }
+                },
+                {
+                    data: 'Career', title: 'Career', 
+                    render: function (ShipID, type) {
+                        if (type === 'display') {
+                            const found = shipsData.Careers.find((element) => element.ID == ShipID);
+                            if (found != null) {
+                                return found.Name;
+                            }
+                        }
+                        return ShipID;
+                    }
+                },
+                { data: 'Role', title: 'Role', width: '20%' },
+                { data: 'PledgeUSD', title: 'Pledge USD', searchable: false, render: DataTable.render.number(',', '.', 0, '$') },
+                { data: 'aUEC', title: 'In Game Price', searchable: false, render: DataTable.render.number(',', '.', 0, '$') },
+                { data: 'BuyLocation', title: 'Buy Location', searchable: false, width: '800px' },
+
+                { data: 'VehicleSize', title: 'Vehicle Size' },
+                { data: 'Weapons', title: 'Weapons' },
+                { data: 'Turrets', title: 'Turrets' },
+                { data: 'MissileRacks', title: 'Missile Racks' }, 
+                
+                { data: 'QTDrive', title: 'QT Drive' },
+                { data: 'PowPlant', title: 'Power Plant' },
+                { data: 'Shields', title: 'Shields' },
+                { data: 'ShieldType', title: 'Shield Type' },
+                { data: 'HP', title: 'HP', searchable: false },
+
+                { data: 'Crew', title: 'Crew Max' },
+                { data: 'CargoGrid', title: 'Cargo Grid' },
+                { data: 'Inventory', title: 'Inventory', searchable: false, defaultContent: '' },
+                { data: 'ScmSpeed', title: 'Scm Speed', type: 'num', searchable: false, defaultContent: ''  },
+                { data: 'Agility_PYR', title: 'Agility_PYR', defaultContent: ''  },
+
+                { data: 'Fuel_H', title: 'Hidrogen', type: 'num-fmt', searchable: false, defaultContent: ''  },
+                { data: 'Fuel_QT', title: 'Fuel QT', type: 'num', searchable: false },
+                { data: 'Capacitor', title: 'Weapons Capacitor', type: 'num', searchable: false, defaultContent: ''  },
+                { data: 'CapRefill', title: 'Cap Refill', searchable: false, defaultContent: ''  }                
+                
+            ]
+        });
+    }
+}
 /* ---------------------- UTILITY FUNCTIONS ---------------------------------------------- */
 function verificarCaptcha() {
     console.log('Respuesta del Captcha:');
     console.log(grecaptcha.getResponse());
     $('#Captcha_Container').fadeOut();
     var timeoutID = window.setTimeout(showPopUp, 1000); //<- Espera 1 segundo y muestra la ventana de Login
+}
+
+/** Aplica Formato a un Numero, con Decimales y Separador de Millares. 
+ * @param {*} number El Numero que queremos formatear
+ * @param {*} decimals Cantidad de Decimales a mostrar, x Defecto 2
+ * @param {*} separator Simbolo de Millares, x Defecto ','
+ * @returns Una Cadena con el numero formateado
+ */
+function formatNumber(number, decimals = 2, separator = ',') {
+    // Ensure valid number input
+    if (isNaN(number)) {
+        return number; // Return the original value if not a number
+    }
+
+    // Use toLocaleString() for locale-aware formatting (recommended)
+    return number.toLocaleString('en-US', {
+        minimumFractionDigits: decimals,
+        maximumFractionDigits: decimals
+    }).replace(/\B(?=(\d{3})+(?!\d))/g, separator);
+
+    // Alternative using toFixed() for simpler formatting
+    // const fixedNumber = number.toFixed(decimals);
+    // return fixedNumber.replace(/\B(?=(\d{3})+(?!\d))/g, separator);
 }
 
 function downloadObjectAsJson(exportObj, exportName){

@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="css/jquery.mobile.theme-1.4.5.min.css" />
     <link rel="stylesheet" href="css/jquery.mobile.icons-1.4.5.min.css" />
     <link rel="stylesheet" href="css/jquery.mobile.structure-1.4.5.min.css" />
+    <!--<link rel="stylesheet" href="js/datatables/datatables.min.css" />-->
     <link rel="stylesheet" href="js/jquery-confirm.min.css" />
     <link rel="stylesheet" href="js/noty/noty.css" />
     <link rel="stylesheet" href="css/jquery.mCustomScrollbar.min.css" />
@@ -30,6 +31,7 @@
     <script type="application/javascript" src="js/noty/noty.js"></script>
     <script type="application/javascript" src="js/jquery-confirm.min.js"></script>
     <script type="application/javascript" src="js/jquery.mCustomScrollbar.concat.min.js"></script>
+    <!--<script type="application/javascript" src="js/datatables/datatables.min.js"></script>-->
 
     <!-- Captcha de Google v2 -->
     <script src="https://www.google.com/recaptcha/api.js?onload=Iniciar&render=explicit" async defer></script>
@@ -144,14 +146,50 @@
             height: 100%;
         }
 
-        table, th,  td {
+        .Bubbles table, 
+        .Bubbles th,
+        .Bubbles td {
             text-align: center;
         }
-        th, td {
+        .Bubbles th, 
+        .Bubbles td {
             border: 1px solid black;
             border-color: #96D4D4;
             border-radius: 10px;
         }
+
+       
+
+        /* Estilos del Encabezado */
+        .table-stroke thead th {
+            color: #FFFFFF;
+            color: rgba(255,255,255,.90);
+                        
+            background-color: #254D86; /* non-RGBA fallback  */
+            background-color: rgba(37,77,134,.90);
+                    
+            border-bottom: 1px solid #e6e6e6; /* non-RGBA fallback  */
+            border-bottom: 1px solid rgba(0,0,0,.3);
+            border-top: 1px solid rgba(0,0,0,.1);
+        }
+
+        /* Estilos del Cuerpo */
+        .table-stroke tbody th,
+        .table-stroke tbody td {
+            color: #000000;
+            color: rgba(0,0,0,.70);
+                
+            background-color: #FFFFFF; /* non-RGBA fallback  */
+            background-color: rgba(255,255,255,.40);			   
+                        
+            border-bottom: 1px solid #d6d6d6; /* non-RGBA fallback */
+            border-bottom: 1px solid rgba(0,0,0,.1);
+        }
+
+        /* Hace que la tabla se muestre 100% y arregla el problema del WordWrap */
+        .ui-table-reflow.ui-responsive { display: table !important;  }
+        .ui-page .ui-content .ui-listview .ui-li-desc { white-space : normal; }
+
     </style>
 
 </head>
@@ -160,25 +198,10 @@
     <!-- Pagina de inicio -->
     <div data-role="page" id="viewMain" class="ui-responsive-panel" data-theme="b">
 
-
-        <div data-role="panel" id="pnMainMenu" data-position="left" data-display="overlay" data-theme="a">
-            <div>
-                <span class="ui-bar ui-bar-b ui-corner-all" style="text-align: center; "><b>Menú Principal
-                        &nbsp;&nbsp;&nbsp;</b></span>
-            </div>
-            <p></p>
-
-            <div data-role="collapsibleset" data-theme="b" data-content-theme="b" data-iconpos="left" data-inset="true"
-                id="ListMainMenu">
-                <!-- Aqui se cargan los Sub-Sistemas y funcionalidades asignadas al Usuario-->
-            </div>
-        </div>
-
-
-
         <!-- Encabezado -->
         <div data-role="header" data-theme="b" data-position="fixed">
-            <a href="#pnMainMenu" data-icon="bars" class="ui-btn-left" id="cmdMainMenu">Menu</a>
+            <!--<a href="#pnMainMenu" data-icon="bars" class="ui-btn-left" id="cmdMainMenu">Menu</a> -->
+            <a href="#pageTable" class="ui-btn-left ui-btn ui-btn-inline ui-mini ui-corner-all ui-btn-icon-left ui-icon-carat-r" data-prefetch="true">Full List of Ships </a>
             <h1>Star Citizen - Ships for CCU (Cross Chassis Upgrades)</h1>
         </div><!-- /header -->
 
@@ -217,19 +240,17 @@
                             <input type="text" name="txtShipRole" id="txtShipRole" value="" class="centerText">
 
                             <label for="numGamePrice">Ingame Price (aUEC):</label>
-                            <input type="number" name="numGamePrice" pattern="[0-9]*" id="numGamePrice" min="0"
-                                value="0">
+                            <input type="number"  name="numGamePrice" pattern="[0-9]*" id="numGamePrice" step="0.01" min="0" value="0">
 
                             <label for="numPledgePrice">Pledge Price (USD$):</label>
-                            <input type="number" name="numPledgePrice" pattern="[0-9]*" id="numPledgePrice" min="0"
-                                value="0">
+                            <input type="number" name="numPledgePrice" pattern="[0-9]*" id="numPledgePrice" step="0.01" min="0" value="0">
 
                             <!-- Allowes the Editor to download the modified data -->
                             <input id="cmdSaveData" type="button" value="Save Data">
 
                             <br><hr>
                             <p>Upgrade Cost ($USD):</p>
-                            <table id="tblUpgradeCost" style="width:100%">
+                            <table class="Bubbles" id="tblUpgradeCost" style="width:100%">
                                 <tr>
                                     <th id="rowShipFrom"></th>
                                     <th id="rowCenter">&#x2192;</th>
@@ -271,8 +292,6 @@
                 </div><!-- /4xColumns Grid -->
                 <p></p>
             </div>
-
-
         </div><!-- /main -->
 
         <!-- Pie de pagina -->
@@ -290,15 +309,72 @@
     </div><!-- /page -->
 
     <!-- Pagina 2 -->
-    <div data-role="page" id="pageChat" data-theme="b">
+    <div data-role="page" id="pageTable" class="ui-responsive-panel"  data-theme="b">
         <div data-role="header" data-theme="b" data-position="fixed">
             <a href="#viewMain" data-rel="back"
-                class="ui-btn-left ui-btn ui-btn-inline ui-mini ui-corner-all ui-btn-icon-left ui-icon-home">Atras</a>
-            <h2 id='lblTituloP2'>Bienvenido/a Jhollman Chacón</h2>
+                class="ui-btn-left ui-btn ui-btn-inline ui-mini ui-corner-all ui-btn-icon-left ui-icon-home">Back</a>
+            <h2 id='lblTituloP2'>List of Ships</h2>
         </div><!-- /header -->
 
         <!-- Cuerpo -->
-        <div role="main" class="ui-content">
+        <div role="main" data-theme="b" data-content-theme="b" class="ui-content jqm-content jqm-fullwidth ">
+            <!--<table id="TableOfShips" class="display nowrap" width="100%" data-page-length='7'></table> -->
+
+            <input type="text" data-type="search" data-theme="b" id="filtroVariantes" placeholder="Buscar Variante aqu&#237;">
+            <table data-role="table" id="shipTable" 
+                data-mode="columntoggle" 
+                class="ui-responsive table-stroke" data-inset="true"
+                data-filter="true" data-input="#filtroVariantes">
+            <thead>
+                <span id="lblTableDescription" style="color: #689fec; padding-left: 20px;">.</span>
+                <tr class="th-groups">  <!-- Field Groups -->
+                    <td></td>
+                    <th colspan="4" data-priority="1">Ship ID</th>
+                    <th colspan="3" data-priority="2">Ship Value</th>
+                    <th colspan="4" data-priority="3">Hardpoints</th>
+                    <th colspan="4" data-priority="4">Systems</th>
+                    <th colspan="4" data-priority="5">Cargo</th>
+                    <th colspan="6" data-priority="6">Other</th>
+                </tr>
+                <tr>  <!-- Fields -->
+                    <th>Name</th>
+
+                    <th>Manufacturer</th>
+                    <th>Type</th>
+                    <th>Career</th>
+                    <th>Role</th>
+
+                    <th>Pledge Value</th>
+                    <th>inGame Value</th>
+                    <th>Buy Location</th>
+
+                    <th>Vehicle Size</th>
+                    <th>Weapons</th>
+                    <th>Turrets</th>                    
+                    <th>Missile Racks</th>
+
+                    <th>QT Drive</th>
+                    <th>Power Plant</th>
+                    <th>Shields</th>
+                    <th>Shield Type</th>
+
+                    <th>Hull HP</th>
+                    <th>Crew Max</th>
+                    <th>Cargo Grid</th>
+                    <th>Inventory</th>
+
+                    <th>Scm Speed</th>
+                    <th>Agility (PYR)</th>
+                    <th>Hidrogen</th>
+                    <th>QT Fuel</th>
+                    <th>Weapons Capacitor</th>
+                    <th>Cap Refill</th>
+                </tr>
+            </thead>
+            <tbody id="shipTableBody">  <!-- Data Rows -->
+                <tr> <td></td>	<td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr>
+            </tbody>
+            </table>
 
         </div><!-- /main -->
 
