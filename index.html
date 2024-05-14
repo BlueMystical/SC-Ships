@@ -118,6 +118,7 @@
         .ui-panel.ui-panel-open {
             position: fixed;
         }
+
         .ui-panel-inner {
             position: absolute;
             top: 1px;
@@ -136,6 +137,7 @@
             left: 10px;
             background: white;
         }
+
         .ui-block-a,
         .ui-block-b,
         .ui-block-c {
@@ -146,50 +148,50 @@
             height: 100%;
         }
 
-        .Bubbles table, 
+        /* Tabla con Celdas Burbuja  */
+        .Bubbles table,
         .Bubbles th,
         .Bubbles td {
             text-align: center;
         }
-        .Bubbles th, 
+
+        .Bubbles th,
         .Bubbles td {
             border: 1px solid black;
             border-color: #96D4D4;
             border-radius: 10px;
         }
 
-       
-
+        /* Hace que la tabla se muestre 100% y arregla el problema del WordWrap */
+        .ui-table-stroke .ui-responsive { 
+            display: table !important;  
+            border-collapse: collapse;
+            white-space: nowrap;  
+        }
         /* Estilos del Encabezado */
         .table-stroke thead th {
             color: #FFFFFF;
-            color: rgba(255,255,255,.90);
-                        
-            background-color: #254D86; /* non-RGBA fallback  */
-            background-color: rgba(37,77,134,.90);
-                    
-            border-bottom: 1px solid #e6e6e6; /* non-RGBA fallback  */
-            border-bottom: 1px solid rgba(0,0,0,.3);
-            border-top: 1px solid rgba(0,0,0,.1);
-        }
+            color: rgba(255, 255, 255, .90);
 
+            background-color: #254D86;
+            background-color: rgba(37, 77, 134, .90);
+            border: 1px solid gray;
+/*
+            border-bottom: 1px solid #e6e6e6;
+            border-bottom: 1px solid rgba(0, 0, 0, .3);
+            border-top: 1px solid rgba(0, 0, 0, .1); */
+            white-space: nowrap; 
+        }
         /* Estilos del Cuerpo */
         .table-stroke tbody th,
         .table-stroke tbody td {
-            color: #000000;
-            color: rgba(0,0,0,.70);
-                
-            background-color: #FFFFFF; /* non-RGBA fallback  */
-            background-color: rgba(255,255,255,.40);			   
-                        
-            border-bottom: 1px solid #d6d6d6; /* non-RGBA fallback */
-            border-bottom: 1px solid rgba(0,0,0,.1);
+            border: 1px solid gray;
+            padding: 0.25rem 0.5rem;
+            white-space: nowrap; 
         }
-
-        /* Hace que la tabla se muestre 100% y arregla el problema del WordWrap */
-        .ui-table-reflow.ui-responsive { display: table !important;  }
-        .ui-page .ui-content .ui-listview .ui-li-desc { white-space : normal; }
-
+        .table-stroke tbody td:last-child {
+            white-space: nowrap;
+        }
     </style>
 
 </head>
@@ -201,7 +203,9 @@
         <!-- Encabezado -->
         <div data-role="header" data-theme="b" data-position="fixed">
             <!--<a href="#pnMainMenu" data-icon="bars" class="ui-btn-left" id="cmdMainMenu">Menu</a> -->
-            <a href="#pageTable" class="ui-btn-left ui-btn ui-btn-inline ui-mini ui-corner-all ui-btn-icon-left ui-icon-carat-r" data-prefetch="true">Full List of Ships </a>
+            <a href="#pageTable"
+                class="ui-btn-left ui-btn ui-btn-inline ui-mini ui-corner-all ui-btn-icon-left ui-icon-carat-r"
+                data-prefetch="true">Full List of Ships </a>
             <h1>Star Citizen - Ships for CCU (Cross Chassis Upgrades)</h1>
         </div><!-- /header -->
 
@@ -216,7 +220,8 @@
                 <!-- ************ AQUI VA EL CONTENIDO DE LA PAGINA ****************** -->
                 <div class="ui-grid-d "> <!-- 5x Columns Grid -->
                     <div class="ui-block-a"> <!-- Main list of Ships -->
-                        <div id="divShipList" class="ui-bar ui-bar-b mCustomScrollbar" style="height:870px">Available Ships:
+                        <div id="divShipList" class="ui-bar ui-bar-b mCustomScrollbar" style="height:870px">Available
+                            Ships:
                             <ul id="listShips" data-role="listview" data-filter="true" data-divider-theme="b"
                                 data-filter-placeholder="Find a ship.." data-inset="true" data-theme="a"></ul>
                         </div>
@@ -240,15 +245,18 @@
                             <input type="text" name="txtShipRole" id="txtShipRole" value="" class="centerText">
 
                             <label for="numGamePrice">Ingame Price (aUEC):</label>
-                            <input type="number"  name="numGamePrice" pattern="[0-9]*" id="numGamePrice" step="0.01" min="0" value="0">
+                            <input type="number" name="numGamePrice" pattern="[0-9]*" id="numGamePrice" step="0.01"
+                                min="0" value="0">
 
                             <label for="numPledgePrice">Pledge Price (USD$):</label>
-                            <input type="number" name="numPledgePrice" pattern="[0-9]*" id="numPledgePrice" step="0.01" min="0" value="0">
+                            <input type="number" name="numPledgePrice" pattern="[0-9]*" id="numPledgePrice" step="0.01"
+                                min="0" value="0">
 
                             <!-- Allowes the Editor to download the modified data -->
                             <input id="cmdSaveData" type="button" value="Save Data">
 
-                            <br><hr>
+                            <br>
+                            <hr>
                             <p>Upgrade Cost ($USD):</p>
                             <table class="Bubbles" id="tblUpgradeCost" style="width:100%">
                                 <tr>
@@ -266,7 +274,8 @@
                         </div>
                     </div>
                     <div class="ui-block-c mCustomScrollbar"> <!-- Ships to CCU From -->
-                        <div id="divShipsForCCU" class="ui-bar ui-bar-b mCustomScrollbar" style="height:870px">Upgrade From:
+                        <div id="divShipsForCCU" class="ui-bar ui-bar-b mCustomScrollbar" style="height:870px">Upgrade
+                            From:
                             <label>Ships from which you can upgrade to the selected ship:</label>
                             <!-- Search Filter to add a new ship to the list of CCU From -->
                             <ul id="listShipCCU" data-role="listview" data-filter="true" data-filter-reveal="true"
@@ -285,7 +294,7 @@
                     </div>
                     <div class="ui-block-e  mCustomScrollbar"> <!-- Melting to get this ship -->
                         <div class="ui-bar ui-bar-b mCustomScrollbar" style="height:870px">Melting To:
-                            <label>Melt the selected ship to obtain any of these:</label>                            
+                            <label>Melt the selected ship to obtain any of these:</label>
                             <ul id="listMeltingTo" data-role="listview" data-inset="true"></ul>
                         </div>
                     </div>
@@ -309,7 +318,9 @@
     </div><!-- /page -->
 
     <!-- Pagina 2 -->
-    <div data-role="page" id="pageTable" class="ui-responsive-panel"  data-theme="b">
+    <div data-role="page" id="pageTable" class="ui-responsive-panel" data-theme="b">
+
+        <!-- header -->
         <div data-role="header" data-theme="b" data-position="fixed">
             <a href="#viewMain" data-rel="back"
                 class="ui-btn-left ui-btn ui-btn-inline ui-mini ui-corner-all ui-btn-icon-left ui-icon-home">Back</a>
@@ -317,65 +328,76 @@
         </div><!-- /header -->
 
         <!-- Cuerpo -->
-        <div role="main" data-theme="b" data-content-theme="b" class="ui-content jqm-content jqm-fullwidth ">
-            <!--<table id="TableOfShips" class="display nowrap" width="100%" data-page-length='7'></table> -->
+        <div role="main" data-theme="b" data-content-theme="b" class="ui-content jqm-content jqm-fullwidth  ">
 
-            <input type="text" data-type="search" data-theme="b" id="filtroVariantes" placeholder="Buscar Variante aqu&#237;">
-            <table data-role="table" id="shipTable" 
-                data-mode="columntoggle" 
-                class="ui-responsive table-stroke" data-inset="true"
-                data-filter="true" data-input="#filtroVariantes">
-            <thead>
-                <span id="lblTableDescription" style="color: #689fec; padding-left: 20px;">.</span>
-                <tr class="th-groups">  <!-- Field Groups -->
-                    <td></td>
-                    <th colspan="4" data-priority="1">Ship ID</th>
-                    <th colspan="3" data-priority="2">Ship Value</th>
-                    <th colspan="4" data-priority="3">Hardpoints</th>
-                    <th colspan="4" data-priority="4">Systems</th>
-                    <th colspan="4" data-priority="5">Cargo</th>
-                    <th colspan="6" data-priority="6">Other</th>
-                </tr>
-                <tr>  <!-- Fields -->
-                    <th>Name</th>
+            <input type="text" data-type="search" data-theme="b" id="filtroVariantes" placeholder="Type a Ship name">
+            
+            <div id="DivScrollTable"  data-mcs-theme="dark" style="height:86vh; width: 99vw; overflow-x: auto;" >
 
-                    <th>Manufacturer</th>
-                    <th>Type</th>
-                    <th>Career</th>
-                    <th>Role</th>
+                <table data-role="table" id="shipTable" 
+                    data-mode="columntoggle" 
+                    class="ui-body-d ui-responsive table-stroke table-stripe "                   
+                    style="height:100%; width: 1080px; overflow-x: auto;"
+                    data-filter="true" data-input="#filtroVariantes">
+                    <thead>
+                        <span id="lblTableDescription" style="color: #689fec; padding-left: 20px;">.</span>
+                        <tr class="th-groups"> <!-- Field Groups -->
+                            <td></td>
+                            <th colspan="4" data-priority="1">Ship ID</th>
+                            <th colspan="3" data-priority="2">Ship Value</th>
+                            <th colspan="4" data-priority="3">Hardpoints</th>
+                            <th colspan="4" data-priority="4">Systems</th>
+                            <th colspan="4" data-priority="5">Cargo</th>
+                            <th colspan="6" data-priority="6">Other</th>
+                        </tr>
+                        <tr> <!-- Fields -->
+                            <th>Ship Name</th>
 
-                    <th>Pledge Value</th>
-                    <th>inGame Value</th>
-                    <th>Buy Location</th>
+                            <th><select id="p2-cboManufacturer" data-mini="true">
+                                <option value="1">Manufacturer</option>
+                            </select></th>
+                            <th><select id="p2-cboType" data-mini="true">
+                                <option value="1">Type</option>
+                            </select></th>
 
-                    <th>Vehicle Size</th>
-                    <th>Weapons</th>
-                    <th>Turrets</th>                    
-                    <th>Missile Racks</th>
+                            <th>
+                                <select id="p2-cboShipCareer" data-mini="true">
+                                    <option value="1">Career</option>
+                                </select></th>
+                            <th>Role</th>
 
-                    <th>QT Drive</th>
-                    <th>Power Plant</th>
-                    <th>Shields</th>
-                    <th>Shield Type</th>
+                            <th>Pledge Value</th>
+                            <th>inGame Value</th>
+                            <th>Buy Location</th>
 
-                    <th>Hull HP</th>
-                    <th>Crew Max</th>
-                    <th>Cargo Grid</th>
-                    <th>Inventory</th>
+                            <th>Vehicle Size</th>
+                            <th>Weapons</th>
+                            <th>Turrets</th>
+                            <th>Missile Racks</th>
 
-                    <th>Scm Speed</th>
-                    <th>Agility (PYR)</th>
-                    <th>Hidrogen</th>
-                    <th>QT Fuel</th>
-                    <th>Weapons Capacitor</th>
-                    <th>Cap Refill</th>
-                </tr>
-            </thead>
-            <tbody id="shipTableBody">  <!-- Data Rows -->
-                <tr> <td></td>	<td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> </tr>
-            </tbody>
-            </table>
+                            <th>QT Drive</th>
+                            <th>Power Plant</th>
+                            <th>Shields</th>
+                            <th>Shield Type</th>
 
+                            <th>Hull HP</th>
+                            <th>Crew Max</th>
+                            <th>Cargo Grid</th>
+                            <th>Inventory</th>
+
+                            <th>Scm Speed</th>
+                            <th>Agility (PYR)</th>
+                            <th>Hidrogen</th>
+                            <th>QT Fuel</th>
+                            <th>Weapons Capacitor</th>
+                            <th>Cap Refill</th>
+                        </tr>
+                    </thead>
+                    <tbody id="shipTableBody"> <!-- Data Rows -->
+                        <tr></tr>
+                    </tbody>
+                </table>
+            </div>
         </div><!-- /main -->
 
     </div><!-- /page -->
