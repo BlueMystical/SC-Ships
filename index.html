@@ -20,7 +20,7 @@
     <link rel="stylesheet" href="css/jquery.mobile.theme-1.4.5.min.css" />
     <link rel="stylesheet" href="css/jquery.mobile.icons-1.4.5.min.css" />
     <link rel="stylesheet" href="css/jquery.mobile.structure-1.4.5.min.css" />
-    <!--<link rel="stylesheet" href="js/datatables/datatables.min.css" />-->
+    <link rel="stylesheet" href="js/datatables/datatables.min.css" />
     <link rel="stylesheet" href="js/jquery-confirm.min.css" />
     <link rel="stylesheet" href="js/noty/noty.css" />
     <link rel="stylesheet" href="css/jquery.mCustomScrollbar.min.css" />
@@ -31,7 +31,7 @@
     <script type="application/javascript" src="js/noty/noty.js"></script>
     <script type="application/javascript" src="js/jquery-confirm.min.js"></script>
     <script type="application/javascript" src="js/jquery.mCustomScrollbar.concat.min.js"></script>
-    <!--<script type="application/javascript" src="js/datatables/datatables.min.js"></script>-->
+    <script type="application/javascript" src="js/datatables/datatables.min.js"></script>
 
     <!-- Captcha de Google v2 -->
     <script src="https://www.google.com/recaptcha/api.js?onload=Iniciar&render=explicit" async defer></script>
@@ -176,10 +176,6 @@
             background-color: #254D86;
             background-color: rgba(37, 77, 134, .90);
             border: 1px solid gray;
-/*
-            border-bottom: 1px solid #e6e6e6;
-            border-bottom: 1px solid rgba(0, 0, 0, .3);
-            border-top: 1px solid rgba(0, 0, 0, .1); */
             white-space: nowrap; 
         }
         /* Estilos del Cuerpo */
@@ -191,6 +187,21 @@
         }
         .table-stroke tbody td:last-child {
             white-space: nowrap;
+        }
+        /* Stop Line Break inside Cell */
+        .dt-body-nowrap {
+            white-space: nowrap;
+            text-align: left;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+        .text-right {
+            text-align: right;
+        }
+        .text-left {
+            text-align: left;
         }
     </style>
 
@@ -204,8 +215,7 @@
         <div data-role="header" data-theme="b" data-position="fixed">
             <!--<a href="#pnMainMenu" data-icon="bars" class="ui-btn-left" id="cmdMainMenu">Menu</a> -->
             <a href="#pageTable"
-                class="ui-btn-left ui-btn ui-btn-inline ui-mini ui-corner-all ui-btn-icon-left ui-icon-carat-r"
-                data-prefetch="true">Full List of Ships </a>
+                class="ui-btn-left ui-btn ui-btn-inline ui-mini ui-corner-all ui-btn-icon-left ui-icon-carat-r">Full List of Ships </a>
             <h1>Star Citizen - Ships for CCU (Cross Chassis Upgrades)</h1>
         </div><!-- /header -->
 
@@ -329,11 +339,12 @@
 
         <!-- Cuerpo -->
         <div role="main" data-theme="b" data-content-theme="b" class="ui-content jqm-content jqm-fullwidth  ">
-
-            <input type="text" data-type="search" data-theme="b" id="filtroVariantes" placeholder="Type a Ship name">
+           
+            <!-- Tabla con el 'DataTable' widget -->
+            <table id="TableOfShips" class="display nowrap" ></table>
             
-            <div id="DivScrollTable"  data-mcs-theme="dark" style="height:86vh; width: 99vw; overflow-x: auto;" >
-
+            <!-- Tabla Normal sin 'DataTable' widget -->
+           <!-- <div id="DivScrollTable"  data-mcs-theme="dark" style="height:86vh; width: 99vw; overflow-x: auto;" >
                 <table data-role="table" id="shipTable" 
                     data-mode="columntoggle" 
                     class="ui-body-d ui-responsive table-stroke table-stripe "                   
@@ -341,7 +352,7 @@
                     data-filter="true" data-input="#filtroVariantes">
                     <thead>
                         <span id="lblTableDescription" style="color: #689fec; padding-left: 20px;">.</span>
-                        <tr class="th-groups"> <!-- Field Groups -->
+                        <tr class="th-groups"> 
                             <td></td>
                             <th colspan="4" data-priority="1">Ship ID</th>
                             <th colspan="3" data-priority="2">Ship Value</th>
@@ -350,20 +361,11 @@
                             <th colspan="4" data-priority="5">Cargo</th>
                             <th colspan="6" data-priority="6">Other</th>
                         </tr>
-                        <tr> <!-- Fields -->
+                        <tr> 
                             <th>Ship Name</th>
-
-                            <th><select id="p2-cboManufacturer" data-mini="true">
-                                <option value="1">Manufacturer</option>
-                            </select></th>
-                            <th><select id="p2-cboType" data-mini="true">
-                                <option value="1">Type</option>
-                            </select></th>
-
-                            <th>
-                                <select id="p2-cboShipCareer" data-mini="true">
-                                    <option value="1">Career</option>
-                                </select></th>
+                            <th>Manufacturer</th>
+                            <th>Type</th>
+                            <th>Career</th>
                             <th>Role</th>
 
                             <th>Pledge Value</th>
@@ -393,11 +395,12 @@
                             <th>Cap Refill</th>
                         </tr>
                     </thead>
-                    <tbody id="shipTableBody"> <!-- Data Rows -->
+                    <tbody id="shipTableBody"> 
                         <tr></tr>
                     </tbody>
-                </table>
-            </div>
+                </table>           
+            </div> -->
+
         </div><!-- /main -->
 
     </div><!-- /page -->
