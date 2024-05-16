@@ -1,6 +1,7 @@
 var usuario_logeado = null;
 var jsonConfig = null;
 var shipsData = null;
+var tableData = null;
 var currentShip = null;
 
 //Esto se usa para leer archivos desde JQuery:
@@ -19,9 +20,14 @@ function Iniciar() {
             CargarListaDatosManufac(shipsData.data, '#listShips');
             CargarListaDatos(shipsData.data, '#listShipCCU');
 
-            CargarComboDatos(shipsData.Manufacturers, '#cboManufacturers');   
+            CargarComboDatos(shipsData.Manufacturers, '#cboManufacturers');
+            CargarComboDatos(shipsData.Manufacturers, '#p2-cboManufacturer', false);
             CargarComboDatos(shipsData.Types, '#cboShipTypes');
-            CargarComboDatos(shipsData.Careers, '#cboCarreers');   
+            CargarComboDatos(shipsData.Types, '#p2-cboType', false);
+            CargarComboDatos(shipsData.Careers, '#cboCarreers');
+            CargarComboDatos(shipsData.Careers, '#p2-cboShipCareer', false);
+
+            $('#p2-cboManufacturer').css('width', '1500px');
 
             // Enable or Disable Controls:
             if (true) {
@@ -34,8 +40,6 @@ function Iniciar() {
                 $('#numGamePrice').attr("disabled", "disabled");
                 $('#numPledgePrice').attr("disabled", "disabled");
             }
-            SetShipsDataTable(shipsData.data);
-           // SetShipsDataTable(shipsData);
 
             /*
             //Muestra el Captcha de Google (Requiere una Clave):            
@@ -85,7 +89,18 @@ function Iniciar() {
         downloadObjectAsJson(shipsData, "sc_ships_ccu");
     });
 
-    
+    //Al cambiar de pagina
+    $(':mobile-pagecontainer').pagecontainer({
+        change: function (event, ui) {
+            //console.log(ui);
+            if (ui.toPage.prop("id") == "pageTable") {
+                //SetShipsDataTable(shipsData.data);
+                SetShipsDataTable_OLD(shipsData);
+            }
+        }
+    });
+
+
 
     //- Evento al seleccionar un elemento del ListView:
     $(document).on("click", "#listShips li", function (evt) {
@@ -117,7 +132,7 @@ function Iniciar() {
 
                     //Creamos un control para mostrar la nave agregada
                     var opt = $('<li>' + SelectedShip.Name + '</li>');
-                        opt.attr("data-datos", JSON.stringify(SelectedShip));
+                    opt.attr("data-datos", JSON.stringify(SelectedShip));
                     $('#listCCUFrom').append(opt).listview("refresh");
                 }
                 shipsData.data.find((element) => element.ID == currentShip.ID).CCUFromID.sort();
@@ -129,7 +144,7 @@ function Iniciar() {
         }
     });
     $(document).on("click", "#listCCUFrom li", function (evt) {
-        /* MUESTRA EL COSTO DE LA ACTUALIZACION (Desde la Nave Seleccionada hacia la Nave Actual) */        
+        /* MUESTRA EL COSTO DE LA ACTUALIZACION (Desde la Nave Seleccionada hacia la Nave Actual) */
         if (currentShip != null) {
             var SelectedShip = $(this).data("datos"); //<- Obtiene los datos del elemento seleccionado
             $('#rowShipFrom').html(SelectedShip.Name);
@@ -142,10 +157,10 @@ function Iniciar() {
 
             var priceDiff = currentShip.PledgeUSD - SelectedShip.PledgeUSD;
             $('#rowPriceDiff').html('+$' + priceDiff);
-        }        
+        }
     });
     $(document).on("click", "#listCCUTo li", function (evt) {
-        /* MUESTRA EL COSTO DE LA ACTUALIZACION (Desde la Nave Actual hacia la Nave Seleccionada) */        
+        /* MUESTRA EL COSTO DE LA ACTUALIZACION (Desde la Nave Actual hacia la Nave Seleccionada) */
         if (currentShip != null) {
             var SelectedShip = $(this).data("datos"); //<- Obtiene los datos del elemento seleccionado
             $('#rowShipFrom').html(currentShip.Name);
@@ -161,7 +176,7 @@ function Iniciar() {
         }
     });
     $(document).on("click", "#listMeltingTo li", function (evt) {
-        /* MUESTRA EL COSTO DE LA ACTUALIZACION (Desde la Nave Actual hacia la Nave Seleccionada) */        
+        /* MUESTRA EL COSTO DE LA ACTUALIZACION (Desde la Nave Actual hacia la Nave Seleccionada) */
         if (currentShip != null) {
             var SelectedShip = $(this).data("datos"); //<- Obtiene los datos del elemento seleccionado
             $('#rowShipFrom').html(currentShip.Name);
@@ -183,7 +198,28 @@ function Iniciar() {
         console.log(mSeleccionado.data("datos")); //<- Obtiene los datos del elemento seleccionado
     });
 
+    /* COMBOS DE FILTRO EN LA PAGINA 2  */
+    $('#p2-cboManufacturer').on('change', function () {
+        var mValorSelect = $(this).val(); console.log(mValorSelect); //<- Valor Seleccionado
+        if (mValorSelect != null && mValorSelect.length > 0) {
+            console.log('Hay ' + mValorSelect.length + ' Seleccionados!');
 
+        }
+    });
+    $('#p2-cboType').on('change', function () {
+        var mValorSelect = $(this).val(); console.log(mValorSelect); //<- Valor Seleccionado
+        var mSeleccionado = $('#p2-cboType option:selected');
+
+        console.log(mSeleccionado.text());
+        console.log(mSeleccionado.data("datos")); //<- Obtiene los datos del elemento seleccionado
+    });
+    $('#p2-cboShipCareer').on('change', function () {
+        var mValorSelect = $(this).val(); console.log(mValorSelect); //<- Valor Seleccionado
+        var mSeleccionado = $('#p2-cboShipCareer option:selected');
+
+        console.log(mSeleccionado.text());
+        console.log(mSeleccionado.data("datos")); //<- Obtiene los datos del elemento seleccionado
+    });
 }
 
 
@@ -206,15 +242,15 @@ function CargarListaDatos(pDatos, pListView, pLinked = true, pPledged = false) {
                 if (pLinked === true) {
                     var pledgePrice = "";
                     if (pPledged === true) {
-                        pledgePrice = ' ($' + Dato.PledgeUSD +')';
+                        pledgePrice = ' ($' + Dato.PledgeUSD + ')';
                     }
                     var opt = $('<li><a href="#">' + Dato.Name + pledgePrice + '</a></li>');
-                        opt.attr("data-datos", JSON.stringify(Dato));
+                    opt.attr("data-datos", JSON.stringify(Dato));
 
                     $(pListView).append(opt);
                 } else {
-                    var opt = $('<li>' + Dato.Name  + ' ($' + Dato.PledgeUSD + ')</li>');
-                        opt.attr("data-datos", JSON.stringify(Dato));
+                    var opt = $('<li>' + Dato.Name + ' ($' + Dato.PledgeUSD + ')</li>');
+                    opt.attr("data-datos", JSON.stringify(Dato));
 
                     $(pListView).append(opt);
                 }
@@ -244,10 +280,10 @@ function CargarListaDatosManufac(pDatos, pListView) {
             pDatos.forEach(function (Dato) {
                 //console.log(Reporte);
 
-                const Builder = shipsData.Manufacturers.find((element) => element.ID == Dato.Manufacturer );
+                const Builder = shipsData.Manufacturers.find((element) => element.ID == Dato.Manufacturer);
                 if (Manufacturer != Builder.Name) {
                     Manufacturer = Builder.Name;
-                    HTML += '<li data-role="list-divider">' + Manufacturer +'</li>';
+                    HTML += '<li data-role="list-divider">' + Manufacturer + '</li>';
                 }
 
                 //El dato particular se almacena en el atributo 'data-datos' de cada elelmento de la lista
@@ -265,17 +301,18 @@ function CargarListaDatosManufac(pDatos, pListView) {
  * @param {Array} pDatos - Array de Datos a Cargar.
  * @param {object} pComboSelect - Referencia al Combo Select donde se muestran los datos.
  */
-function CargarComboDatos(pDatos, pComboSelect) {
+function CargarComboDatos(pDatos, pComboSelect, pEmpty = true, pChecked = false) {
     try {
         if (pDatos != null) {
-            $(pComboSelect).empty();
+            if (pEmpty === true) { $(pComboSelect).empty(); }
+
             $(pComboSelect).append('<option></option>'); //<- Primera Opcion del Menu Vacia
 
             pDatos.forEach(function (Dato) {
                 //El dato particular se almacena en el atributo 'data-datos' de cada elelmento de la lista
                 var opt = $("<option>" + Dato.Name + "</option>").attr("value", Dato.ID);
-                    opt.attr("data-datos", JSON.stringify(Dato));
-
+                opt.attr("data-datos", JSON.stringify(Dato));
+                //opt.attr("selected", "selected");
                 $(pComboSelect).append(opt);
             });
 
@@ -295,7 +332,7 @@ function CargarNaveSeleccionada(pDatos) {
             currentShip = pDatos; //<- Guarda la nave cargada para posterior uso
 
             //- Detalles de la Nave:
-            $('#txtShipName').val(pDatos.Name);            
+            $('#txtShipName').val(pDatos.Name);
             $('#cboManufacturers').val(pDatos.Manufacturer).selectmenu('refresh');
             $('#cboShipTypes').val(pDatos.Type).selectmenu('refresh');
             $('#cboCarreers').val(pDatos.Career).selectmenu('refresh');
@@ -310,9 +347,9 @@ function CargarNaveSeleccionada(pDatos) {
             $('#rowPriceDiff').html('');
 
             //if we have Ships for the CCU:
-            CargarListaDatos( GetUpgradesToShip(pDatos.ID), '#listCCUTo', true, true);           
-            CargarListaDatos( GetUpgradesFromShip(pDatos.CCUFromID), '#listCCUFrom', true, true);
-            CargarListaDatos( GetDowngradeShips(pDatos.ID), '#listMeltingTo', true, true);
+            CargarListaDatos(GetUpgradesToShip(pDatos.ID), '#listCCUTo', true, true);
+            CargarListaDatos(GetUpgradesFromShip(pDatos.CCUFromID), '#listCCUFrom', true, true);
+            CargarListaDatos(GetDowngradeShips(pDatos.ID), '#listMeltingTo', true, true);
         }
     } catch (e) {
         console.log(e);
@@ -336,7 +373,7 @@ function GetUpgradesFromShip(ShipCCUFromIDs) {
                         else {
                             console.log('NOT found: ' + ShipID);
                         }
-                    } catch (error) { }             
+                    } catch (error) { }
                 });
                 //Ordena x Precio:
                 if (_ret.length > 0) {
@@ -364,9 +401,9 @@ function GetUpgradesToShip(ShipID) {
                             if (shipIndexFrom === ShipID) { _ret.push(Ship); }
                         } catch (error) {
                             console.log(error);
-                        }                        
+                        }
                     });
-                }               
+                }
             });
             //Ordena x Precio:
             if (_ret.length > 0) {
@@ -395,7 +432,7 @@ function GetDowngradeShips(ShipID) {
                     }
                 });
             }
-           //console.log(_ret);
+            //console.log(_ret);
 
             //Ordena x Precio:
             if (_ret.length > 0) {
@@ -407,150 +444,277 @@ function GetDowngradeShips(ShipID) {
     }
     return _ret;
 }
-function SetShipsDataTable(shipsDataRaw){
-    console.log(shipsDataRaw);
-    $('#shipTableBody').empty(); 
+function SetShipsDataTable(shipsDataRaw) {
+    // console.log(shipsDataRaw);
+    $('#shipTableBody').empty();
     if (shipsDataRaw != null && shipsDataRaw.length > 0) {
+        tableData = shipsDataRaw;
         shipsDataRaw.forEach(function (DataRow) {
             try {
-                var _rowHTML = '<tr>'; //</tr>
+                var _rowHTML = '<tr>'; //<- Inicio una nueva Fila 
 
                 // Fields:
                 // Name,Manufacturer,Type,Career,Role,Pledge Value,inGame Value,Buy Location,Vehicle Size,Weapons,Turrets,MissileRacks,
                 // QT Drive,Power Plant,Shields,Shield Type,HP,Crew Max,Cargo Grid,Inventory,Scm Speed,Agility (PYR),Hidrogen,QT Fuel,Weapons Capacitor,Cap Refill,
 
-                _rowHTML += '<td>'+ DataRow.Name +'</td>'; //TODO: Colorear en rojo si la nave no es FlyReady
+                // ---------------------
+                // Colorear en rojo si la nave no es FlyReady o en Verde si esta en venta sin paquete
+                if (DataRow.FlyReady === 0) {
+                    _rowHTML += '<td style="color:#ff3300">' + DataRow.Name + '</td>';
+                } else {
+                    if (DataRow.StandAlone === 1) {
+                        _rowHTML += '<td style="color:#66ff66">' + DataRow.Name + '</td>';
+                    }
+                    else {
+                        _rowHTML += '<td>' + DataRow.Name + '</td>';
+                    }
+                }
                 // ---------------------
                 var found = shipsData.Manufacturers.find((element) => element.ID == DataRow.Manufacturer);
                 if (found != null) {
-                    _rowHTML += '<td>'+ found.Name +'</td>';
+                    _rowHTML += '<td>' + found.Name + '</td>';
                 }
                 else { _rowHTML += '<td></td>' }
                 // ---------------------
                 found = shipsData.Types.find((element) => element.ID == DataRow.Type);
                 if (found != null) {
-                    _rowHTML += '<td>'+ found.Name +'</td>';
+                    _rowHTML += '<td>' + found.Name + '</td>';
                 }
                 else { _rowHTML += '<td></td>' }
                 // ---------------------
                 found = shipsData.Careers.find((element) => element.ID == DataRow.Career);
                 if (found != null) {
-                    _rowHTML += '<td>'+ found.Name +'</td>';
+                    _rowHTML += '<td>' + found.Name + '</td>';
                 }
                 else { _rowHTML += '<td></td>' }
                 // ---------------------
-                _rowHTML += '<td>'+ DataRow.Role +'</td>';
-                _rowHTML += '<td>$'+ formatNumber(DataRow.PledgeUSD, 0) +' USD</td>';
-                _rowHTML += '<td>$'+ formatNumber(DataRow.aUEC, 0) +' aUEC</td>';
-                _rowHTML += '<td>'+ DataRow.BuyLocation +'</td>';
-                _rowHTML += '<td>'+ DataRow.VehicleSize +'</td>';
-                _rowHTML += '<td>'+ DataRow.Weapons +'</td>';
-                _rowHTML += '<td>'+ DataRow.Turrets +'</td>';
-                _rowHTML += '<td>'+ DataRow.MissileRacks +'</td>';
-                _rowHTML += '<td>'+ DataRow.QTDrive +'</td>';
-                _rowHTML += '<td>'+ DataRow.PowPlant +'</td>';
-                _rowHTML += '<td>'+ DataRow.Shields +'</td>';
-                _rowHTML += '<td>'+ DataRow.ShieldType +'</td>';
-                _rowHTML += '<td>'+ DataRow.HP +'</td>';
-                _rowHTML += '<td>'+ DataRow.Crew +'</td>';
-                _rowHTML += '<td>'+ DataRow.CargoGrid +' SCU</td>';
-                _rowHTML += '<td>'+ DataRow.Inventory +' SCU</td>';
-                _rowHTML += '<td>'+ DataRow.ScmSpeed +' m/s</td>';
-                _rowHTML += '<td>'+ DataRow.Agility_PYR +'</td>';
-                _rowHTML += '<td>'+ DataRow.Fuel_H +'</td>';
-                _rowHTML += '<td>'+ DataRow.Fuel_QT +'</td>';
-                _rowHTML += '<td>'+ formatNumber(DataRow.Capacitor,0) +'</td>';
-                _rowHTML += '<td>'+ DataRow.CapRefill +'</td>';
-                
-                _rowHTML += '</tr>';
-                $('#shipTableBody').append(_rowHTML);
+                _rowHTML += '<td>' + DataRow.Role + '</td>';
 
-            } catch (error) { }             
+                if (DataRow.PledgeUSD > 0) {
+                    _rowHTML += '<td>$' + formatNumber(DataRow.PledgeUSD, 0) + ' USD</td>';
+                } else {
+                    _rowHTML += '<td style="color:#ff3300">unknown</td>';
+                }
+                if (DataRow.aUEC > 0) {
+                    _rowHTML += '<td>$' + formatNumber(DataRow.aUEC, 0) + ' aUEC</td>';
+                } else {
+                    _rowHTML += '<td style="color:#ff3300">Not for sale</td>';
+                }
+                // ---------------------
+                _rowHTML += '<td>' + DataRow.BuyLocation + '</td>';
+                _rowHTML += '<td>' + DataRow.VehicleSize + '</td>';
+                _rowHTML += '<td>' + DataRow.Weapons + '</td>';
+                _rowHTML += '<td>' + DataRow.Turrets + '</td>';
+                _rowHTML += '<td>' + DataRow.MissileRacks + '</td>';
+
+                _rowHTML += '<td>' + DataRow.QTDrive + '</td>';
+                _rowHTML += '<td>' + DataRow.PowPlant + '</td>';
+                _rowHTML += '<td>' + DataRow.Shields + '</td>';
+                _rowHTML += '<td>' + DataRow.ShieldType + '</td>';
+
+                _rowHTML += '<td>' + formatNumber(DataRow.HP, 0) + '</td>';
+                _rowHTML += '<td>' + DataRow.Crew + '</td>';
+                _rowHTML += '<td>' + DataRow.CargoGrid + ' scu</td>';
+                _rowHTML += '<td>' + DataRow.Inventory + ' scu</td>';
+                _rowHTML += '<td>' + DataRow.ScmSpeed + ' m/s</td>';
+                _rowHTML += '<td>' + DataRow.Agility_PYR + '</td>';
+                _rowHTML += '<td>' + formatNumber(DataRow.Fuel_H, 0) + '</td>';
+                _rowHTML += '<td>' + formatNumber(DataRow.Fuel_QT, 0) + '</td>';
+                _rowHTML += '<td>' + formatNumber(DataRow.Capacitor, 0) + '</td>';
+                _rowHTML += '<td>' + formatNumber(DataRow.CapRefill, 0) + '</td>';
+
+                _rowHTML += '</tr>'; //<- Fin de la Fila
+                $('#shipTableBody').append(_rowHTML); //Agrega la fila a la tabla
+
+            } catch (error) { }
         });
     }
-    $('#shipTable').table();
+    $('#shipTable').table(); //<- Refresca la tabla y Muestra las barras de scroll
+    $('#DivScrollTable').mCustomScrollbar({
+        axis: "yx",
+        theme: "dark",
+        alwaysShowScrollbar: 2,
+        //setLeft: "1000px"
+    });
 }
+
 function SetShipsDataTable_OLD(shipsDataRaw) {
-    console.log(shipsDataRaw);
-    if (shipsDataRaw != null && shipsDataRaw.data.length > 0) {
-        new DataTable('#TableOfShips', {
-            select: true,                
-            scrollX: true,            
-            scrollY: '74vh',  
-            colReorder: true,
-            responsive: true,
-            data: shipsDataRaw.data,
-            scrollCollapse: true,
-            orderMulti: true,
-            paging: false,
-            columns: [
-                { data: 'Name', title: 'Name' },
-                {
-                    data: 'Manufacturer',
-                    title: 'Manufacturer',
-                    render: function (ShipID, type) {
-                        if (type === 'display') {
-                            const found = shipsData.Manufacturers.find((element) => element.ID == ShipID);
-                            if (found != null) {
-                                return found.Name;
-                            }
+    try {
+        //console.log(shipsDataRaw);
+        if (shipsDataRaw != null && shipsDataRaw.data.length > 0) {
+
+            const table = new DataTable('#TableOfShips', {
+                select: true,
+                scrollX: true,
+                scrollY: '64vh',
+                colReorder: true,
+                className: 'nowrap',
+                data: shipsDataRaw.data,
+                scrollCollapse: true,
+                orderMulti: true,
+                paging: false,
+                layout: {
+                    top1: {
+                        searchPanes: {
+                            columns: [0, 2, 3, 4],
+                            initCollapsed: true,
+                            controls: true
                         }
-                        return ShipID;
+                    },
+                    topStart: {
+                        search: {
+                            placeholder: 'Search here'
+                        }
+                    },
+                    topEnd: {
+                        buttons: [
+                            {
+                                text: 'Compare Selected',
+                                action: function (e, dt, node, config, cb) {
+
+                                    //Compara las filas seleccionadas
+                                    var SelectedRows = table.rows('.selected').data();
+                                    if (SelectedRows != null && SelectedRows.length > 0) {
+                                        var Filter = '';
+                                        for (let index = 0; index < SelectedRows.length; index++) {
+                                            //console.log(SelectedRows[index]); 
+                                            Filter += '\\b' + SelectedRows[index].ID + '\\b|';                                  
+                                        }
+                                        Filter = Filter.slice(0, -1);
+                                        //console.log(Filter);
+                                        table.column(6).search(Filter, true, true).draw();
+                                    }
+                                    //alert(SelectedRows.length + ' row(s) selected');
+                                }
+                            },
+                            {
+                                text: "Clear",
+                                action: function (e, dt, node, config, cb) {
+                                    table.column(6).search('', true, true).draw();
+                                }
+                            }
+                        ]
                     }
                 },
-                {
-                    data: 'Type', title: 'Type',
-                    render: function (ShipID, type) {
-                        if (type === 'display') {
-                            const found = shipsData.Types.find((element) => element.ID == ShipID);
-                            if (found != null) {
-                                return found.Name;
+                columns: [
+                    {   //index: 0
+                        data: 'Manufacturer',
+                        title: 'Manufacturer',
+                        //className: 'text-left', width: '300px',
+                        render: function (ShipID, type) {
+                            if (type === 'display') {
+                                const found = shipsData.Manufacturers.find((element) => element.ID == ShipID);
+                                if (found != null) {
+                                    return found.Name;
+                                }
                             }
+                            return ShipID;
                         }
-                        return ShipID;
-                    }
-                },
-                {
-                    data: 'Career', title: 'Career', 
-                    render: function (ShipID, type) {
-                        if (type === 'display') {
-                            const found = shipsData.Careers.find((element) => element.ID == ShipID);
-                            if (found != null) {
-                                return found.Name;
+                    },
+                    {   //index: 1
+                        data: 'Name', title: 'Name',
+                        render: function (ShipID, type, row, meta) {
+                            if (type === 'display') {
+                                // Colorear en rojo si la nave no es FlyReady o en Verde si esta en venta sin paquete
+                                let color = 'white';
+                                if (row.FlyReady === 0) {
+                                    color = 'red';
+                                } else {
+                                    if (row.StandAlone === 1) {
+                                        color = 'green';
+                                    }
+                                }
+                                return `<span style="color:${color}">${ShipID}</span>`;
                             }
+                            return ShipID;
                         }
-                        return ShipID;
-                    }
-                },
-                { data: 'Role', title: 'Role', width: '20%' },
-                { data: 'PledgeUSD', title: 'Pledge USD', searchable: false, render: DataTable.render.number(',', '.', 0, '$') },
-                { data: 'aUEC', title: 'In Game Price', searchable: false, render: DataTable.render.number(',', '.', 0, '$') },
-                { data: 'BuyLocation', title: 'Buy Location', searchable: false, width: '800px' },
+                    },
+                    {   //index: 2
+                        data: 'FlyReady', title: 'FlyReady', searchable: false,
+                        render: function (data, type) {
+                            let checked = '';
+                            if (type === 'display') {
+                                if (data === 1) {
+                                    checked = 'checked=""';
+                                }
+                                return '<input type="checkbox" ' + checked + '>';
+                            }
+                            return data;
+                        }
+                    },
+                    {   //index: 3
+                        data: 'StandAlone', title: 'StandAlone', searchable: false,
+                        render: function (data, type) {
+                            let checked = '';
+                            if (type === 'display') {
+                                if (data === 1) {
+                                    checked = 'checked=""';
+                                }
+                                return '<input type="checkbox" ' + checked + '>';
+                            }
+                            return data;
+                        }
+                    },
+                    {   //index: 4
+                        data: 'Type', title: 'Type',
+                        render: function (ShipID, type) {
+                            if (type === 'display') {
+                                const found = shipsData.Types.find((element) => element.ID == ShipID);
+                                if (found != null) {
+                                    return found.Name;
+                                }
+                            }
+                            return ShipID;
+                        }
+                    },
+                    {   //index: 5
+                        data: 'Career', title: 'Career',
+                        render: function (ShipID, type) {
+                            if (type === 'display') {
+                                const found = shipsData.Careers.find((element) => element.ID == ShipID);
+                                if (found != null) {
+                                    return found.Name;
+                                }
+                            }
+                            return ShipID;
+                        }
+                    },
+                    { data: 'ID', title: 'ID', visible: false }, //index: 6
+                    { data: 'Role', title: 'Role' },  //index: 7
+                    { data: 'PledgeUSD', title: 'Pledge USD', searchable: false, render: DataTable.render.number(',', '.', 0, '$') },
+                    { data: 'aUEC', title: 'In Game Price', searchable: false, render: DataTable.render.number(',', '.', 0, '$') },
+                    { data: 'BuyLocation', title: 'Buy Location', searchable: false },
 
-                { data: 'VehicleSize', title: 'Vehicle Size' },
-                { data: 'Weapons', title: 'Weapons' },
-                { data: 'Turrets', title: 'Turrets' },
-                { data: 'MissileRacks', title: 'Missile Racks' }, 
-                
-                { data: 'QTDrive', title: 'QT Drive' },
-                { data: 'PowPlant', title: 'Power Plant' },
-                { data: 'Shields', title: 'Shields' },
-                { data: 'ShieldType', title: 'Shield Type' },
-                { data: 'HP', title: 'HP', searchable: false },
+                    { data: 'VehicleSize', title: 'Vehicle Size', searchable: false },
+                    { data: 'Weapons', title: 'Weapons' },
+                    { data: 'Turrets', title: 'Turrets' },
+                    { data: 'MissileRacks', title: 'Missile Racks' },
 
-                { data: 'Crew', title: 'Crew Max' },
-                { data: 'CargoGrid', title: 'Cargo Grid' },
-                { data: 'Inventory', title: 'Inventory', searchable: false, defaultContent: '' },
-                { data: 'ScmSpeed', title: 'Scm Speed', type: 'num', searchable: false, defaultContent: ''  },
-                { data: 'Agility_PYR', title: 'Agility_PYR', defaultContent: ''  },
+                    { data: 'QTDrive', title: 'QT Drive', searchable: false },
+                    { data: 'PowPlant', title: 'Power Plant', searchable: false },
+                    { data: 'Shields', title: 'Shields', searchable: false },
+                    { data: 'ShieldType', title: 'Shield Type' },
+                    { data: 'HP', title: 'HP', searchable: false, render: DataTable.render.number(',', '.', 0) },
 
-                { data: 'Fuel_H', title: 'Hidrogen', type: 'num-fmt', searchable: false, defaultContent: ''  },
-                { data: 'Fuel_QT', title: 'Fuel QT', type: 'num', searchable: false },
-                { data: 'Capacitor', title: 'Weapons Capacitor', type: 'num', searchable: false, defaultContent: ''  },
-                { data: 'CapRefill', title: 'Cap Refill', searchable: false, defaultContent: ''  }                
-                
-            ]
-        });
+                    { data: 'Crew', title: 'Crew Max' },
+                    { data: 'CargoGrid', title: 'Cargo Grid' },
+                    { data: 'Inventory', title: 'Inventory', searchable: false, defaultContent: '' },
+                    { data: 'ScmSpeed', title: 'Scm Speed', type: 'num', searchable: false, defaultContent: '' },
+                    { data: 'Agility_PYR', title: 'Agility_PYR', defaultContent: '' },
+
+                    { data: 'Fuel_H', title: 'Hidrogen', type: 'num-fmt', searchable: false, defaultContent: '', render: DataTable.render.number(',', '.', 0) },
+                    { data: 'Fuel_QT', title: 'Fuel QT', type: 'num', searchable: false, render: DataTable.render.number(',', '.', 0) },
+                    { data: 'Capacitor', title: 'Weapons Capacitor', type: 'num', searchable: false, render: DataTable.render.number(',', '.', 0) },
+                    { data: 'CapRefill', title: 'Cap Refill', searchable: false, defaultContent: '', render: DataTable.render.number(',', '.', 0) }
+                ]
+            });
+            //al Seleccionar una Fila:
+            table.on('click', 'tbody tr', function (e) {
+                e.currentTarget.classList.toggle('selected');
+            });
+        }
+    } catch (error) {
+        console.log(error);
     }
 }
 /* ---------------------- UTILITY FUNCTIONS ---------------------------------------------- */
@@ -584,16 +748,16 @@ function formatNumber(number, decimals = 2, separator = ',') {
     // return fixedNumber.replace(/\B(?=(\d{3})+(?!\d))/g, separator);
 }
 
-function downloadObjectAsJson(exportObj, exportName){
+function downloadObjectAsJson(exportObj, exportName) {
     /* Descarga los datos de todas las naves en un archivo JSON */
-    var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(exportObj, undefined,2));
+    var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(exportObj, undefined, 2));
     var downloadAnchorNode = document.createElement('a');
-    downloadAnchorNode.setAttribute("href",     dataStr);
+    downloadAnchorNode.setAttribute("href", dataStr);
     downloadAnchorNode.setAttribute("download", exportName + ".json");
     document.body.appendChild(downloadAnchorNode); // required for firefox
     downloadAnchorNode.click();
     downloadAnchorNode.remove();
-  }
+}
 
 function showMessage(pTitle, pMessage) {
     /* Muestra un Mensjaje con Titulo */
