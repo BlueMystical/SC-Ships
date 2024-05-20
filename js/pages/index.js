@@ -14,33 +14,16 @@ var fs = null;
 function Iniciar() {
     try {
         //Load data from a JSON file:
+        ShowLoading('Loading..');
         $.getJSON('data/sc_ships_ccu.json', function (data) {
 
             shipsData = data; //console.log(shipsData);
-            CargarListaDatosManufac(shipsData.data, '#listShips');
-            CargarListaDatos(shipsData.data, '#listShipCCU');
 
-            CargarComboDatos(shipsData.Manufacturers, '#cboManufacturers');
-            CargarComboDatos(shipsData.Manufacturers, '#p2-cboManufacturer', false);
-            CargarComboDatos(shipsData.Types, '#cboShipTypes');
-            CargarComboDatos(shipsData.Types, '#p2-cboType', false);
-            CargarComboDatos(shipsData.Careers, '#cboCarreers');
-            CargarComboDatos(shipsData.Careers, '#p2-cboShipCareer', false);
+            SetShipsDataTable_OLD(shipsData);
 
-            $('#p2-cboManufacturer').css('width', '1500px');
 
-            // Enable or Disable Controls:
-            if (true) {
-                $('#cboManufacturers').attr("disabled", "disabled");
-                $('#cboShipTypes').attr("disabled", "disabled");
-                $('#cboCarreers').attr("disabled", "disabled");
 
-                $('#txtShipName').attr("disabled", "disabled");
-                $('#txtShipRole').attr("disabled", "disabled");
-                $('#numGamePrice').attr("disabled", "disabled");
-                $('#numPledgePrice').attr("disabled", "disabled");
-            }
-
+            HideLoading();
             /*
             //Muestra el Captcha de Google (Requiere una Clave):            
             grecaptcha.render('Captcha_Container', {
@@ -94,8 +77,23 @@ function Iniciar() {
         change: function (event, ui) {
             //console.log(ui);
             if (ui.toPage.prop("id") == "pageTable") {
-                //SetShipsDataTable(shipsData.data);
-                SetShipsDataTable_OLD(shipsData);
+                CargarListaDatosManufac(shipsData.data, '#listShips');
+                CargarListaDatos(shipsData.data, '#listShipCCU');
+                CargarComboDatos(shipsData.Manufacturers, '#cboManufacturers');
+                CargarComboDatos(shipsData.Types, '#cboShipTypes');
+                CargarComboDatos(shipsData.Careers, '#cboCarreers');
+
+                // Enable or Disable Controls:
+                if (true) {
+                    $('#cboManufacturers').attr("disabled", "disabled");
+                    $('#cboShipTypes').attr("disabled", "disabled");
+                    $('#cboCarreers').attr("disabled", "disabled");
+
+                    $('#txtShipName').attr("disabled", "disabled");
+                    $('#txtShipRole').attr("disabled", "disabled");
+                    $('#numGamePrice').attr("disabled", "disabled");
+                    $('#numPledgePrice').attr("disabled", "disabled");
+                }
             }
         }
     });
@@ -556,7 +554,7 @@ function SetShipsDataTable_OLD(shipsDataRaw) {
                 layout: {
                     top1: {
                         searchPanes: {
-                            columns: [0, 2, 3, 4],
+                            columns: [1, 3, 5, 6, 7],
                             initCollapsed: true,
                             controls: true
                         }
@@ -578,25 +576,38 @@ function SetShipsDataTable_OLD(shipsDataRaw) {
                                         var Filter = '';
                                         for (let index = 0; index < SelectedRows.length; index++) {
                                             //console.log(SelectedRows[index]); 
-                                            Filter += '\\b' + SelectedRows[index].ID + '\\b|';                                  
+                                            Filter += '\\b' + SelectedRows[index].ID + '\\b|';
                                         }
                                         Filter = Filter.slice(0, -1);
                                         //console.log(Filter);
-                                        table.column(6).search(Filter, true, true).draw();
+                                        table.column(0).search(Filter, true, true).draw();
                                     }
-                                    //alert(SelectedRows.length + ' row(s) selected');
                                 }
                             },
                             {
                                 text: "Clear",
                                 action: function (e, dt, node, config, cb) {
-                                    table.column(6).search('', true, true).draw();
+                                    table.column(0).search('', true, true).draw();
                                 }
                             }
                         ]
                     }
                 },
                 columns: [
+                    {   //index: 0
+                        data: 'ID',
+                        title: "Preview",
+                        render: function (data, type, row, meta) {
+                            if (type === 'display') {        
+                                // Agrega 2 Botones: un link a la pagina del Store y una Imagen preview         
+                                var storeLink = row.StorePage; //'aegis-avenger/Avenger-Titan-Renegade'; //              
+                                let controls =  `<a href="#" data-ltype="linkShipPageF" data-shipid="${storeLink}" class="my-tooltip-btn ui-btn ui-alt-icon ui-nodisc-icon ui-btn-inline ui-icon-info ui-btn-icon-notext">RSI Page</a>`;
+                                    controls += `<a href="#" data-ltype="popImgPreview" data-shipid="${data}"      class="my-tooltip-btn ui-btn ui-alt-icon ui-nodisc-icon ui-btn-inline ui-icon-camera ui-btn-icon-notext">Preview</a>`;
+                                return controls;
+                            }
+                            return data;
+                        }
+                    },
                     {   //index: 0
                         data: 'Manufacturer',
                         title: 'Manufacturer',
@@ -617,14 +628,12 @@ function SetShipsDataTable_OLD(shipsDataRaw) {
                             if (type === 'display') {
                                 // Colorear en rojo si la nave no es FlyReady o en Verde si esta en venta sin paquete
                                 let color = 'white';
-                                if (row.FlyReady === 0) {
-                                    color = 'red';
-                                } else {
-                                    if (row.StandAlone === 1) {
-                                        color = 'green';
-                                    }
+                                if (row.FlyReady === 0) { color = 'red'; }
+                                else {
+                                    if (row.StandAlone === 1) { color = 'green'; }
                                 }
-                                return `<span style="color:${color}">${ShipID}</span>`;
+                                //
+                                return `<span style="color:${color}">${ShipID}  </span>`;
                             }
                             return ShipID;
                         }
@@ -637,7 +646,7 @@ function SetShipsDataTable_OLD(shipsDataRaw) {
                                 if (data === 1) {
                                     checked = 'checked=""';
                                 }
-                                return '<input type="checkbox" ' + checked + '>';
+                                return `<input type="checkbox" ${checked}>`;
                             }
                             return data;
                         }
@@ -679,7 +688,6 @@ function SetShipsDataTable_OLD(shipsDataRaw) {
                             return ShipID;
                         }
                     },
-                    { data: 'ID', title: 'ID', visible: false }, //index: 6
                     { data: 'Role', title: 'Role' },  //index: 7
                     { data: 'PledgeUSD', title: 'Pledge USD', searchable: false, render: DataTable.render.number(',', '.', 0, '$') },
                     { data: 'aUEC', title: 'In Game Price', searchable: false, render: DataTable.render.number(',', '.', 0, '$') },
@@ -687,8 +695,8 @@ function SetShipsDataTable_OLD(shipsDataRaw) {
 
                     { data: 'VehicleSize', title: 'Vehicle Size', searchable: false },
                     { data: 'Weapons', title: 'Weapons' },
-                    { data: 'Turrets', title: 'Turrets' },
-                    { data: 'MissileRacks', title: 'Missile Racks' },
+                    { data: 'Turrets', title: 'Turrets', searchable: false },
+                    { data: 'MissileRacks', title: 'Missile Racks', searchable: false },
 
                     { data: 'QTDrive', title: 'QT Drive', searchable: false },
                     { data: 'PowPlant', title: 'Power Plant', searchable: false },
@@ -696,7 +704,7 @@ function SetShipsDataTable_OLD(shipsDataRaw) {
                     { data: 'ShieldType', title: 'Shield Type' },
                     { data: 'HP', title: 'HP', searchable: false, render: DataTable.render.number(',', '.', 0) },
 
-                    { data: 'Crew', title: 'Crew Max' },
+                    { data: 'Crew', title: 'Crew Max', searchable: false },
                     { data: 'CargoGrid', title: 'Cargo Grid' },
                     { data: 'Inventory', title: 'Inventory', searchable: false, defaultContent: '' },
                     { data: 'ScmSpeed', title: 'Scm Speed', type: 'num', searchable: false, defaultContent: '' },
@@ -708,10 +716,37 @@ function SetShipsDataTable_OLD(shipsDataRaw) {
                     { data: 'CapRefill', title: 'Cap Refill', searchable: false, defaultContent: '', render: DataTable.render.number(',', '.', 0) }
                 ]
             });
-            //al Seleccionar una Fila:
+
+            //al dar Click sobre una Fila de la tabla:
             table.on('click', 'tbody tr', function (e) {
-                e.currentTarget.classList.toggle('selected');
+                e.currentTarget.classList.toggle('selected'); //<- Selecciona o des-selecciona la fila actual
+                //console.log(e.target);
+
+                var Control = $(e.target); //<- el Control Clickeado, si lo hay
+                if (Control != undefined) {
+                    //console.log(Control);
+                    const lType = Control.attr("data-ltype"); //<- el tipo de Control
+
+                    if (lType != undefined) {
+                        var ShipID = Control.attr("data-shipid");   //<- Datos asociados al Control
+
+                        if (lType === "popImgPreview") {
+                            //console.log(ShipID);
+                            //Establece la Imagen del preview a mostrar y abre un cuadro popup:                            
+                            $('#imgShipPreview').attr('src', `img/ships/${ShipID}.jpg`);
+                            $('#popShipPreview').popup("open", { positionTo: 'window', transition: "flip" });                            
+                        }
+                        if (lType === "linkShipPageF") {
+                            //Abre un link a la pagina de la nave en el Store de RSI
+                            //console.log(ShipID);
+                            if (ShipID != undefined) {
+                                window.open('https://robertsspaceindustries.com/pledge/ships/' + ShipID, '_blank');
+                            }
+                        }
+                    }
+                }
             });
+
         }
     } catch (error) {
         console.log(error);
@@ -723,6 +758,31 @@ function verificarCaptcha() {
     console.log(grecaptcha.getResponse());
     $('#Captcha_Container').fadeOut();
     var timeoutID = window.setTimeout(showPopUp, 1000); //<- Espera 1 segundo y muestra la ventana de Login
+}
+
+function getImagePath(id) {
+    // Construct the base image path
+    const basePath = "img/ships/";
+
+    // Validate the ID format (3 or 4 digits)
+    if (!/^\d{3,4}$/.test(id)) {
+        console.error("Invalid image ID format. Must be 3 or 4 digits.");
+        return null; // Or return a default image path if needed
+    }
+
+    // Build the complete image path with padding for 3-digit IDs
+    let filename;
+    if (id.length === 3) {
+        // Prepend a leading zero for 3-digit IDs
+        filename = "0" + id + ".jpg"; // Adjust extension based on your images
+    } else {
+        // Use the ID directly for 4-digit IDs
+        filename = id + ".jpg"; // Adjust extension based on your images
+    }
+
+    const imagePath = basePath + filename;
+
+    return imagePath;
 }
 
 /** Aplica Formato a un Numero, con Decimales y Separador de Millares. 

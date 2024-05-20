@@ -190,6 +190,7 @@
       "CapRefill": 1250,
       "HP": 11900,
       "ShieldType": "Bubble",
+      "StorePage": "aegis-avenger/Avenger-Stalker",
       "CCUFromID": [
         1102,
         1104,
@@ -259,6 +260,7 @@
       "CapRefill": 1250,
       "HP": 11900,
       "ShieldType": "Bubble",
+      "StorePage": "aegis-avenger/Avenger-Titan",
       "CCUFromID": [
         1104,
         1201,
@@ -322,6 +324,7 @@
       "CapRefill": 1250,
       "HP": 11900,
       "ShieldType": "Bubble",
+      "StorePage": "aegis-avenger/Avenger-Titan-Renegade",
       "CCUFromID": [
         101,
         102,
@@ -367,6 +370,7 @@
       "CapRefill": 1250,
       "HP": 11900,
       "ShieldType": "Bubble",
+      "StorePage": "aegis-avenger/Avenger-Warlock",
       "CCUFromID": [
         1501,
         1502,
@@ -415,6 +419,7 @@
       "CapRefill": 2812.5,
       "HP": 27564,
       "ShieldType": "Bubble",
+      "StorePage": "eclipse/Eclipse",
       "CCUFromID": [
         1001,
         117,
@@ -485,6 +490,7 @@
       "CapRefill": 1250,
       "HP": 7160,
       "ShieldType": "Bubble",
+      "StorePage": "gladius/Gladius",
       "CCUFromID": [
         101,
         102,
@@ -581,6 +587,7 @@
       "CapRefill": 1250,
       "HP": 7160,
       "ShieldType": "Bubble",
+      "StorePage": "gladius/Gladius-Valiant",
       "CCUFromID": [
         106,
         1516,
@@ -619,6 +626,7 @@
       "CapRefill": 6250,
       "HP": 295600,
       "ShieldType": "Quadrant",
+      "StorePage": "hammerhead/Hammerhead",
       "CCUFromID": [
         115,
         1202,
@@ -685,6 +693,7 @@
       "CapRefill": 3000,
       "HP": 22565200,
       "ShieldType": "Quadrant",
+      "StorePage": "aegis-idris/Idris-P",
       "CCUFromID": []
     },
     {
@@ -717,6 +726,7 @@
       "CapRefill": 3000,
       "HP": 22565200,
       "ShieldType": "Quadrant",
+      "StorePage": "aegis-idris/Idris-M",
       "CCUFromID": []
     },
     {
@@ -749,6 +759,7 @@
       "CapRefill": 0,
       "HP": "",
       "ShieldType": "",
+      "StorePage": "aegis-javelin/Javelin",
       "CCUFromID": []
     },
     {
@@ -781,6 +792,7 @@
       "CapRefill": 0,
       "HP": "",
       "ShieldType": "",
+      "StorePage": "aegis-nautilus/Nautilus",
       "CCUFromID": [
         115,
         116,
@@ -843,6 +855,7 @@
       "CapRefill": 0,
       "HP": "",
       "ShieldType": "",
+      "StorePage": "aegis-nautilus/Nautilus-Solstice-Edition",
       "CCUFromID": []
     },
     {
@@ -875,6 +888,7 @@
       "CapRefill": 1250,
       "HP": 7160,
       "ShieldType": "Bubble",
+      "StorePage": "gladius/Pirate-Gladius",
       "CCUFromID": []
     },
     {
@@ -907,6 +921,7 @@
       "CapRefill": 12500,
       "HP": 125002,
       "ShieldType": "Quadrant",
+      "StorePage": "reclaimer/Reclaimer",
       "CCUFromID": [
         116,
         118,
@@ -926,6 +941,7 @@
         1612,
         1613,
         1614,
+        1626,
         207,
         213,
         228,
@@ -967,6 +983,7 @@
       "CapRefill": 3000,
       "HP": 102300,
       "ShieldType": "Quadrant",
+      "StorePage": "redeemer/Redeemer",
       "CCUFromID": [
         118,
         122,
@@ -1019,6 +1036,7 @@
       "CapRefill": 4375,
       "HP": 229185,
       "ShieldType": "Bubble",
+      "StorePage": "aegis-retaliator/Retaliator",
       "CCUFromID": [
         106,
         114,
@@ -1030,66 +1048,6 @@
         223,
         806,
         809
-      ]
-    },
-    {
-      "ID": 118,
-      "Name": "Retaliator Bomber",
-      "Manufacturer": 100,
-      "Type": 1,
-      "Career": 1,
-      "Role": "Heavy Bomber",
-      "PledgeUSD": 275,
-      "aUEC": 7938000,
-      "BuyLocation": "New Deal, Lorville",
-      "FlyReady": 1,
-      "StandAlone": 0,
-      "Weapons": "-",
-      "Turrets": "3xS3x2, 2xS2x2",
-      "MissileRacks": "2xS9",
-      "Shields": "2xS2",
-      "QTDrive": "1xS1",
-      "PowPlant": "2xS2",
-      "VehicleSize": 4,
-      "Crew": 1,
-      "CargoGrid": 0,
-      "Inventory": 6.33,
-      "ScmSpeed": 200,
-      "Agility_PYR": "30/30/60",
-      "Fuel_H": 510000,
-      "Fuel_QT": 2500,
-      "Capacitor": 35000,
-      "CapRefill": 4375,
-      "HP": 229185,
-      "ShieldType": "Bubble",
-      "CCUFromID": [
-        117,
-        119,
-        120,
-        123,
-        125,
-        126,
-        1305,
-        1404,
-        1405,
-        1406,
-        1413,
-        1602,
-        1609,
-        1613,
-        1616,
-        201,
-        202,
-        218,
-        224,
-        228,
-        405,
-        501,
-        703,
-        710,
-        805,
-        808,
-        814
       ]
     },
     {
@@ -1122,6 +1080,7 @@
       "CapRefill": 1875,
       "HP": 12540,
       "ShieldType": "Bubble",
+      "StorePage": "ships/sabre/Sabre",
       "CCUFromID": [
         101,
         106,
@@ -1189,6 +1148,7 @@
       "CapRefill": 1875,
       "HP": 12540,
       "ShieldType": "Bubble",
+      "StorePage": "sabre/Sabre-Comet",
       "CCUFromID": [
         106,
         107,
@@ -1241,6 +1201,7 @@
       "CapRefill": 1875,
       "HP": 13160,
       "ShieldType": "Bubble",
+      "StorePage": "ships/sabre/Sabre-Raven",
       "CCUFromID": []
     },
     {
@@ -1273,6 +1234,7 @@
       "CapRefill": 2812.5,
       "HP": 42900,
       "ShieldType": "Bubble",
+      "StorePage": "vanguard/Vanguard-Harbinger",
       "CCUFromID": [
         1001,
         106,
@@ -1345,6 +1307,7 @@
       "CapRefill": 2812.5,
       "HP": 42800,
       "ShieldType": "Bubble",
+      "StorePage": "",
       "CCUFromID": [
         1001,
         117,
@@ -1400,6 +1363,7 @@
       "CapRefill": 2812.5,
       "HP": 42800,
       "ShieldType": "Bubble",
+      "StorePage": "vanguard/Vanguard-Sentinel",
       "CCUFromID": [
         106,
         117,
@@ -1463,6 +1427,7 @@
       "CapRefill": 2812.5,
       "HP": 42800,
       "ShieldType": "Bubble",
+      "StorePage": "vanguard/Vanguard-Warden",
       "CCUFromID": [
         1001,
         106,
@@ -1534,6 +1499,7 @@
       "CapRefill": 0,
       "HP": "",
       "ShieldType": "",
+      "StorePage": "vulcan/Vulcan",
       "CCUFromID": [
         117,
         119,
@@ -1553,6 +1519,39 @@
         301,
         808
       ]
+    },
+    {
+      "ID": 127,
+      "Name": "Sabre Firebird",
+      "Manufacturer": 100,
+      "Type": 1,
+      "Career": 1,
+      "Role": "Stealth Fighter",
+      "PledgeUSD": 0,
+      "aUEC": 0,
+      "BuyLocation": "",
+      "FlyReady": 1,
+      "StandAlone": 0,
+      "Weapons": "2xS3",
+      "Turrets": "-",
+      "MissileRacks": "1xS6",
+      "Shields": "2xS1",
+      "QTDrive": "1xS1",
+      "PowPlant": "3xS1",
+      "VehicleSize": 2,
+      "Crew": 1,
+      "CargoGrid": 0,
+      "Inventory": 0.65,
+      "ScmSpeed": 240,
+      "Agility_PYR": "50/42/160",
+      "Fuel_H": 120000,
+      "Fuel_QT": "583,33",
+      "Capacitor": 15000,
+      "CapRefill": 1875,
+      "HP": 13160,
+      "ShieldType": "Bubble",
+      "StorePage": "ships/sabre/Sabre-Firebird",
+      "CCUFromID": []
     },
     {
       "ID": 201,
@@ -1584,6 +1583,7 @@
       "CapRefill": 1250,
       "HP": 8680,
       "ShieldType": "Bubble",
+      "StorePage": "anvil-arrow/Arrow",
       "CCUFromID": [
         101,
         102,
@@ -1668,6 +1668,7 @@
       "CapRefill": 3000,
       "HP": 33600,
       "ShieldType": "Bubble",
+      "StorePage": "anvil-ballista/Ballista",
       "CCUFromID": []
     },
     {
@@ -1700,6 +1701,7 @@
       "CapRefill": 3000,
       "HP": 33600,
       "ShieldType": "Bubble",
+      "StorePage": "anvil-ballista/Anvil-Ballista-Dunestalker",
       "CCUFromID": []
     },
     {
@@ -1732,6 +1734,7 @@
       "CapRefill": 3000,
       "HP": 33600,
       "ShieldType": "Bubble",
+      "StorePage": "anvil-ballista/Anvil-Ballista-Snowblind",
       "CCUFromID": []
     },
     {
@@ -1764,6 +1767,7 @@
       "CapRefill": 550,
       "HP": 6250,
       "ShieldType": "Bubble",
+      "StorePage": "anvil-pisces/C8-Pisces",
       "CCUFromID": []
     },
     {
@@ -1796,6 +1800,7 @@
       "CapRefill": 550,
       "HP": 6250,
       "ShieldType": "Bubble",
+      "StorePage": "anvil-pisces/C8R-Pisces",
       "CCUFromID": [
         101,
         1504,
@@ -1835,6 +1840,7 @@
       "CapRefill": 550,
       "HP": 6250,
       "ShieldType": "Bubble",
+      "StorePage": "anvil-pisces/C8X-Pisces-Expedition",
       "CCUFromID": []
     },
     {
@@ -1867,6 +1873,7 @@
       "CapRefill": 12500,
       "HP": 103000,
       "ShieldType": "Quadrant",
+      "StorePage": "carrack/Carrack",
       "CCUFromID": [
         106,
         115,
@@ -1928,6 +1935,7 @@
       "CapRefill": 12500,
       "HP": 103000,
       "ShieldType": "Quadrant",
+      "StorePage": "carrack/Carrack-Expedition",
       "CCUFromID": []
     },
     {
@@ -1960,6 +1968,7 @@
       "CapRefill": 12500,
       "HP": 103000,
       "ShieldType": "Quadrant",
+      "StorePage": "carrack/Carrack-Expedition-W-C8X",
       "CCUFromID": [
         1610,
         1617,
@@ -1996,6 +2005,7 @@
       "CapRefill": 12500,
       "HP": 103000,
       "ShieldType": "Quadrant",
+      "StorePage": "carrack/Carrack-W-C8X",
       "CCUFromID": []
     },
     {
@@ -2028,6 +2038,7 @@
       "CapRefill": 3000,
       "HP": 33600,
       "ShieldType": "Bubble",
+      "StorePage": "centurion/Centurion",
       "CCUFromID": []
     },
     {
@@ -2060,6 +2071,7 @@
       "CapRefill": 0,
       "HP": "",
       "ShieldType": "",
+      "StorePage": "crucible/Crucible",
       "CCUFromID": [
         105,
         116,
@@ -2112,6 +2124,7 @@
       "CapRefill": 1875,
       "HP": 33905,
       "ShieldType": "Bubble",
+      "StorePage": "anvil-hornet-mkii/F7A-Hornet-Mk-II",
       "CCUFromID": []
     },
     {
@@ -2144,6 +2157,7 @@
       "CapRefill": 1875,
       "HP": 21530,
       "ShieldType": "Bubble",
+      "StorePage": "anvil-hornet/F7C-Hornet-Mk-I",
       "CCUFromID": []
     },
     {
@@ -2176,6 +2190,7 @@
       "CapRefill": 1875,
       "HP": 33905,
       "ShieldType": "Bubble",
+      "StorePage": "anvil-hornet-mkii/F7C-Hornet-Mk-II",
       "CCUFromID": [
         405
       ]
@@ -2210,6 +2225,7 @@
       "CapRefill": 1875,
       "HP": 21530,
       "ShieldType": "Bubble",
+      "StorePage": "anvil-hornet/F7C-Hornet-Wildfire-Mk-I",
       "CCUFromID": [
         119,
         1517,
@@ -2249,6 +2265,7 @@
       "CapRefill": 1875,
       "HP": 24015,
       "ShieldType": "Bubble",
+      "StorePage": "anvil-hornet/F7C-M-Super-Hornet-Mk-I",
       "CCUFromID": [
         106,
         107,
@@ -2307,6 +2324,7 @@
       "CapRefill": 1875,
       "HP": 21530,
       "ShieldType": "Bubble",
+      "StorePage": "anvil-hornet/F7C-R-Hornet-Tracker-Mk-I",
       "CCUFromID": [
         101,
         102,
@@ -2425,6 +2443,7 @@
       "CapRefill": 1875,
       "HP": 21530,
       "ShieldType": "Bubble",
+      "StorePage": "anvil-hornet/F7C-S-Hornet-Ghost-Mk-I",
       "CCUFromID": [
         101,
         102,
@@ -2537,6 +2556,7 @@
       "CapRefill": 2812.5,
       "HP": 46370,
       "ShieldType": "Bubble",
+      "StorePage": "lightning/F8C-Lightning",
       "CCUFromID": []
     },
     {
@@ -2569,6 +2589,7 @@
       "CapRefill": 1875,
       "HP": 25770,
       "ShieldType": "Bubble",
+      "StorePage": "anvil-gladiator/Gladiator",
       "CCUFromID": [
         106,
         117,
@@ -2618,6 +2639,7 @@
       "CapRefill": 1250,
       "HP": 13200,
       "ShieldType": "Bubble",
+      "StorePage": "hawk/Hawk",
       "CCUFromID": []
     },
     {
@@ -2650,6 +2672,7 @@
       "CapRefill": 2812.5,
       "HP": 10586,
       "ShieldType": "Bubble",
+      "StorePage": "hurricane/Hurricane",
       "CCUFromID": [
         405
       ]
@@ -2684,6 +2707,7 @@
       "CapRefill": 0,
       "HP": "",
       "ShieldType": "",
+      "StorePage": "legionnaire/Legionnaire",
       "CCUFromID": []
     },
     {
@@ -2716,6 +2740,7 @@
       "CapRefill": 0,
       "HP": "",
       "ShieldType": "",
+      "StorePage": "liberator/Liberator",
       "CCUFromID": []
     },
     {
@@ -2748,6 +2773,7 @@
       "CapRefill": 3000,
       "HP": 33601,
       "ShieldType": "Bubble",
+      "StorePage": "ships/spartan/Spartan",
       "CCUFromID": []
     },
     {
@@ -2780,7 +2806,10 @@
       "CapRefill": 812.5,
       "HP": 113525,
       "ShieldType": "Bubble",
-      "CCUFromID": []
+      "StorePage": "terrapin/Terrapin",
+      "CCUFromID": [
+        1626
+      ]
     },
     {
       "ID": 229,
@@ -2812,6 +2841,7 @@
       "CapRefill": 3000,
       "HP": 44053,
       "ShieldType": "Bubble",
+      "StorePage": "anvil-valkyrie/Valkyrie",
       "CCUFromID": []
     },
     {
@@ -2844,38 +2874,7 @@
       "CapRefill": 3000,
       "HP": 44053,
       "ShieldType": "Bubble",
-      "CCUFromID": []
-    },
-    {
-      "ID": 231,
-      "Name": "F8A Lightning",
-      "Manufacturer": 200,
-      "Type": 1,
-      "Career": 1,
-      "Role": "Heavy Fighter",
-      "PledgeUSD": 0,
-      "aUEC": 0,
-      "BuyLocation": "",
-      "FlyReady": 1,
-      "StandAlone": 0,
-      "Weapons": "4xS3, 2xS4, 1xS5",
-      "Turrets": "-",
-      "MissileRacks": "2xS4",
-      "Shields": "2xS2",
-      "QTDrive": "1xS1",
-      "PowPlant": "1xS2",
-      "VehicleSize": 2,
-      "Crew": 1,
-      "CargoGrid": 0,
-      "Inventory": 0.65,
-      "ScmSpeed": 210,
-      "Agility_PYR": "38/32/120",
-      "Fuel_H": 372000,
-      "Fuel_QT": 10000,
-      "Capacitor": 0,
-      "CapRefill": 0,
-      "HP": 46370,
-      "ShieldType": "Bubble",
+      "StorePage": "anvil-valkyrie/Valkyrie-Liberator-Edition",
       "CCUFromID": []
     },
     {
@@ -2908,6 +2907,7 @@
       "CapRefill": 1250,
       "HP": 14300,
       "ShieldType": "Bubble",
+      "StorePage": "khartu/Khartu-Al",
       "CCUFromID": []
     },
     {
@@ -2940,6 +2940,7 @@
       "CapRefill": 3000,
       "HP": 1825,
       "ShieldType": "",
+      "StorePage": "nox/Nox",
       "CCUFromID": []
     },
     {
@@ -2972,6 +2973,7 @@
       "CapRefill": 3000,
       "HP": 1825,
       "ShieldType": "",
+      "StorePage": "nox/Nox-Kue",
       "CCUFromID": []
     },
     {
@@ -3004,6 +3006,7 @@
       "CapRefill": 2812.5,
       "HP": 12410,
       "ShieldType": "Bubble",
+      "StorePage": "aopoa-santokyai/Santoky-i",
       "CCUFromID": [
         119,
         120,
@@ -3047,6 +3050,7 @@
       "CapRefill": 2812.5,
       "HP": 80375,
       "ShieldType": "Bubble",
+      "StorePage": "argo-mole/MOLE",
       "CCUFromID": [
         105,
         118,
@@ -3068,6 +3072,7 @@
         1605,
         1609,
         1613,
+        1626,
         1701,
         218,
         228,
@@ -3114,6 +3119,7 @@
       "CapRefill": 0,
       "HP": 6820,
       "ShieldType": "Bubble",
+      "StorePage": "argo/MPUV-Cargo",
       "CCUFromID": []
     },
     {
@@ -3138,7 +3144,7 @@
       "Crew": 1,
       "CargoGrid": 0,
       "Inventory": 0.71,
-      "ScmSpeed": 170,
+      "ScmSpeed": 150,
       "Agility_PYR": "30/30/85",
       "Fuel_H": 30000,
       "Fuel_QT": 0,
@@ -3146,6 +3152,7 @@
       "CapRefill": 0,
       "HP": 6820,
       "ShieldType": "Bubble",
+      "StorePage": "argo/MPUV-Personnel",
       "CCUFromID": []
     },
     {
@@ -3178,6 +3185,7 @@
       "CapRefill": 2812.5,
       "HP": 41751,
       "ShieldType": "Bubble",
+      "StorePage": "ships/raft/RAFT",
       "CCUFromID": []
     },
     {
@@ -3210,6 +3218,7 @@
       "CapRefill": 1875,
       "HP": 34500,
       "ShieldType": "Bubble",
+      "StorePage": "argo-srv/SRV",
       "CCUFromID": [
         101,
         102,
@@ -3236,6 +3245,39 @@
         904,
         905
       ]
+    },
+    {
+      "ID": 406,
+      "Name": "MPUV Tracktor",
+      "Manufacturer": 400,
+      "Type": 1,
+      "Career": 2,
+      "Role": "Cargo Loader",
+      "PledgeUSD": 35,
+      "aUEC": 0,
+      "BuyLocation": "",
+      "FlyReady": 1,
+      "StandAlone": 1,
+      "Weapons": "-",
+      "Turrets": "-",
+      "MissileRacks": "-",
+      "Shields": "1xS1",
+      "QTDrive": "-",
+      "PowPlant": "1xS1",
+      "VehicleSize": 1,
+      "Crew": 1,
+      "CargoGrid": 16,
+      "Inventory": 0.8,
+      "ScmSpeed": 115,
+      "Agility_PYR": "30/30/85",
+      "Fuel_H": 30000,
+      "Fuel_QT": 0,
+      "Capacitor": 0,
+      "CapRefill": 0,
+      "HP": 6820,
+      "ShieldType": "Bubble",
+      "StorePage": "argo/MPUV-Tractor",
+      "CCUFromID": []
     },
     {
       "ID": 501,
@@ -3267,6 +3309,7 @@
       "CapRefill": 1875,
       "HP": 13600,
       "ShieldType": "Bubble",
+      "StorePage": "defender/Defender",
       "CCUFromID": []
     },
     {
@@ -3299,6 +3342,7 @@
       "CapRefill": 0,
       "HP": "",
       "ShieldType": "",
+      "StorePage": "merchantman/Merchantman",
       "CCUFromID": [
         105,
         115,
@@ -3364,6 +3408,7 @@
       "CapRefill": 0,
       "HP": 3500,
       "ShieldType": "Bubble",
+      "StorePage": "hoverquad/HoverQuad",
       "CCUFromID": []
     },
     {
@@ -3396,6 +3441,7 @@
       "CapRefill": 1250,
       "HP": 8731,
       "ShieldType": "Bubble",
+      "StorePage": "mustang/Mustang-Alpha",
       "CCUFromID": []
     },
     {
@@ -3428,6 +3474,7 @@
       "CapRefill": 1250,
       "HP": 8731,
       "ShieldType": "Bubble",
+      "StorePage": "Mustang-Alpha-Vindicator",
       "CCUFromID": []
     },
     {
@@ -3460,6 +3507,7 @@
       "CapRefill": 1250,
       "HP": 8731,
       "ShieldType": "Bubble",
+      "StorePage": "mustang/Mustang-Beta",
       "CCUFromID": []
     },
     {
@@ -3492,6 +3540,7 @@
       "CapRefill": 1250,
       "HP": 8731,
       "ShieldType": "Bubble",
+      "StorePage": "mustang/Mustang-Delta",
       "CCUFromID": []
     },
     {
@@ -3524,6 +3573,7 @@
       "CapRefill": 1250,
       "HP": 8731,
       "ShieldType": "Bubble",
+      "StorePage": "mustang/Mustang-Gamma",
       "CCUFromID": []
     },
     {
@@ -3556,6 +3606,7 @@
       "CapRefill": 1250,
       "HP": 8731,
       "ShieldType": "Bubble",
+      "StorePage": "mustang/Mustang-Omega",
       "CCUFromID": []
     },
     {
@@ -3588,6 +3639,7 @@
       "CapRefill": 2812.5,
       "HP": 9800,
       "ShieldType": "Bubble",
+      "StorePage": "nomad/Nomad",
       "CCUFromID": []
     },
     {
@@ -3620,6 +3672,7 @@
       "CapRefill": 0,
       "HP": "",
       "ShieldType": "",
+      "StorePage": "pioneer/Pioneer",
       "CCUFromID": []
     },
     {
@@ -3652,6 +3705,7 @@
       "CapRefill": 4375,
       "HP": 67600,
       "ShieldType": "Bubble",
+      "StorePage": "spirit/A1-Spirit",
       "CCUFromID": [
         119,
         1413,
@@ -3689,6 +3743,7 @@
       "CapRefill": 6250,
       "HP": 81400,
       "ShieldType": "Quadrant",
+      "StorePage": "crusader-starlifter/A2-Hercules",
       "CCUFromID": [
         108,
         112,
@@ -3747,6 +3802,7 @@
       "CapRefill": 4375,
       "HP": 30100,
       "ShieldType": "Bubble",
+      "StorePage": "crusader-ares/Ares-Inferno",
       "CCUFromID": []
     },
     {
@@ -3779,6 +3835,7 @@
       "CapRefill": 4375,
       "HP": 30100,
       "ShieldType": "Bubble",
+      "StorePage": "crusader-ares/Ares-Ion",
       "CCUFromID": []
     },
     {
@@ -3811,6 +3868,7 @@
       "CapRefill": 4375,
       "HP": 67600,
       "ShieldType": "Bubble",
+      "StorePage": "spirit/C1-Spirit",
       "CCUFromID": [
         1104,
         1516,
@@ -3849,6 +3907,7 @@
       "CapRefill": 6250,
       "HP": 81400,
       "ShieldType": "Quadrant",
+      "StorePage": "crusader-starlifter/C2-Hercules",
       "CCUFromID": []
     },
     {
@@ -3881,6 +3940,7 @@
       "CapRefill": 4375,
       "HP": 67600,
       "ShieldType": "Bubble",
+      "StorePage": "spirit/E1-Spirit",
       "CCUFromID": [
         1304,
         1408,
@@ -3891,7 +3951,7 @@
     },
     {
       "ID": 708,
-      "Name": "Genesis",
+      "Name": "Genesis Starliner",
       "Manufacturer": 700,
       "Type": 1,
       "Career": 2,
@@ -3919,6 +3979,7 @@
       "CapRefill": 0,
       "HP": "",
       "ShieldType": "",
+      "StorePage": "starliner/Genesis",
       "CCUFromID": []
     },
     {
@@ -3951,6 +4012,7 @@
       "CapRefill": 6250,
       "HP": 81400,
       "ShieldType": "Quadrant",
+      "StorePage": "crusader-starlifter/M2-Hercules",
       "CCUFromID": []
     },
     {
@@ -3983,6 +4045,7 @@
       "CapRefill": 4375,
       "HP": 37400,
       "ShieldType": "Bubble",
+      "StorePage": "crusader-mercury-star-runner/Mercury",
       "CCUFromID": [
         1001,
         106,
@@ -4010,6 +4073,7 @@
         1609,
         1613,
         1616,
+        1626,
         202,
         215,
         217,
@@ -4064,6 +4128,7 @@
       "CapRefill": 1875,
       "HP": 10580,
       "ShieldType": "Bubble",
+      "StorePage": "drake-buccaneer/Buccaneer",
       "CCUFromID": [
         106,
         1103,
@@ -4110,6 +4175,7 @@
       "CapRefill": 6250,
       "HP": 92700,
       "ShieldType": "Quadrant",
+      "StorePage": "drake-caterpillar/Caterpillar",
       "CCUFromID": [
         1001,
         107,
@@ -4203,6 +4269,7 @@
       "CapRefill": 6250,
       "HP": 92700,
       "ShieldType": "Quadrant",
+      "StorePage": "drake-caterpillar/Caterpillar-Best-In-Show-Edition",
       "CCUFromID": [
         1001,
         107,
@@ -4296,6 +4363,7 @@
       "CapRefill": 6250,
       "HP": 92700,
       "ShieldType": "Quadrant",
+      "StorePage": "drake-caterpillar/Caterpillar-Pirate-Edition",
       "CCUFromID": [
         1001,
         107,
@@ -4389,6 +4457,7 @@
       "CapRefill": 4375,
       "HP": 91000,
       "ShieldType": "Quadrant",
+      "StorePage": "drake-corsair/Corsair",
       "CCUFromID": [
         102,
         104,
@@ -4448,6 +4517,7 @@
       "CapRefill": 2812.5,
       "HP": 37242,
       "ShieldType": "Bubble",
+      "StorePage": "drake-cutlass/Cutlass-Black",
       "CCUFromID": []
     },
     {
@@ -4480,6 +4550,7 @@
       "CapRefill": 2812.5,
       "HP": 51252,
       "ShieldType": "Bubble",
+      "StorePage": "drake-cutlass/Cutlass-Black-Best-In-Show-Edition",
       "CCUFromID": []
     },
     {
@@ -4512,6 +4583,7 @@
       "CapRefill": 2812.5,
       "HP": 49000,
       "ShieldType": "Bubble",
+      "StorePage": "drake-cutlass/Cutlass-Blue",
       "CCUFromID": []
     },
     {
@@ -4544,6 +4616,7 @@
       "CapRefill": 2812.5,
       "HP": 37242,
       "ShieldType": "Bubble",
+      "StorePage": "drake-cutlass/Cutlass-Red",
       "CCUFromID": [
         106,
         1504,
@@ -4590,7 +4663,10 @@
       "CapRefill": 2812.5,
       "HP": 17100,
       "ShieldType": "Bubble",
-      "CCUFromID": []
+      "StorePage": "drake-cutlass/Cutlass-Steel",
+      "CCUFromID": [
+        1626
+      ]
     },
     {
       "ID": 811,
@@ -4622,6 +4698,7 @@
       "CapRefill": 812.5,
       "HP": 17100,
       "ShieldType": "Bubble",
+      "StorePage": "cutter/Cutter",
       "CCUFromID": []
     },
     {
@@ -4654,6 +4731,7 @@
       "CapRefill": 812.5,
       "HP": 17100,
       "ShieldType": "Bubble",
+      "StorePage": "cutter/Cutter-Rambler",
       "CCUFromID": []
     },
     {
@@ -4686,6 +4764,7 @@
       "CapRefill": 812.5,
       "HP": 2120,
       "ShieldType": "",
+      "StorePage": "cutter/Cutter-Scout",
       "CCUFromID": []
     },
     {
@@ -4718,6 +4797,7 @@
       "CapRefill": 3000,
       "HP": 2120,
       "ShieldType": "",
+      "StorePage": "drake-dragonfly/Dragonfly-Black",
       "CCUFromID": []
     },
     {
@@ -4750,6 +4830,7 @@
       "CapRefill": 3000,
       "HP": 2120,
       "ShieldType": "",
+      "StorePage": "drake-dragonfly/Dragonfly-Yellowjacket",
       "CCUFromID": []
     },
     {
@@ -4782,6 +4863,7 @@
       "CapRefill": 1875,
       "HP": 6500,
       "ShieldType": "Bubble",
+      "StorePage": "herald/Herald",
       "CCUFromID": []
     },
     {
@@ -4814,6 +4896,7 @@
       "CapRefill": 0,
       "HP": 10600,
       "ShieldType": "Bubble",
+      "StorePage": "mule/Mule",
       "CCUFromID": []
     },
     {
@@ -4846,6 +4929,7 @@
       "CapRefill": 1875,
       "HP": 43700,
       "ShieldType": "Bubble",
+      "StorePage": "drake-vulture/Vulture",
       "CCUFromID": [
         106,
         107,
@@ -4913,6 +4997,7 @@
       "CapRefill": 1875,
       "HP": 7250,
       "ShieldType": "Bubble",
+      "StorePage": "vanduul-blade/Blade",
       "CCUFromID": []
     },
     {
@@ -4945,6 +5030,7 @@
       "CapRefill": 1875,
       "HP": 17502,
       "ShieldType": "Bubble",
+      "StorePage": "esperia-glaive/Glaive",
       "CCUFromID": [
         105,
         118,
@@ -4987,6 +5073,7 @@
       "CapRefill": 2812.5,
       "HP": 79900,
       "ShieldType": "Bubble",
+      "StorePage": "prowler/Prowler",
       "CCUFromID": []
     },
     {
@@ -5019,6 +5106,7 @@
       "CapRefill": 1250,
       "HP": 18730,
       "ShieldType": "Bubble",
+      "StorePage": "ships/talon/Talon",
       "CCUFromID": []
     },
     {
@@ -5051,6 +5139,7 @@
       "CapRefill": 1250,
       "HP": 18730,
       "ShieldType": "Bubble",
+      "StorePage": "talon/Talon-Shrike",
       "CCUFromID": [
         101,
         102,
@@ -5124,6 +5213,7 @@
       "CapRefill": 0,
       "HP": "",
       "ShieldType": "",
+      "StorePage": "railen/Railen",
       "CCUFromID": [
         106,
         117,
@@ -5188,6 +5278,7 @@
       "CapRefill": 812.5,
       "HP": 11740,
       "ShieldType": "Bubble",
+      "StorePage": "syulen/Syulen",
       "CCUFromID": []
     },
     {
@@ -5220,6 +5311,7 @@
       "CapRefill": 0,
       "HP": 7010,
       "ShieldType": "",
+      "StorePage": "",
       "CCUFromID": []
     },
     {
@@ -5252,6 +5344,7 @@
       "CapRefill": 0,
       "HP": 9410,
       "ShieldType": "Bubble",
+      "StorePage": "roc/ROC",
       "CCUFromID": []
     },
     {
@@ -5284,6 +5377,7 @@
       "CapRefill": 0,
       "HP": 12402,
       "ShieldType": "Bubble",
+      "StorePage": "roc/ROC-DS",
       "CCUFromID": []
     },
     {
@@ -5316,6 +5410,7 @@
       "CapRefill": 0,
       "HP": 10250,
       "ShieldType": "",
+      "StorePage": "stv/STV",
       "CCUFromID": []
     },
     {
@@ -5348,6 +5443,7 @@
       "CapRefill": 550,
       "HP": 2480,
       "ShieldType": "Bubble",
+      "StorePage": "p52-merlin/P-52-Merlin",
       "CCUFromID": []
     },
     {
@@ -5380,6 +5476,7 @@
       "CapRefill": 550,
       "HP": 2480,
       "ShieldType": "Bubble",
+      "StorePage": "p72-archimedes/P-72-Archimedes",
       "CCUFromID": []
     },
     {
@@ -5412,6 +5509,7 @@
       "CapRefill": 550,
       "HP": 2480,
       "ShieldType": "Bubble",
+      "StorePage": "p72-archimedes/P-72-Archimedes-Emerald",
       "CCUFromID": []
     },
     {
@@ -5444,6 +5542,7 @@
       "CapRefill": 550,
       "HP": 6530,
       "ShieldType": "Bubble",
+      "StorePage": "fury/Fury",
       "CCUFromID": []
     },
     {
@@ -5476,6 +5575,7 @@
       "CapRefill": 550,
       "HP": 3065,
       "ShieldType": "Bubble",
+      "StorePage": "fury/Fury-LX",
       "CCUFromID": []
     },
     {
@@ -5508,6 +5608,7 @@
       "CapRefill": 550,
       "HP": 6530,
       "ShieldType": "Bubble",
+      "StorePage": "fury/Fury-MX",
       "CCUFromID": []
     },
     {
@@ -5540,6 +5641,7 @@
       "CapRefill": 550,
       "HP": 8300,
       "ShieldType": "Bubble",
+      "StorePage": "razor/Razor",
       "CCUFromID": []
     },
     {
@@ -5572,6 +5674,7 @@
       "CapRefill": 550,
       "HP": 8300,
       "ShieldType": "Bubble",
+      "StorePage": "razor/Razor-EX",
       "CCUFromID": []
     },
     {
@@ -5604,6 +5707,7 @@
       "CapRefill": 550,
       "HP": 2900,
       "ShieldType": "Bubble",
+      "StorePage": "razor/Razor-LX",
       "CCUFromID": []
     },
     {
@@ -5635,7 +5739,9 @@
       "Capacitor": 1000,
       "CapRefill": 3000,
       "HP": "",
-      "ShieldType": ""
+      "ShieldType": "",
+      "StorePage": "mirai-pulse/Pulse",
+      "CCUFromID": []
     },
     {
       "ID": 1308,
@@ -5666,7 +5772,9 @@
       "Capacitor": 1000,
       "CapRefill": 3000,
       "HP": "",
-      "ShieldType": ""
+      "ShieldType": "",
+      "StorePage": "mirai-pulse/Pulse",
+      "CCUFromID": []
     },
     {
       "ID": 1309,
@@ -5697,7 +5805,9 @@
       "Capacitor": 1000,
       "CapRefill": 3000,
       "HP": "",
-      "ShieldType": ""
+      "ShieldType": "",
+      "StorePage": "mirai-pulse/Pulse-LX",
+      "CCUFromID": []
     },
     {
       "ID": 1310,
@@ -5728,7 +5838,9 @@
       "Capacitor": 1000,
       "CapRefill": 3000,
       "HP": "",
-      "ShieldType": ""
+      "ShieldType": "",
+      "StorePage": "mirai-pulse/Pulse-LX",
+      "CCUFromID": []
     },
     {
       "ID": 1401,
@@ -5760,6 +5872,7 @@
       "CapRefill": 0,
       "HP": "",
       "ShieldType": "",
+      "StorePage": "misc-endeavor/Endeavor",
       "CCUFromID": []
     },
     {
@@ -5792,6 +5905,7 @@
       "CapRefill": 0,
       "HP": "",
       "ShieldType": "",
+      "StorePage": "expanse/Expanse",
       "CCUFromID": []
     },
     {
@@ -5824,6 +5938,7 @@
       "CapRefill": 2812.5,
       "HP": 31600,
       "ShieldType": "Bubble",
+      "StorePage": "misc-freelancer/Freelancer",
       "CCUFromID": [
         101,
         102,
@@ -5925,6 +6040,7 @@
       "CapRefill": 2812.5,
       "HP": 22500,
       "ShieldType": "Bubble",
+      "StorePage": "misc-freelancer/Freelancer-DUR",
       "CCUFromID": [
         101,
         102,
@@ -6041,6 +6157,7 @@
       "CapRefill": 2812.5,
       "HP": 21300,
       "ShieldType": "Bubble",
+      "StorePage": "misc-freelancer/Freelancer-MAX",
       "CCUFromID": [
         101,
         102,
@@ -6164,6 +6281,7 @@
       "CapRefill": 2812.5,
       "HP": 21300,
       "ShieldType": "Bubble",
+      "StorePage": "misc-freelancer/Freelancer-MIS",
       "CCUFromID": [
         101,
         106,
@@ -6218,6 +6336,7 @@
       "CapRefill": 3000,
       "HP": 130200,
       "ShieldType": "Bubble",
+      "StorePage": "ships/hull/Hull-A",
       "CCUFromID": []
     },
     {
@@ -6250,6 +6369,7 @@
       "CapRefill": 0,
       "HP": "",
       "ShieldType": "",
+      "StorePage": "hull/Hull-B",
       "CCUFromID": []
     },
     {
@@ -6282,6 +6402,7 @@
       "CapRefill": 6250,
       "HP": 405900,
       "ShieldType": "Quadrant",
+      "StorePage": "hull/Hull-C",
       "CCUFromID": []
     },
     {
@@ -6314,6 +6435,7 @@
       "CapRefill": 0,
       "HP": "",
       "ShieldType": "",
+      "StorePage": "hull/Hull-D",
       "CCUFromID": []
     },
     {
@@ -6346,6 +6468,7 @@
       "CapRefill": 0,
       "HP": "",
       "ShieldType": "",
+      "StorePage": "hull/Hull-E",
       "CCUFromID": []
     },
     {
@@ -6378,6 +6501,7 @@
       "CapRefill": 0,
       "HP": "",
       "ShieldType": "",
+      "StorePage": "odyssey/Odyssey",
       "CCUFromID": []
     },
     {
@@ -6410,6 +6534,7 @@
       "CapRefill": 1875,
       "HP": 45810,
       "ShieldType": "Bubble",
+      "StorePage": "misc-prospector/Prospector",
       "CCUFromID": [
         101,
         102,
@@ -6540,6 +6665,7 @@
       "CapRefill": 1875,
       "HP": 16260,
       "ShieldType": "Bubble",
+      "StorePage": "reliant/Reliant-Kore",
       "CCUFromID": []
     },
     {
@@ -6572,6 +6698,7 @@
       "CapRefill": 1875,
       "HP": 16260,
       "ShieldType": "Bubble",
+      "StorePage": "reliant/Reliant-Mako",
       "CCUFromID": []
     },
     {
@@ -6604,6 +6731,7 @@
       "CapRefill": 1875,
       "HP": 16260,
       "ShieldType": "Bubble",
+      "StorePage": "reliant/Reliant-Sen",
       "CCUFromID": []
     },
     {
@@ -6636,6 +6764,7 @@
       "CapRefill": 1875,
       "HP": 16260,
       "ShieldType": "Bubble",
+      "StorePage": "reliant/Reliant-Tana",
       "CCUFromID": []
     },
     {
@@ -6668,6 +6797,7 @@
       "CapRefill": 6250,
       "HP": 73900,
       "ShieldType": "Quadrant",
+      "StorePage": "misc-starfarer/Starfarer",
       "CCUFromID": []
     },
     {
@@ -6700,6 +6830,7 @@
       "CapRefill": 6250,
       "HP": 73900,
       "ShieldType": "Quadrant",
+      "StorePage": "misc-starfarer/Starfarer-Gemini",
       "CCUFromID": []
     },
     {
@@ -6732,6 +6863,7 @@
       "CapRefill": 1250,
       "HP": 3900,
       "ShieldType": "Bubble",
+      "StorePage": "",
       "CCUFromID": []
     },
     {
@@ -6764,6 +6896,7 @@
       "CapRefill": 1250,
       "HP": 3900,
       "ShieldType": "Bubble",
+      "StorePage": "",
       "CCUFromID": []
     },
     {
@@ -6796,6 +6929,7 @@
       "CapRefill": 1250,
       "HP": 3900,
       "ShieldType": "Bubble",
+      "StorePage": "",
       "CCUFromID": []
     },
     {
@@ -6828,6 +6962,7 @@
       "CapRefill": 1250,
       "HP": 8200,
       "ShieldType": "Bubble",
+      "StorePage": "",
       "CCUFromID": []
     },
     {
@@ -6860,6 +6995,7 @@
       "CapRefill": 1250,
       "HP": 8200,
       "ShieldType": "Bubble",
+      "StorePage": "",
       "CCUFromID": []
     },
     {
@@ -6892,6 +7028,7 @@
       "CapRefill": 1250,
       "HP": 8200,
       "ShieldType": "Bubble",
+      "StorePage": "",
       "CCUFromID": []
     },
     {
@@ -6924,6 +7061,7 @@
       "CapRefill": 1250,
       "HP": 3050,
       "ShieldType": "Bubble",
+      "StorePage": "",
       "CCUFromID": []
     },
     {
@@ -6956,13 +7094,15 @@
       "CapRefill": 4375,
       "HP": 80500,
       "ShieldType": "Quadrant",
+      "StorePage": "",
       "CCUFromID": [
         123,
         126,
         1608,
         1609,
         1613,
-        1620
+        1620,
+        1626
       ]
     },
     {
@@ -6995,6 +7135,7 @@
       "CapRefill": 6250,
       "HP": 153100,
       "ShieldType": "Quadrant",
+      "StorePage": "",
       "CCUFromID": [
         115,
         116,
@@ -7008,6 +7149,7 @@
         1610,
         1611,
         1613,
+        1626,
         213,
         228,
         229,
@@ -7050,6 +7192,7 @@
       "CapRefill": 6250,
       "HP": 153100,
       "ShieldType": "Quadrant",
+      "StorePage": "",
       "CCUFromID": []
     },
     {
@@ -7082,6 +7225,7 @@
       "CapRefill": 550,
       "HP": 2800,
       "ShieldType": "Bubble",
+      "StorePage": "",
       "CCUFromID": []
     },
     {
@@ -7114,6 +7258,7 @@
       "CapRefill": 12500,
       "HP": 153200,
       "ShieldType": "Quadrant",
+      "StorePage": "",
       "CCUFromID": []
     },
     {
@@ -7146,6 +7291,7 @@
       "CapRefill": 0,
       "HP": "",
       "ShieldType": "",
+      "StorePage": "",
       "CCUFromID": []
     },
     {
@@ -7178,6 +7324,7 @@
       "CapRefill": 0,
       "HP": "",
       "ShieldType": "",
+      "StorePage": "",
       "CCUFromID": []
     },
     {
@@ -7210,6 +7357,7 @@
       "CapRefill": 0,
       "HP": "",
       "ShieldType": "",
+      "StorePage": "",
       "CCUFromID": []
     },
     {
@@ -7242,6 +7390,7 @@
       "CapRefill": 550,
       "HP": 3621,
       "ShieldType": "Bubble",
+      "StorePage": "",
       "CCUFromID": []
     },
     {
@@ -7274,6 +7423,7 @@
       "CapRefill": 3000,
       "HP": 3020,
       "ShieldType": "Bubble",
+      "StorePage": "",
       "CCUFromID": []
     },
     {
@@ -7306,6 +7456,7 @@
       "CapRefill": 3000,
       "HP": 3020,
       "ShieldType": "Bubble",
+      "StorePage": "",
       "CCUFromID": []
     },
     {
@@ -7338,6 +7489,7 @@
       "CapRefill": 3000,
       "HP": 3020,
       "ShieldType": "Bubble",
+      "StorePage": "",
       "CCUFromID": []
     },
     {
@@ -7370,7 +7522,10 @@
       "CapRefill": 0,
       "HP": "",
       "ShieldType": "",
-      "CCUFromID": []
+      "StorePage": "",
+      "CCUFromID": [
+        1626
+      ]
     },
     {
       "ID": 1602,
@@ -7402,6 +7557,7 @@
       "CapRefill": 0,
       "HP": "",
       "ShieldType": "",
+      "StorePage": "",
       "CCUFromID": [
         123,
         1404,
@@ -7410,6 +7566,7 @@
         1613,
         1616,
         1620,
+        1626,
         218,
         228,
         501,
@@ -7448,6 +7605,7 @@
       "CapRefill": 0,
       "HP": "",
       "ShieldType": "",
+      "StorePage": "",
       "CCUFromID": []
     },
     {
@@ -7480,6 +7638,7 @@
       "CapRefill": 812.5,
       "HP": 6290,
       "ShieldType": "Bubble",
+      "StorePage": "",
       "CCUFromID": []
     },
     {
@@ -7512,6 +7671,7 @@
       "CapRefill": 812.5,
       "HP": 6290,
       "ShieldType": "Bubble",
+      "StorePage": "",
       "CCUFromID": []
     },
     {
@@ -7544,6 +7704,7 @@
       "CapRefill": 812.5,
       "HP": 6290,
       "ShieldType": "Bubble",
+      "StorePage": "",
       "CCUFromID": []
     },
     {
@@ -7576,6 +7737,7 @@
       "CapRefill": 812.5,
       "HP": 6290,
       "ShieldType": "Bubble",
+      "StorePage": "",
       "CCUFromID": []
     },
     {
@@ -7608,6 +7770,7 @@
       "CapRefill": 812.5,
       "HP": 6290,
       "ShieldType": "Bubble",
+      "StorePage": "",
       "CCUFromID": []
     },
     {
@@ -7640,7 +7803,9 @@
       "CapRefill": 4375,
       "HP": 181344,
       "ShieldType": "Quadrant",
+      "StorePage": "",
       "CCUFromID": [
+        1626,
         405
       ]
     },
@@ -7674,7 +7839,9 @@
       "CapRefill": 4375,
       "HP": 181344,
       "ShieldType": "Quadrant",
+      "StorePage": "",
       "CCUFromID": [
+        1626,
         405
       ]
     },
@@ -7708,6 +7875,7 @@
       "CapRefill": 4375,
       "HP": 161845,
       "ShieldType": "Quadrant",
+      "StorePage": "",
       "CCUFromID": []
     },
     {
@@ -7740,6 +7908,7 @@
       "CapRefill": 4375,
       "HP": 161845,
       "ShieldType": "Quadrant",
+      "StorePage": "",
       "CCUFromID": []
     },
     {
@@ -7772,7 +7941,9 @@
       "CapRefill": 4375,
       "HP": 137740,
       "ShieldType": "Quadrant",
+      "StorePage": "",
       "CCUFromID": [
+        1626,
         405
       ]
     },
@@ -7806,6 +7977,7 @@
       "CapRefill": 0,
       "HP": "",
       "ShieldType": "",
+      "StorePage": "",
       "CCUFromID": []
     },
     {
@@ -7838,6 +8010,7 @@
       "CapRefill": 3000,
       "HP": 20900,
       "ShieldType": "Bubble",
+      "StorePage": "",
       "CCUFromID": []
     },
     {
@@ -7870,6 +8043,7 @@
       "CapRefill": 1875,
       "HP": 22250,
       "ShieldType": "Bubble",
+      "StorePage": "",
       "CCUFromID": []
     },
     {
@@ -7902,6 +8076,7 @@
       "CapRefill": 0,
       "HP": "",
       "ShieldType": "",
+      "StorePage": "",
       "CCUFromID": []
     },
     {
@@ -7934,6 +8109,7 @@
       "CapRefill": 0,
       "HP": "",
       "ShieldType": "",
+      "StorePage": "",
       "CCUFromID": [
         105,
         115,
@@ -7946,6 +8122,7 @@
         1610,
         1611,
         1617,
+        1626,
         1707,
         208,
         209,
@@ -7996,7 +8173,10 @@
       "CapRefill": 0,
       "HP": "",
       "ShieldType": "",
-      "CCUFromID": []
+      "StorePage": "",
+      "CCUFromID": [
+        1626
+      ]
     },
     {
       "ID": 1620,
@@ -8028,6 +8208,7 @@
       "CapRefill": 2812.5,
       "HP": 43689,
       "ShieldType": "Bubble",
+      "StorePage": "",
       "CCUFromID": [
         106,
         119,
@@ -8040,6 +8221,7 @@
         1507,
         1516,
         1616,
+        1626,
         202,
         223,
         405,
@@ -8080,7 +8262,10 @@
       "CapRefill": 2812.5,
       "HP": 43689,
       "ShieldType": "Bubble",
-      "CCUFromID": []
+      "StorePage": "",
+      "CCUFromID": [
+        1626
+      ]
     },
     {
       "ID": 1622,
@@ -8098,7 +8283,7 @@
       "Turrets": "1xS1x2",
       "MissileRacks": "-",
       "Shields": "1xS0",
-      "QTDrive": "1xS0",
+      "QTDrive": "-",
       "PowPlant": "1xS0",
       "VehicleSize": 3,
       "Crew": 2,
@@ -8112,6 +8297,7 @@
       "CapRefill": 3000,
       "HP": 22900,
       "ShieldType": "Bubble",
+      "StorePage": "",
       "CCUFromID": []
     },
     {
@@ -8130,7 +8316,7 @@
       "Turrets": "1xS1x2",
       "MissileRacks": "-",
       "Shields": "1xS0",
-      "QTDrive": "1xS0",
+      "QTDrive": "-",
       "PowPlant": "1xS0",
       "VehicleSize": 3,
       "Crew": 2,
@@ -8144,6 +8330,7 @@
       "CapRefill": 0,
       "HP": 22900,
       "ShieldType": "Bubble",
+      "StorePage": "",
       "CCUFromID": []
     },
     {
@@ -8176,6 +8363,7 @@
       "CapRefill": 0,
       "HP": "",
       "ShieldType": "",
+      "StorePage": "",
       "CCUFromID": [
         1304,
         1404,
@@ -8212,6 +8400,7 @@
       "CapRefill": 0,
       "HP": "",
       "ShieldType": "",
+      "StorePage": "",
       "CCUFromID": [
         1304,
         1404,
@@ -8231,7 +8420,7 @@
       "FlyReady": 0,
       "StandAlone": 0,
       "Weapons": "2xS4",
-      "Turrets": "1xS3x2, EMP",
+      "Turrets": "2xS3x2, EMP",
       "MissileRacks": "2xS4",
       "Shields": "3xS2",
       "QTDrive": "1xS2",
@@ -8248,6 +8437,7 @@
       "CapRefill": 0,
       "HP": "",
       "ShieldType": "",
+      "StorePage": "",
       "CCUFromID": [
         120,
         1413,
@@ -8255,6 +8445,39 @@
         218,
         818
       ]
+    },
+    {
+      "ID": 1627,
+      "Name": "Ursa Medivac",
+      "Manufacturer": 1600,
+      "Type": 4,
+      "Career": 9,
+      "Role": "Ambulance",
+      "PledgeUSD": 55,
+      "aUEC": 0,
+      "BuyLocation": "",
+      "FlyReady": 1,
+      "StandAlone": 1,
+      "Weapons": "-",
+      "Turrets": "1xS1x2",
+      "MissileRacks": "-",
+      "Shields": "1xS0",
+      "QTDrive": "-",
+      "PowPlant": "1xS0",
+      "VehicleSize": 3,
+      "Crew": 2,
+      "CargoGrid": 0,
+      "Inventory": 2.46,
+      "ScmSpeed": 0,
+      "Agility_PYR": "-",
+      "Fuel_H": 0,
+      "Fuel_QT": 0,
+      "Capacitor": 4500,
+      "CapRefill": 3000,
+      "HP": 26700,
+      "ShieldType": "Bubble",
+      "StorePage": "",
+      "CCUFromID": []
     },
     {
       "ID": 1701,
@@ -8286,6 +8509,7 @@
       "CapRefill": 3000,
       "HP": 5401,
       "ShieldType": "Bubble",
+      "StorePage": "",
       "CCUFromID": []
     },
     {
@@ -8318,6 +8542,7 @@
       "CapRefill": 3000,
       "HP": 5401,
       "ShieldType": "Bubble",
+      "StorePage": "",
       "CCUFromID": []
     },
     {
@@ -8350,6 +8575,7 @@
       "CapRefill": 0,
       "HP": 5401,
       "ShieldType": "Bubble",
+      "StorePage": "",
       "CCUFromID": []
     },
     {
@@ -8382,6 +8608,7 @@
       "CapRefill": 3000,
       "HP": 5401,
       "ShieldType": "Bubble",
+      "StorePage": "",
       "CCUFromID": []
     },
     {
@@ -8414,6 +8641,7 @@
       "CapRefill": 3000,
       "HP": 5401,
       "ShieldType": "Bubble",
+      "StorePage": "",
       "CCUFromID": []
     },
     {
@@ -8446,6 +8674,7 @@
       "CapRefill": 0,
       "HP": 5401,
       "ShieldType": "Bubble",
+      "StorePage": "",
       "CCUFromID": []
     },
     {
@@ -8478,6 +8707,7 @@
       "CapRefill": 3000,
       "HP": 87600,
       "ShieldType": "Bubble",
+      "StorePage": "",
       "CCUFromID": []
     },
     {
@@ -8510,6 +8740,7 @@
       "CapRefill": 0,
       "HP": "",
       "ShieldType": "",
+      "StorePage": "",
       "CCUFromID": []
     },
     {
@@ -8542,6 +8773,7 @@
       "CapRefill": 0,
       "HP": "",
       "ShieldType": "",
+      "StorePage": "",
       "CCUFromID": []
     },
     {
@@ -8574,6 +8806,7 @@
       "CapRefill": 0,
       "HP": "",
       "ShieldType": "",
+      "StorePage": "",
       "CCUFromID": []
     },
     {
@@ -8606,6 +8839,7 @@
       "CapRefill": 3000,
       "HP": 80600,
       "ShieldType": "Bubble",
+      "StorePage": "",
       "CCUFromID": []
     },
     {
@@ -8638,6 +8872,7 @@
       "CapRefill": 3000,
       "HP": 80600,
       "ShieldType": "Bubble",
+      "StorePage": "",
       "CCUFromID": []
     },
     {
@@ -8670,6 +8905,7 @@
       "CapRefill": 1875,
       "HP": 12401,
       "ShieldType": "Bubble",
+      "StorePage": "",
       "CCUFromID": []
     }
   ]
