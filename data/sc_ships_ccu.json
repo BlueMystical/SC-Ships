@@ -6863,7 +6863,7 @@
       "CapRefill": 1250,
       "HP": 3900,
       "ShieldType": "Bubble",
-      "StorePage": "",
+      "StorePage": "origin-100/100i",
       "CCUFromID": []
     },
     {
@@ -6896,7 +6896,7 @@
       "CapRefill": 1250,
       "HP": 3900,
       "ShieldType": "Bubble",
-      "StorePage": "",
+      "StorePage": "origin-100/125a",
       "CCUFromID": []
     },
     {
@@ -6929,7 +6929,7 @@
       "CapRefill": 1250,
       "HP": 3900,
       "ShieldType": "Bubble",
-      "StorePage": "",
+      "StorePage": "origin-100/135c",
       "CCUFromID": []
     },
     {
@@ -6962,7 +6962,7 @@
       "CapRefill": 1250,
       "HP": 8200,
       "ShieldType": "Bubble",
-      "StorePage": "",
+      "StorePage": "origin-300/300i",
       "CCUFromID": []
     },
     {
@@ -6995,7 +6995,7 @@
       "CapRefill": 1250,
       "HP": 8200,
       "ShieldType": "Bubble",
-      "StorePage": "",
+      "StorePage": "origin-300/315p",
       "CCUFromID": []
     },
     {
@@ -7028,7 +7028,7 @@
       "CapRefill": 1250,
       "HP": 8200,
       "ShieldType": "Bubble",
-      "StorePage": "",
+      "StorePage": "origin-300/325a",
       "CCUFromID": []
     },
     {
@@ -7061,7 +7061,7 @@
       "CapRefill": 1250,
       "HP": 3050,
       "ShieldType": "Bubble",
-      "StorePage": "",
+      "StorePage": "origin-300/350r",
       "CCUFromID": []
     },
     {
@@ -7094,7 +7094,7 @@
       "CapRefill": 4375,
       "HP": 80500,
       "ShieldType": "Quadrant",
-      "StorePage": "",
+      "StorePage": "400i/400i",
       "CCUFromID": [
         123,
         126,
@@ -7135,7 +7135,7 @@
       "CapRefill": 6250,
       "HP": 153100,
       "ShieldType": "Quadrant",
-      "StorePage": "",
+      "StorePage": "600i/600i-Explorer",
       "CCUFromID": [
         115,
         116,
@@ -7192,7 +7192,7 @@
       "CapRefill": 6250,
       "HP": 153100,
       "ShieldType": "Quadrant",
-      "StorePage": "",
+      "StorePage": "600i/600i-Touring",
       "CCUFromID": []
     },
     {
@@ -7225,7 +7225,7 @@
       "CapRefill": 550,
       "HP": 2800,
       "ShieldType": "Bubble",
-      "StorePage": "",
+      "StorePage": "85x/85X",
       "CCUFromID": []
     },
     {
@@ -7258,7 +7258,7 @@
       "CapRefill": 12500,
       "HP": 153200,
       "ShieldType": "Quadrant",
-      "StorePage": "",
+      "StorePage": "890-jump/890-Jump",
       "CCUFromID": []
     },
     {
@@ -7291,7 +7291,7 @@
       "CapRefill": 0,
       "HP": "",
       "ShieldType": "",
-      "StorePage": "",
+      "StorePage": "origin-g12/G12",
       "CCUFromID": []
     },
     {
@@ -7324,7 +7324,7 @@
       "CapRefill": 0,
       "HP": "",
       "ShieldType": "",
-      "StorePage": "",
+      "StorePage": "origin-g12/G12a",
       "CCUFromID": []
     },
     {
@@ -7357,7 +7357,7 @@
       "CapRefill": 0,
       "HP": "",
       "ShieldType": "",
-      "StorePage": "",
+      "StorePage": "origin-g12/G12r",
       "CCUFromID": []
     },
     {
@@ -7390,7 +7390,7 @@
       "CapRefill": 550,
       "HP": 3621,
       "ShieldType": "Bubble",
-      "StorePage": "",
+      "StorePage": "origin-m50/M50",
       "CCUFromID": []
     },
     {
@@ -7423,7 +7423,7 @@
       "CapRefill": 3000,
       "HP": 3020,
       "ShieldType": "Bubble",
-      "StorePage": "",
+      "StorePage": "ships/x1/X1",
       "CCUFromID": []
     },
     {
@@ -7456,7 +7456,7 @@
       "CapRefill": 3000,
       "HP": 3020,
       "ShieldType": "Bubble",
-      "StorePage": "",
+      "StorePage": "ships/x1/X1-Force",
       "CCUFromID": []
     },
     {
@@ -7489,7 +7489,7 @@
       "CapRefill": 3000,
       "HP": 3020,
       "ShieldType": "Bubble",
-      "StorePage": "",
+      "StorePage": "x1/X1-Velocity",
       "CCUFromID": []
     },
     {
@@ -7522,7 +7522,7 @@
       "CapRefill": 0,
       "HP": "",
       "ShieldType": "",
-      "StorePage": "",
+      "StorePage": "rsi-apollo/Apollo-Medivac",
       "CCUFromID": [
         1626
       ]
@@ -7557,7 +7557,7 @@
       "CapRefill": 0,
       "HP": "",
       "ShieldType": "",
-      "StorePage": "",
+      "StorePage": "rsi-apollo/Apollo-Triage",
       "CCUFromID": [
         123,
         1404,
@@ -7605,7 +7605,7 @@
       "CapRefill": 0,
       "HP": "",
       "ShieldType": "",
-      "StorePage": "",
+      "StorePage": "arrastra/Arrastra",
       "CCUFromID": []
     },
     {
@@ -7638,7 +7638,7 @@
       "CapRefill": 812.5,
       "HP": 6290,
       "ShieldType": "Bubble",
-      "StorePage": "",
+      "StorePage": "rsi-aurora/Aurora-CL",
       "CCUFromID": []
     },
     {
@@ -7671,7 +7671,7 @@
       "CapRefill": 812.5,
       "HP": 6290,
       "ShieldType": "Bubble",
-      "StorePage": "",
+      "StorePage": "rsi-aurora/Aurora-ES",
       "CCUFromID": []
     },
     {
@@ -7704,7 +7704,7 @@
       "CapRefill": 812.5,
       "HP": 6290,
       "ShieldType": "Bubble",
-      "StorePage": "",
+      "StorePage": "rsi-aurora/Aurora-LN",
       "CCUFromID": []
     },
     {
@@ -7737,7 +7737,7 @@
       "CapRefill": 812.5,
       "HP": 6290,
       "ShieldType": "Bubble",
-      "StorePage": "",
+      "StorePage": "rsi-aurora/Aurora-LX",
       "CCUFromID": []
     },
     {
@@ -7770,7 +7770,7 @@
       "CapRefill": 812.5,
       "HP": 6290,
       "ShieldType": "Bubble",
-      "StorePage": "",
+      "StorePage": "rsi-aurora/Aurora-MR",
       "CCUFromID": []
     },
     {
@@ -7803,7 +7803,7 @@
       "CapRefill": 4375,
       "HP": 181344,
       "ShieldType": "Quadrant",
-      "StorePage": "",
+      "StorePage": "rsi-constellation/Constellation-Andromeda",
       "CCUFromID": [
         1626,
         405

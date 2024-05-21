@@ -45,26 +45,11 @@ function Iniciar() {
     // make sure div stays full width/height on resize
     $(window).resize(function () { $('#pdfViewer').css({ 'width': winWidth, 'height': winHeight }); });
 
-    //Si NO se requiere iniciar sesion, comentar la linea de arriba y descomentar la siguiente:
-    //IniciarSesion();
-
     /******** AQUI SE ENLAZAN LOS EVENTOS DE LOS CONTROLES ***********/
     $(document).on("click", "#cmdAddToCCUFrom", function (evt) {
         console.log(2);
         $('#listShipCCU').val('');
         $('input[data-type="search"]').trigger("keyup");
-    });
-
-    $('#txtUserName').keypress(function (event) {
-        if (event.keyCode == 13) {
-            $('#txtPassword').focus();
-        }
-    });
-
-    $('#txtPassword').keypress(function (event) {
-        if (event.keyCode == 13) {
-            mLogedUser = LogearUsuario();
-        }
     });
 
     $(document).on("click", "#cmdSaveData", function (evt) {
@@ -97,8 +82,6 @@ function Iniciar() {
             }
         }
     });
-
-
 
     //- Evento al seleccionar un elemento del ListView:
     $(document).on("click", "#listShips li", function (evt) {
