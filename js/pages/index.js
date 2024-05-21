@@ -16,23 +16,9 @@ function Iniciar() {
         //Load data from a JSON file:
         ShowLoading('Loading..');
         $.getJSON('data/sc_ships_ccu.json', function (data) {
-
             shipsData = data; //console.log(shipsData);
-
             SetShipsDataTable_OLD(shipsData);
-
-
-
             HideLoading();
-            /*
-            //Muestra el Captcha de Google (Requiere una Clave):            
-            grecaptcha.render('Captcha_Container', {
-                'sitekey' : '6LftZ5gUAAAAAE3pO6hrm_r5Q1h8DCez6O6QTSfO',
-                'callback' : verificarCaptcha,
-                'theme' : 'light'
-            });
-            */
-            //Cuando el Captcha sea verificado se muestra el Inicio de Sesion, ver 'verificarCaptcha'
         });
     } catch (e) {
         $.alert({ title: e.name, content: e.message, useBootstrap: false });
