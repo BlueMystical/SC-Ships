@@ -44,30 +44,27 @@ function Iniciar() {
     });
 
     //Al cambiar de pagina
-    $(':mobile-pagecontainer').pagecontainer({
-        change: function (event, ui) {
-            //console.log(ui);
-            if (ui.toPage.prop("id") == "pageTable") {
-                CargarListaDatosManufac(shipsData.data, '#listShips');
-                CargarListaDatos(shipsData.data, '#listShipCCU');
-                CargarComboDatos(shipsData.Manufacturers, '#cboManufacturers');
-                CargarComboDatos(shipsData.Types, '#cboShipTypes');
-                CargarComboDatos(shipsData.Careers, '#cboCarreers');
+    //console.log('Al cambiar de pagina..2');
+    $(document).on("pagecontainertransition", function (event, ui) {
+        if (ui.toPage.prop("id") == "pageTable") {
+            CargarListaDatosManufac(shipsData.data, '#listShips');
+            CargarListaDatos(shipsData.data, '#listShipCCU');
+            CargarComboDatos(shipsData.Manufacturers, '#cboManufacturers');
+            CargarComboDatos(shipsData.Types, '#cboShipTypes');
+            CargarComboDatos(shipsData.Careers, '#cboCarreers');
 
-                // Enable or Disable Controls:
-                if (true) {
-                    $('#cboManufacturers').attr("disabled", "disabled");
-                    $('#cboShipTypes').attr("disabled", "disabled");
-                    $('#cboCarreers').attr("disabled", "disabled");
+            // Enable or Disable Controls:
+            $('#cboManufacturers').attr("disabled", "disabled");
+            $('#cboShipTypes').attr("disabled", "disabled");
+            $('#cboCarreers').attr("disabled", "disabled");
 
-                    $('#txtShipName').attr("disabled", "disabled");
-                    $('#txtShipRole').attr("disabled", "disabled");
-                    $('#numGamePrice').attr("disabled", "disabled");
-                    $('#numPledgePrice').attr("disabled", "disabled");
-                }
-            }
+            $('#txtShipName').attr("disabled", "disabled");
+            $('#txtShipRole').attr("disabled", "disabled");
+            $('#numGamePrice').attr("disabled", "disabled");
+            $('#numPledgePrice').attr("disabled", "disabled");
         }
     });
+
 
     //- Evento al seleccionar un elemento del ListView:
     $(document).on("click", "#listShips li", function (evt) {
@@ -567,11 +564,11 @@ function SetShipsDataTable_OLD(shipsDataRaw) {
                         data: 'ID',
                         title: "Preview",
                         render: function (data, type, row, meta) {
-                            if (type === 'display') {        
+                            if (type === 'display') {
                                 // Agrega 2 Botones: un link a la pagina del Store y una Imagen preview         
                                 var storeLink = row.StorePage; //'aegis-avenger/Avenger-Titan-Renegade'; //              
-                                let controls =  `<a href="#" data-ltype="linkShipPageF" data-shipid="${storeLink}" class="my-tooltip-btn ui-btn ui-alt-icon ui-nodisc-icon ui-btn-inline ui-icon-info ui-btn-icon-notext">RSI Page</a>`;
-                                    controls += `<a href="#" data-ltype="popImgPreview" data-shipid="${data}"      class="my-tooltip-btn ui-btn ui-alt-icon ui-nodisc-icon ui-btn-inline ui-icon-camera ui-btn-icon-notext">Preview</a>`;
+                                let controls = `<a href="#" data-ltype="linkShipPageF" data-shipid="${storeLink}" class="my-tooltip-btn ui-btn ui-alt-icon ui-nodisc-icon ui-btn-inline ui-icon-info ui-btn-icon-notext">RSI Page</a>`;
+                                controls += `<a href="#" data-ltype="popImgPreview" data-shipid="${data}"      class="my-tooltip-btn ui-btn ui-alt-icon ui-nodisc-icon ui-btn-inline ui-icon-camera ui-btn-icon-notext">Preview</a>`;
                                 return controls;
                             }
                             return data;
@@ -663,7 +660,16 @@ function SetShipsDataTable_OLD(shipsDataRaw) {
                     { data: 'BuyLocation', title: 'Buy Location', searchable: false },
 
                     { data: 'VehicleSize', title: 'Vehicle Size', searchable: false },
-                    { data: 'Weapons', title: 'Weapons' },
+                    //{ data: 'Weapons', title: 'Weapons' },
+                    {
+                        data: 'Weapons', title: 'Weapons',
+                        render: function (data, type) {
+                            if (type === 'display') {
+                                return `<a href="#" data-ltype="popHardPoint" data-shipid="${data}">${data}</a>`;
+                            }
+                            return data;
+                        }
+                    },
                     { data: 'Turrets', title: 'Turrets', searchable: false },
                     { data: 'MissileRacks', title: 'Missile Racks', searchable: false },
 
@@ -703,13 +709,12 @@ function SetShipsDataTable_OLD(shipsDataRaw) {
                             //console.log(ShipID);
                             //Establece la Imagen del preview a mostrar y abre un cuadro popup:                            
                             $('#imgShipPreview').attr('src', `img/ships/${ShipID}.jpg`);
-                            //$('#popShipPreview').popup("open", { positionTo: 'window', transition: "flip" });        
-                            var timeoutID = window.setTimeout(function(){
-                                $( "#popShipPreview" ).popup("open", {
-                                      positionTo: 'window',
-                                      transition: "flip"
-                                  })
-                           }, 300);                                               
+                            var timeoutID = window.setTimeout(function () {
+                                $("#popShipPreview").popup("open", {
+                                    positionTo: 'window',
+                                    transition: "flip"
+                                });
+                            }, 600);
                         }
                         if (lType === "linkShipPageF") {
                             //Abre un link a la pagina de la nave en el Store de RSI
@@ -717,6 +722,9 @@ function SetShipsDataTable_OLD(shipsDataRaw) {
                             if (ShipID != undefined) {
                                 window.open('https://robertsspaceindustries.com/pledge/ships/' + ShipID, '_blank');
                             }
+                        }
+                        if (lType == 'popHardPoint') {
+                            ShowHardPointInfo(ShipID);
                         }
                     }
                 }
@@ -726,6 +734,66 @@ function SetShipsDataTable_OLD(shipsDataRaw) {
     } catch (error) {
         console.log(error);
     }
+}
+function ShowHardPointInfo(data) {
+    //console.log(data);
+    let totHardPoints = 0;
+    let totalWeapons = 0;
+    let words = data.split(","); //console.log(words);
+    let htmTable = '<tr><th>Hardpoints</th><th>Weapons</th></tr>'; //Agrega fila de Titulos  
+
+    words.forEach(word => {
+        let X = word.split('x'); //console.log(X);
+
+        let Hardpoint = parseInt(NVL(X[0], '1'));
+        let Weapons = parseInt(NVL(X[2], '1'));
+        let Size = X[1];
+
+        totHardPoints += Hardpoint;
+        totalWeapons += Weapons * Hardpoint;
+
+        //console.log('H.Cant: ' + Hardpoint);
+        //console.log('H.Size: ' + Size);
+        //console.log('W.Cant: ' + Weapons);
+
+        htmTable += GetTableRows(Hardpoint, Size, Weapons);
+    });
+    //console.log(htmTable);
+    $("#tableHardPoints").empty().append(htmTable).enhanceWithin();
+    $('#lblHardPoints').html(`${totHardPoints} Hardpoints, ${totalWeapons} Weapons`);
+
+
+    var timeoutID = window.setTimeout(function () {
+        $("#popDlgHardPoints").popup("open", {
+            positionTo: 'window',
+            transition: "flip"
+        });
+    }, 200);
+}
+
+function GetTableRows(hardPoint = 1, pSize = 'S0', Weapons = 11) {
+    let rowHTML = '';
+    try {
+        var OriSpan = Weapons;
+        let Span = Weapons;
+        for (let Hindex = 0; Hindex < hardPoint; Hindex++) {
+            //console.log(Span);
+            if (Span > 1) {
+                rowHTML += `<tr><th rowspan="${Span}">${pSize}</th><td>${pSize}</td></tr>`;
+                Span--;
+                for (let SpanIndex = 0; SpanIndex < Span; SpanIndex++) {
+                    rowHTML += `<tr><td>${pSize}</td></tr>`;
+                }
+            }
+            else {
+                rowHTML += `<tr><td>${pSize}</td><td>${pSize}</td></tr>`;
+            }
+        }
+        //console.log(rowHTML);
+    } catch (error) {
+        console.log(error);
+    }
+    return rowHTML;
 }
 /* ---------------------- UTILITY FUNCTIONS ---------------------------------------------- */
 function verificarCaptcha() {
@@ -758,6 +826,13 @@ function getImagePath(id) {
     const imagePath = basePath + filename;
 
     return imagePath;
+}
+
+function NVL(data, defValue = '') {
+    if (data != undefined) {
+        return data;
+    }
+    return defValue;
 }
 
 /** Aplica Formato a un Numero, con Decimales y Separador de Millares. 
