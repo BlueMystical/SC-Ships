@@ -148,14 +148,18 @@
         .Bubbles table,
         .Bubbles th,
         .Bubbles td {
-            text-align: center;
-        }
-
-        .Bubbles th,
-        .Bubbles td {
             border: 1px solid black;
             border-color: #96D4D4;
             border-radius: 10px;
+            text-align: center;
+        }
+
+        .BorderTbl table, 
+        .BorderTbl th, 
+        .BorderTbl td {
+            border: 1px solid black;
+            border-collapse: collapse;
+            text-align: center;
         }
 
         /* Hace que la tabla se muestre 100% y arregla el problema del WordWrap */
@@ -205,6 +209,8 @@
         .text-left {
             text-align: left;
         }
+
+       
     </style>
 
 </head>
@@ -222,13 +228,48 @@
             <h1>Star Citizen - Ships Information</h1>
         </div><!-- /header -->
 
-        <div data-role="popup" id="popShipPreview" class="photopopup" data-overlay-theme="a" data-corners="false"
-            data-tolerance="30,15">
-            <a href="#" data-rel="back"
-                class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
+        <!-- Popup para la foto de las Naves -->
+        <div data-role="popup" id="popShipPreview" class="photopopup" data-overlay-theme="a" data-corners="false" data-tolerance="30,15">
+            <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
             <img id="imgShipPreview" src="" alt="Photo landscape">
         </div>
 
+        <!-- popup para detalles de los Hardpoints -->
+        <div data-role="popup" id="popDlgHardPoints" data-overlay-theme="b" data-theme="b" data-dismissible="false" style="max-width:400px;">
+            <div data-role="header" data-theme="a"><h1>Hardpoint Info</h1></div>
+            <div role="main" class="ui-content">
+                <table id="tableHardPoints" name="tableHardPoints" class="BorderTbl" style="width:360px">
+
+                    <tr><th>Hardpoints</th><th>Weapons</th></tr>
+                    <tr><td>S3</td><td>s3</td></tr>
+                    <tr><td>S3</td><td>s3</td></tr>
+                    <tr><td>S4</td><td>s4</td></tr>
+
+                     <!--
+                    <tr>
+                        <th rowspan="2">S3</th> <td>S3</td>
+                    </tr>
+                    <tr><td>S3</td></tr>
+
+                    <tr>
+                        <th rowspan="2">S3</th>
+                        <td>S3</td>
+                    </tr>
+
+                    <tr><td>S3</td></tr>
+
+                    <tr>
+                      <th rowspan="2">S4</th>
+                      <td>S4</td>
+                    </tr>
+                -->
+                </table>
+                <p id="lblHardPoints">3 Hardpoints, 4 Weapons</p>
+                <a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b" data-rel="back">Close</a>
+            </div>
+        </div>
+        
+        
         <!-- Cuerpo -->
         <div role="main" data-theme="b" data-content-theme="b" class="ui-content jqm-content jqm-fullwidth  ">
 
