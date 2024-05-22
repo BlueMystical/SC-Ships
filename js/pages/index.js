@@ -501,7 +501,6 @@ function SetShipsDataTable(shipsDataRaw) {
         //setLeft: "1000px"
     });
 }
-
 function SetShipsDataTable_OLD(shipsDataRaw) {
     try {
         //console.log(shipsDataRaw);
@@ -660,18 +659,46 @@ function SetShipsDataTable_OLD(shipsDataRaw) {
                     { data: 'BuyLocation', title: 'Buy Location', searchable: false },
 
                     { data: 'VehicleSize', title: 'Vehicle Size', searchable: false },
-                    //{ data: 'Weapons', title: 'Weapons' },
                     {
                         data: 'Weapons', title: 'Weapons',
                         render: function (data, type) {
                             if (type === 'display') {
-                                return `<a href="#" data-ltype="popHardPoint" data-shipid="${data}">${data}</a>`;
+                                if (isValidString(data)) {
+                                    return `<a href="#" data-ltype="popHardPoint" data-shipid="${data}">${data}</a>`;
+                                }
+                                else {
+                                    return data;
+                                }
                             }
                             return data;
                         }
                     },
-                    { data: 'Turrets', title: 'Turrets', searchable: false },
-                    { data: 'MissileRacks', title: 'Missile Racks', searchable: false },
+                    {   data: 'Turrets', title: 'Turrets', searchable: false,
+                        render: function (data, type) {
+                            if (type === 'display') {
+                                if (isValidString(data)) {
+                                    return `<a href="#" data-ltype="popTurrets" data-shipid="${data}">${data}</a>`;
+                                }
+                                else {
+                                    return data;
+                                }
+                            }
+                            return data;
+                        }
+                    },
+                    {   data: 'MissileRacks', title: 'Missile Racks', searchable: false,
+                        render: function (data, type) {
+                            if (type === 'display') {
+                                if (isValidString(data)) {
+                                    return `<a href="#" data-ltype="popMissiles" data-shipid="${data}">${data}</a>`;
+                                }
+                                else {
+                                    return data;
+                                }
+                            }
+                            return data;
+                        }
+                    },
 
                     { data: 'QTDrive', title: 'QT Drive', searchable: false },
                     { data: 'PowPlant', title: 'Power Plant', searchable: false },
@@ -682,7 +709,8 @@ function SetShipsDataTable_OLD(shipsDataRaw) {
                     { data: 'Crew', title: 'Crew Max', searchable: false },
                     { data: 'CargoGrid', title: 'Cargo Grid' },
                     { data: 'Inventory', title: 'Inventory', searchable: false, defaultContent: '' },
-                    { data: 'ScmSpeed', title: 'Scm Speed', type: 'num', searchable: false, defaultContent: '' },
+                    { data: 'ScmSpeed', title: 'SCM Speed', type: 'num', searchable: false, defaultContent: '' },
+                    { data: 'NavSpeed', title: 'NAV Speed', type: 'num', searchable: false, defaultContent: '' },
                     { data: 'Agility_PYR', title: 'Agility_PYR', defaultContent: '' },
 
                     { data: 'Fuel_H', title: 'Hidrogen', type: 'num-fmt', searchable: false, defaultContent: '', render: DataTable.render.number(',', '.', 0) },
@@ -699,14 +727,11 @@ function SetShipsDataTable_OLD(shipsDataRaw) {
 
                 var Control = $(e.target); //<- el Control Clickeado, si lo hay
                 if (Control != undefined) {
-                    //console.log(Control);
                     const lType = Control.attr("data-ltype"); //<- el tipo de Control
-
                     if (lType != undefined) {
                         var ShipID = Control.attr("data-shipid");   //<- Datos asociados al Control
 
                         if (lType === "popImgPreview") {
-                            //console.log(ShipID);
                             //Establece la Imagen del preview a mostrar y abre un cuadro popup:                            
                             $('#imgShipPreview').attr('src', `img/ships/${ShipID}.jpg`);
                             var timeoutID = window.setTimeout(function () {
@@ -718,13 +743,18 @@ function SetShipsDataTable_OLD(shipsDataRaw) {
                         }
                         if (lType === "linkShipPageF") {
                             //Abre un link a la pagina de la nave en el Store de RSI
-                            //console.log(ShipID);
                             if (ShipID != undefined) {
                                 window.open('https://robertsspaceindustries.com/pledge/ships/' + ShipID, '_blank');
                             }
                         }
                         if (lType == 'popHardPoint') {
                             ShowHardPointInfo(ShipID);
+                        }
+                        if (lType == 'popTurrets') {
+                            ShowTurretsInfo(ShipID);
+                        }
+                        if (lType == 'popMissiles') {
+                            ShowMissilesInfo(ShipID);
                         }
                     }
                 }
@@ -735,16 +765,18 @@ function SetShipsDataTable_OLD(shipsDataRaw) {
         console.log(error);
     }
 }
+
+/** Extrae la informacion de los hardpoints y los muestra en forma de Tabla
+ * @param {string} data Datos del Hardpoint, ejem: '2xS3x2, 1xS4'  */
 function ShowHardPointInfo(data) {
     //console.log(data);
     let totHardPoints = 0;
-    let totalWeapons = 0;
-    let words = data.split(","); //console.log(words);
+    let totalWeapons = 0;    
     let htmTable = '<tr><th>Hardpoints</th><th>Weapons</th></tr>'; //Agrega fila de Titulos  
 
+    let words = data.split(","); //Separa los hardpoints
     words.forEach(word => {
-        let X = word.split('x'); //console.log(X);
-
+        let X = word.split('x'); // separa las cantidades
         let Hardpoint = parseInt(NVL(X[0], '1'));
         let Weapons = parseInt(NVL(X[2], '1'));
         let Size = X[1];
@@ -752,16 +784,11 @@ function ShowHardPointInfo(data) {
         totHardPoints += Hardpoint;
         totalWeapons += Weapons * Hardpoint;
 
-        //console.log('H.Cant: ' + Hardpoint);
-        //console.log('H.Size: ' + Size);
-        //console.log('W.Cant: ' + Weapons);
-
-        htmTable += GetTableRows(Hardpoint, Size, Weapons);
+        htmTable += GetTableRowsEx(Hardpoint, Size, Weapons);
     });
-    //console.log(htmTable);
+
     $("#tableHardPoints").empty().append(htmTable).enhanceWithin();
     $('#lblHardPoints').html(`${totHardPoints} Hardpoints, ${totalWeapons} Weapons`);
-
 
     var timeoutID = window.setTimeout(function () {
         $("#popDlgHardPoints").popup("open", {
@@ -771,22 +798,115 @@ function ShowHardPointInfo(data) {
     }, 200);
 }
 
-function GetTableRows(hardPoint = 1, pSize = 'S0', Weapons = 11) {
-    let rowHTML = '';
-    try {
-        var OriSpan = Weapons;
-        let Span = Weapons;
+function ShowTurretsInfo(data) {
+    //console.log(data);
+    let totHardPoints = 0;
+    let totalWeapons = 0;    
+    let htmTable = '<tr><th>Turrets</th><th>Hardpoints</th></tr>'; //Agrega fila de Titulos  
+
+    let words = data.split(","); //Separa los hardpoints
+    words.forEach(word => {
+        let X = word.split('x');  // separa las cantidades
+        let Hardpoint = parseInt(NVL(X[0], '1'));
+        let W = NVL(X[2], '1').toString().split('-');  //<- 4,S2
+        let Quantity = parseInt(NVL(W[0], '1')); //<- 4
+
+        totHardPoints += Hardpoint;
+        totalWeapons += Quantity * Hardpoint;
+
+        htmTable += GetTableRowsEx(Hardpoint, X[1], X[2]);
+    });
+
+    $("#tableHardPoints").empty().append(htmTable).enhanceWithin();
+    $('#lblHardPoints').html(`${totHardPoints} Turrets, ${totalWeapons} Hardpoints`);
+
+    var timeoutID = window.setTimeout(function () {
+        $("#popDlgHardPoints").popup("open", {
+            positionTo: 'window',
+            transition: "flip"
+        });
+    }, 200);
+}
+function ShowMissilesInfo(data) {
+    //console.log(data);
+    let totHardPoints = 0;
+    let totalWeapons = 0;    
+    let htmTable = '<tr><th>Racks</th><th>Missiles</th></tr>'; //Agrega fila de Titulos  
+
+    let words = data.split(","); //Separa los hardpoints
+    words.forEach(word => {
+        let X = word.split('x');  // separa las cantidades
+        let Hardpoint = parseInt(NVL(X[0], '1'));
+        let Weapons = X[2]; 
+        let Size = X[1];
+
+        totHardPoints += Hardpoint;
+        totalWeapons += Weapons * Hardpoint;
+
+        htmTable += GetTableRowsEx(Hardpoint, Size, Weapons);
+    });
+
+    $("#tableHardPoints").empty().append(htmTable).enhanceWithin();
+    $('#lblHardPoints').html(`${totHardPoints} Racks, ${totalWeapons} Missiles`);
+
+    var timeoutID = window.setTimeout(function () {
+        $("#popDlgHardPoints").popup("open", {
+            positionTo: 'window',
+            transition: "flip"
+        });
+    }, 200);
+}
+
+/** Produce filas de tabla para el Harpoint indicado. * 
+ * @param {integer} hardPoint Cantidad de Hardpoints
+ * @param {string}  pSize Tamaño del Hardpoint (y de las Armas)
+ * @param {integer} Weapons Cantidad de armas en cada Hardpoint */
+function GetTableRowsEx(hardPoint = 1, pSize = 'S1', pWeapons = '1') {
+    let rowHTML = ''; 
+    try {        
+        //console.log(`Size:${pSize}`); console.log(`Weapons:${pWeapons}`);
+
+        // Get the Size and Type of the Hardpoint:
+        let X = pSize.toString().split('-'); //<- S4,MC
+        let mSize = NVL(X[0], 'S1'); //<- S4
+        let mType = NVL(X[1], '');  //<- MC        
+        const found = shipsData.HardPointTypes.find((Codigo) => Codigo.ID == mType);
+        if (found != null) {
+            mType = '<br>' + found.Name;
+        }
+
+        // Get the Quantity and Size of the Weapons on each hardpoint:
+        let W = pWeapons.toString().split('-');  //<- 4,S2
+        let Quantity = parseInt(NVL(W[0], '1')); //<- 4
+        let sSize = NVL(W[1], mSize);            //<- S2
+        let Span = Quantity;
+
+        //El color del texto lo determina el tamaño
+        const colorMap = {
+            "S8": "#ff80ff", //<- Pink
+            "S7": "#00ff80", //<- Green
+            "S6": "#0080c0", //<- Blue
+            "S5": "#ff0080", //<- Red
+            "S4": "#ff9428", //<- Orange
+            "S3": "#ffff00", //<- Yellow
+            "S2": "#ffff80", //<- LightYellow
+            "S1": "#ffffff", //<- White
+        };
+        'style="color:#ff80ff"'
+        var rColor = colorMap[mSize.trim().toUpperCase()];
+        // Handle cases where pSize is not in the colorMap
+        if (rColor === undefined) { rColor = "#972fff"; } //<- Purple
+
         for (let Hindex = 0; Hindex < hardPoint; Hindex++) {
-            //console.log(Span);
             if (Span > 1) {
-                rowHTML += `<tr><th rowspan="${Span}">${pSize}</th><td>${pSize}</td></tr>`;
-                Span--;
-                for (let SpanIndex = 0; SpanIndex < Span; SpanIndex++) {
-                    rowHTML += `<tr><td>${pSize}</td></tr>`;
+                rowHTML += `<tr><th rowspan="${Span}">${mSize} ${mType}</th><td style="color:${rColor}">${sSize}</td></tr>`;
+                //Span--;
+                for (let SpanIndex = 0; SpanIndex < Quantity-1; SpanIndex++) {
+                    rowHTML += `<tr><td style="color:${rColor}">${sSize}</td></tr>`;
                 }
             }
             else {
-                rowHTML += `<tr><td>${pSize}</td><td>${pSize}</td></tr>`;
+                rowHTML += `<tr><td>${mSize} ${mType}</td><td style="color:${rColor}">${sSize}</td></tr>`;
             }
         }
         //console.log(rowHTML);
@@ -796,6 +916,10 @@ function GetTableRows(hardPoint = 1, pSize = 'S0', Weapons = 11) {
     return rowHTML;
 }
 /* ---------------------- UTILITY FUNCTIONS ---------------------------------------------- */
+function isValidString(text) {
+    return text !== null && text !== "-" && text !== "";
+}
+
 function verificarCaptcha() {
     console.log('Respuesta del Captcha:');
     console.log(grecaptcha.getResponse());
