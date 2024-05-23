@@ -17,7 +17,8 @@ function Iniciar() {
         //console.log('loading..');
         $.getJSON('data/sc_ships_ccu.json', function (data) {
             shipsData = data; // console.log(shipsData);
-            SetShipsDataTable_OLD(shipsData);
+            SetShipsDataTable_DT(shipsData);            
+            CargarComboDatos(shipsData.data, '#agilCboShips');
             HideLoading();
         });
     } catch (e) {
@@ -160,6 +161,23 @@ function Iniciar() {
         var mSeleccionado = $('#cboManufacturers option:selected');
         console.log(mSeleccionado.text());
         console.log(mSeleccionado.data("datos")); //<- Obtiene los datos del elemento seleccionado
+    });
+    $('#agilCboShips').on('change', function () {
+        var mSeleccionado = $('#agilCboShips option:selected');
+        const data = mSeleccionado.data("datos"); //<- Obtiene los datos del elemento seleccionado
+        if (data != undefined) {
+            const agilData_B = GetAgility(data.Agility_PYR); //console.log(agilData_B);
+
+            $('#agilTxtP_2').val('Pitch: ' + agilData_B.pitch);
+            $('#agilTxtY_2').val('Yaw:   ' + agilData_B.yaw);
+            $('#agilTxtR_2').val('Roll:  ' + agilData_B.roll);
+
+            var ShipData = $('#agilTxtShipName').attr("data-ship");   //<- Datos asociados al Control
+            const agilData_A = GetAgility(ShipData); //console.log(agilData_A);            
+
+            const agilityComparison = calculateAgilityPercentage(agilData_A, agilData_B);
+            $('#lblCompareAgility').html(agilityComparison);
+        }
     });
 
     /* COMBOS DE FILTRO EN LA PAGINA 2  */
@@ -379,7 +397,6 @@ function GetUpgradesToShip(ShipID) {
     }
     return _ret;
 }
-
 /** Obtiene todas las naves más baratas que la indicada. 
  * @param {int} ShipID - ID de la Nave a la que se quiere actualizar.
  * @returns {object[]} Array de Naves encontradas
@@ -408,6 +425,7 @@ function GetDowngradeShips(ShipID) {
     }
     return _ret;
 }
+
 function SetShipsDataTable(shipsDataRaw) {
     // console.log(shipsDataRaw);
     $('#shipTableBody').empty();
@@ -501,7 +519,7 @@ function SetShipsDataTable(shipsDataRaw) {
         //setLeft: "1000px"
     });
 }
-function SetShipsDataTable_OLD(shipsDataRaw) {
+function SetShipsDataTable_DT(shipsDataRaw) {
     try {
         //console.log(shipsDataRaw);
         if (shipsDataRaw != null && shipsDataRaw.data.length > 0) {
@@ -573,7 +591,7 @@ function SetShipsDataTable_OLD(shipsDataRaw) {
                             return data;
                         }
                     },
-                    {   //index: 0
+                    {   //index: 1
                         data: 'Manufacturer',
                         title: 'Manufacturer',
                         //className: 'text-left', width: '300px',
@@ -587,7 +605,7 @@ function SetShipsDataTable_OLD(shipsDataRaw) {
                             return ShipID;
                         }
                     },
-                    {   //index: 1
+                    {   //index: 2
                         data: 'Name', title: 'Name',
                         render: function (ShipID, type, row, meta) {
                             if (type === 'display') {
@@ -603,7 +621,7 @@ function SetShipsDataTable_OLD(shipsDataRaw) {
                             return ShipID;
                         }
                     },
-                    {   //index: 2
+                    {   //index: 3
                         data: 'FlyReady', title: 'FlyReady', searchable: false,
                         render: function (data, type) {
                             let checked = '';
@@ -616,7 +634,7 @@ function SetShipsDataTable_OLD(shipsDataRaw) {
                             return data;
                         }
                     },
-                    {   //index: 3
+                    {   //index: 4
                         data: 'StandAlone', title: 'StandAlone', searchable: false,
                         render: function (data, type) {
                             let checked = '';
@@ -629,7 +647,7 @@ function SetShipsDataTable_OLD(shipsDataRaw) {
                             return data;
                         }
                     },
-                    {   //index: 4
+                    {   //index: 5
                         data: 'Type', title: 'Type',
                         render: function (ShipID, type) {
                             if (type === 'display') {
@@ -641,7 +659,7 @@ function SetShipsDataTable_OLD(shipsDataRaw) {
                             return ShipID;
                         }
                     },
-                    {   //index: 5
+                    {   //index: 6
                         data: 'Career', title: 'Career',
                         render: function (ShipID, type) {
                             if (type === 'display') {
@@ -711,7 +729,20 @@ function SetShipsDataTable_OLD(shipsDataRaw) {
                     { data: 'Inventory', title: 'Inventory', searchable: false, defaultContent: '' },
                     { data: 'ScmSpeed', title: 'SCM Speed', type: 'num', searchable: false, defaultContent: '' },
                     { data: 'NavSpeed', title: 'NAV Speed', type: 'num', searchable: false, defaultContent: '' },
-                    { data: 'Agility_PYR', title: 'Agility_PYR', defaultContent: '' },
+                    { data: 'Agility_PYR', title: 'Agility_PYR', defaultContent: '',
+                        render: function (data, type, row, meta) {
+                            if (type === 'display') {
+                                if (isValidString(data)) {
+                                    const jsonData = row.Name + '|' + data;
+                                    return `<a href="#" data-ltype="popAgilty" data-shipid="${jsonData}">${data}</a>`;
+                                }
+                                else {
+                                    return data;
+                                }
+                            }
+                            return data;
+                        }
+                    },
 
                     { data: 'Fuel_H', title: 'Hidrogen', type: 'num-fmt', searchable: false, defaultContent: '', render: DataTable.render.number(',', '.', 0) },
                     { data: 'Fuel_QT', title: 'Fuel QT', type: 'num', searchable: false, render: DataTable.render.number(',', '.', 0) },
@@ -756,6 +787,9 @@ function SetShipsDataTable_OLD(shipsDataRaw) {
                         if (lType == 'popMissiles') {
                             ShowMissilesInfo(ShipID);
                         }
+                        if (lType == 'popAgilty') {
+                            ShowAgilityInfo(ShipID);
+                        }
                     }
                 }
             });
@@ -778,13 +812,13 @@ function ShowHardPointInfo(data) {
     words.forEach(word => {
         let X = word.split('x'); // separa las cantidades
         let Hardpoint = parseInt(NVL(X[0], '1'));
-        let Weapons = parseInt(NVL(X[2], '1'));
-        let Size = X[1];
+        let W = NVL(X[2], '1').toString().split('-');  //<- 4,S2
+        let Quantity = parseInt(NVL(W[0], '1')); //<- 4
 
         totHardPoints += Hardpoint;
-        totalWeapons += Weapons * Hardpoint;
+        totalWeapons += Quantity * Hardpoint;
 
-        htmTable += GetTableRowsEx(Hardpoint, Size, Weapons);
+        htmTable += GetTableRowsEx(Hardpoint, X[1], X[2]);
     });
 
     $("#tableHardPoints").empty().append(htmTable).enhanceWithin();
@@ -797,7 +831,6 @@ function ShowHardPointInfo(data) {
         });
     }, 200);
 }
-
 function ShowTurretsInfo(data) {
     //console.log(data);
     let totHardPoints = 0;
@@ -837,13 +870,13 @@ function ShowMissilesInfo(data) {
     words.forEach(word => {
         let X = word.split('x');  // separa las cantidades
         let Hardpoint = parseInt(NVL(X[0], '1'));
-        let Weapons = X[2]; 
-        let Size = X[1];
+        let W = NVL(X[2], '1').toString().split('-');  //<- 4,S2
+        let Quantity = parseInt(NVL(W[0], '1')); //<- 4
 
         totHardPoints += Hardpoint;
-        totalWeapons += Weapons * Hardpoint;
+        totalWeapons += Quantity * Hardpoint;
 
-        htmTable += GetTableRowsEx(Hardpoint, Size, Weapons);
+        htmTable += GetTableRowsEx(Hardpoint, X[1], X[2]);
     });
 
     $("#tableHardPoints").empty().append(htmTable).enhanceWithin();
@@ -856,7 +889,6 @@ function ShowMissilesInfo(data) {
         });
     }, 200);
 }
-
 /** Produce filas de tabla para el Harpoint indicado. * 
  * @param {integer} hardPoint Cantidad de Hardpoints
  * @param {string}  pSize Tamaño del Hardpoint (y de las Armas)
@@ -868,45 +900,40 @@ function GetTableRowsEx(hardPoint = 1, pSize = 'S1', pWeapons = '1') {
 
         // Get the Size and Type of the Hardpoint:
         let X = pSize.toString().split('-'); //<- S4,MC
-        let mSize = NVL(X[0], 'S1'); //<- S4
-        let mType = NVL(X[1], '');  //<- MC        
-        const found = shipsData.HardPointTypes.find((Codigo) => Codigo.ID == mType);
-        if (found != null) {
-            mType = '<br>' + found.Name;
-        }
-
+        let hSize = NVL(X[0], 'S1');        //<- S4
+        let hType = NVL(X[1], '');          //<- MC        
+        const dType = shipsData.HardPointTypes.find((Codigo) => Codigo.ID == hType); //<- Manned Control
+        hType = dType ? '<br>' + dType.Name : '';
+        
         // Get the Quantity and Size of the Weapons on each hardpoint:
         let W = pWeapons.toString().split('-');  //<- 4,S2
         let Quantity = parseInt(NVL(W[0], '1')); //<- 4
-        let sSize = NVL(W[1], mSize);            //<- S2
-        let Span = Quantity;
+        let wSize = NVL(W[1], hSize);            //<- S2
 
         //El color del texto lo determina el tamaño
         const colorMap = {
-            "S8": "#ff80ff", //<- Pink
+            "S8": "#ff9428", //<- Orange
             "S7": "#00ff80", //<- Green
             "S6": "#0080c0", //<- Blue
             "S5": "#ff0080", //<- Red
-            "S4": "#ff9428", //<- Orange
+            "S4": "#ff80ff", //<- Pink
             "S3": "#ffff00", //<- Yellow
             "S2": "#ffff80", //<- LightYellow
             "S1": "#ffffff", //<- White
         };
-        'style="color:#ff80ff"'
-        var rColor = colorMap[mSize.trim().toUpperCase()];
-        // Handle cases where pSize is not in the colorMap
+        //ColorPicker:->'style="color:#ff80ff"'
+        var rColor = colorMap[wSize.trim().toUpperCase()];
         if (rColor === undefined) { rColor = "#972fff"; } //<- Purple
 
         for (let Hindex = 0; Hindex < hardPoint; Hindex++) {
-            if (Span > 1) {
-                rowHTML += `<tr><th rowspan="${Span}">${mSize} ${mType}</th><td style="color:${rColor}">${sSize}</td></tr>`;
-                //Span--;
+            if (Quantity > 1) {
+                rowHTML += `<tr><th rowspan="${Quantity}">${hSize} ${hType}</th><td style="color:${rColor}">${wSize}</td></tr>`;
                 for (let SpanIndex = 0; SpanIndex < Quantity-1; SpanIndex++) {
-                    rowHTML += `<tr><td style="color:${rColor}">${sSize}</td></tr>`;
+                    rowHTML += `<tr><td style="color:${rColor}">${wSize}</td></tr>`;
                 }
             }
             else {
-                rowHTML += `<tr><td>${mSize} ${mType}</td><td style="color:${rColor}">${sSize}</td></tr>`;
+                rowHTML += `<tr><td>${hSize} ${hType}</td><td style="color:${rColor}">${wSize}</td></tr>`;
             }
         }
         //console.log(rowHTML);
@@ -915,6 +942,75 @@ function GetTableRowsEx(hardPoint = 1, pSize = 'S1', pWeapons = '1') {
     }
     return rowHTML;
 }
+
+function ShowAgilityInfo(data) {    
+    if (data != undefined) {
+        const jsonData = data.toString().split('|');
+        if (jsonData != undefined) {
+            const agilData_A = GetAgility(jsonData[1]); //console.log(agilData);
+
+            $('#agilTxtShipName').val(jsonData[0]);
+            $('#agilTxtShipName').attr('data-ship', jsonData[1]);
+
+            $('#agilTxtP_1').val('Pitch: ' + agilData_A.pitch);
+            $('#agilTxtY_1').val('Yaw:   ' + agilData_A.yaw);
+            $('#agilTxtR_1').val('Roll:  ' + agilData_A.roll);
+
+            var mSeleccionado = $('#agilCboShips option:selected');
+            const dataB = mSeleccionado.data("datos"); //<- Obtiene los datos del elemento seleccionado
+            if (dataB != undefined) {
+                const agilData_B = GetAgility(dataB.Agility_PYR); 
+                const agilityComparison = calculateAgilityPercentage(agilData_A, agilData_B);
+                $('#lblCompareAgility').html(agilityComparison);
+            }
+
+            var timeoutID = window.setTimeout(function () {
+                $("#popAgilty").popup("open", {
+                    positionTo: 'window',
+                    transition: "flip"
+                });
+            }, 200);
+        }
+    }    
+}
+/** Converts the agility from an string to an Object * 
+ * @param {*} data Agility values in string form (P/Y/R), example: '50/50/50'
+ * @returns an object with the data  */
+function GetAgility(data) {
+    if (data != undefined && data != '') {
+        const agil = data.toString().split('/'); //console.log(agil);
+        return { 
+            pitch: parseInt(NVL(agil[0], '0')), 
+            yaw:   parseInt(NVL(agil[1], '0')),  
+            roll:  parseInt(NVL(agil[2], '0')), 
+        };
+    }
+}
+function calculateAgilityPercentage(vehicleA, vehicleB) {
+    // Calculate the absolute difference for each agility metric (pitch, yaw, roll).
+    const pitchDiff = Math.abs(vehicleA.pitch - vehicleB.pitch);
+    const yawDiff = Math.abs(vehicleA.yaw - vehicleB.yaw);
+    const rollDiff = Math.abs(vehicleA.roll - vehicleB.roll);
+  
+    // Calculate the sum of the absolute differences.
+    const totalDiff = pitchDiff + yawDiff + rollDiff;
+  
+    // Calculate the average agility of vehicles A and B.
+    const averageAgility = (vehicleA.pitch + vehicleA.yaw + vehicleA.roll +
+                            vehicleB.pitch + vehicleB.yaw + vehicleB.roll) / 6;
+  
+    // Calculate the percentage difference in agility.
+    const percentageDifference = (totalDiff / averageAgility) * 100;
+  
+    // Determine which vehicle is more agile.
+    if (percentageDifference === 0) {
+      return "The vehicles have the same agility.";
+    } else if (vehicleA.pitch + vehicleA.yaw + vehicleA.roll > vehicleB.pitch + vehicleB.yaw + vehicleB.roll) {
+      return `Vehicle A is ${percentageDifference.toFixed(1)}% more agile than vehicle B.`;
+    } else {
+      return `Vehicle B is ${percentageDifference.toFixed(1)}% more agile than vehicle A.`;
+    }
+  }
 /* ---------------------- UTILITY FUNCTIONS ---------------------------------------------- */
 function isValidString(text) {
     return text !== null && text !== "-" && text !== "";
@@ -954,7 +1050,7 @@ function getImagePath(id) {
 
 function NVL(data, defValue = '') {
     if (data != undefined) {
-        return data;
+        return data.toString().trim();
     }
     return defValue;
 }
