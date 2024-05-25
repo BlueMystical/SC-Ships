@@ -163,6 +163,7 @@ function Iniciar() {
         console.log(mSeleccionado.data("datos")); //<- Obtiene los datos del elemento seleccionado
     });
     $('#agilCboShips').on('change', function () {
+        /* Compara la Agilidad de 2 Naves */
         var mSeleccionado = $('#agilCboShips option:selected');
         const data = mSeleccionado.data("datos"); //<- Obtiene los datos del elemento seleccionado
         if (data != undefined) {
@@ -532,12 +533,15 @@ function SetShipsDataTable_DT(shipsDataRaw) {
                 className: 'nowrap',
                 data: shipsDataRaw.data,
                 scrollCollapse: true,
-                orderMulti: true,
+                fixedColumns: {
+                    start: 2
+                },
+                orderMulti: true,                
                 paging: false,
                 layout: {
                     top1: {
                         searchPanes: {
-                            columns: [1, 3, 5, 6, 7],
+                            columns: [2, 3, 5, 6, 7],
                             initCollapsed: true,
                             controls: true
                         }
@@ -576,10 +580,12 @@ function SetShipsDataTable_DT(shipsDataRaw) {
                         ]
                     }
                 },
+                
                 columns: [
                     {   //index: 0
                         data: 'ID',
                         title: "Preview",
+                        //searchable: false,
                         render: function (data, type, row, meta) {
                             if (type === 'display') {
                                 // Agrega 2 Botones: un link a la pagina del Store y una Imagen preview         
@@ -592,8 +598,24 @@ function SetShipsDataTable_DT(shipsDataRaw) {
                         }
                     },
                     {   //index: 1
+                        data: 'Name', title: 'Name',
+                        render: function (ShipID, type, row, meta) {
+                            if (type === 'display') {
+                                // Colorear en rojo si la nave no es FlyReady o en Verde si esta en venta sin paquete
+                                let color = 'white';
+                                if (row.FlyReady === 0) { color = 'red'; }
+                                else {
+                                    if (row.StandAlone === 1) { color = 'green'; }
+                                }
+                                return `<span style="color:${color}">${ShipID}  </span>`;
+                            }
+                            return ShipID;
+                        }
+                    },
+                    {   //index: 2
                         data: 'Manufacturer',
                         title: 'Manufacturer',
+                        className: 'dt-body-center dt-head-center',
                         //className: 'text-left', width: '300px',
                         render: function (ShipID, type) {
                             if (type === 'display') {
@@ -604,25 +626,10 @@ function SetShipsDataTable_DT(shipsDataRaw) {
                             }
                             return ShipID;
                         }
-                    },
-                    {   //index: 2
-                        data: 'Name', title: 'Name',
-                        render: function (ShipID, type, row, meta) {
-                            if (type === 'display') {
-                                // Colorear en rojo si la nave no es FlyReady o en Verde si esta en venta sin paquete
-                                let color = 'white';
-                                if (row.FlyReady === 0) { color = 'red'; }
-                                else {
-                                    if (row.StandAlone === 1) { color = 'green'; }
-                                }
-                                //
-                                return `<span style="color:${color}">${ShipID}  </span>`;
-                            }
-                            return ShipID;
-                        }
-                    },
+                    },                    
                     {   //index: 3
                         data: 'FlyReady', title: 'FlyReady', searchable: false,
+                        className: 'dt-body-center dt-head-center',
                         render: function (data, type) {
                             let checked = '';
                             if (type === 'display') {
@@ -636,6 +643,7 @@ function SetShipsDataTable_DT(shipsDataRaw) {
                     },
                     {   //index: 4
                         data: 'StandAlone', title: 'StandAlone', searchable: false,
+                        className: 'dt-body-center dt-head-center',
                         render: function (data, type) {
                             let checked = '';
                             if (type === 'display') {
@@ -649,9 +657,15 @@ function SetShipsDataTable_DT(shipsDataRaw) {
                     },
                     {   //index: 5
                         data: 'Type', title: 'Type',
+                        className: 'dt-body-center dt-head-center',
                         render: function (ShipID, type) {
-                            if (type === 'display') {
-                                const found = shipsData.Types.find((element) => element.ID == ShipID);
+                            const found = shipsData.Types.find((element) => element.ID == ShipID);
+                            if (type === 'display') {                                
+                                if (found != null) {
+                                    return found.Name;
+                                }
+                            }
+                            else if (type === 'filter') {
                                 if (found != null) {
                                     return found.Name;
                                 }
@@ -661,9 +675,15 @@ function SetShipsDataTable_DT(shipsDataRaw) {
                     },
                     {   //index: 6
                         data: 'Career', title: 'Career',
+                        className: 'dt-body-center dt-head-center',
                         render: function (ShipID, type) {
-                            if (type === 'display') {
-                                const found = shipsData.Careers.find((element) => element.ID == ShipID);
+                            const found = shipsData.Careers.find((element) => element.ID == ShipID);
+                            if (type === 'display') {                                
+                                if (found != null) {
+                                    return found.Name;
+                                }
+                            }
+                            else if (type === 'filter') {
                                 if (found != null) {
                                     return found.Name;
                                 }
@@ -671,14 +691,15 @@ function SetShipsDataTable_DT(shipsDataRaw) {
                             return ShipID;
                         }
                     },
-                    { data: 'Role', title: 'Role' },  //index: 7
-                    { data: 'PledgeUSD', title: 'Pledge USD', searchable: false, render: DataTable.render.number(',', '.', 0, '$') },
-                    { data: 'aUEC', title: 'In Game Price', searchable: false, render: DataTable.render.number(',', '.', 0, '$') },
-                    { data: 'BuyLocation', title: 'Buy Location', searchable: false },
+                    { data: 'Role', title: 'Role', className: 'dt-body-center dt-head-center' },  //index: 7
+                    { data: 'PledgeUSD', title: 'Pledge USD', searchable: false, render: DataTable.render.number(',', '.', 0, '$'), className: 'dt-body-center dt-head-center' },
+                    { data: 'aUEC', title: 'In Game Price', searchable: false, render: DataTable.render.number(',', '.', 0, '$'), className: 'dt-body-center dt-head-center' },
+                    { data: 'BuyLocation', title: 'Buy Location', searchable: false, className: 'dt-body-center dt-head-center' },
 
-                    { data: 'VehicleSize', title: 'Vehicle Size', searchable: false },
+                    { data: 'VehicleSize', title: 'Vehicle Size', searchable: false, className: 'dt-body-center dt-head-center' },
                     {
                         data: 'Weapons', title: 'Weapons',
+                        className: 'dt-body-center dt-head-center',
                         render: function (data, type) {
                             if (type === 'display') {
                                 if (isValidString(data)) {
@@ -692,6 +713,7 @@ function SetShipsDataTable_DT(shipsDataRaw) {
                         }
                     },
                     {   data: 'Turrets', title: 'Turrets', searchable: false,
+                        className: 'dt-body-center dt-head-center',
                         render: function (data, type) {
                             if (type === 'display') {
                                 if (isValidString(data)) {
@@ -705,6 +727,7 @@ function SetShipsDataTable_DT(shipsDataRaw) {
                         }
                     },
                     {   data: 'MissileRacks', title: 'Missile Racks', searchable: false,
+                        className: 'dt-body-center dt-head-center',
                         render: function (data, type) {
                             if (type === 'display') {
                                 if (isValidString(data)) {
@@ -718,18 +741,18 @@ function SetShipsDataTable_DT(shipsDataRaw) {
                         }
                     },
 
-                    { data: 'QTDrive', title: 'QT Drive', searchable: false },
-                    { data: 'PowPlant', title: 'Power Plant', searchable: false },
-                    { data: 'Shields', title: 'Shields', searchable: false },
-                    { data: 'ShieldType', title: 'Shield Type' },
-                    { data: 'HP', title: 'HP', searchable: false, render: DataTable.render.number(',', '.', 0) },
+                    { data: 'QTDrive', title: 'QT Drive', searchable: false, className: 'dt-body-center dt-head-center' },
+                    { data: 'PowPlant', title: 'Power Plant', searchable: false, className: 'dt-body-center dt-head-center' },
+                    { data: 'Shields', title: 'Shields', searchable: false, className: 'dt-body-center dt-head-center' },
+                    { data: 'ShieldType', title: 'Shield Type', className: 'dt-body-center dt-head-center' },
+                    { data: 'HP', title: 'HP', searchable: false, render: DataTable.render.number(',', '.', 0), className: 'dt-body-center dt-head-center' },
 
-                    { data: 'Crew', title: 'Crew Max', searchable: false },
-                    { data: 'CargoGrid', title: 'Cargo Grid' },
-                    { data: 'Inventory', title: 'Inventory', searchable: false, defaultContent: '' },
-                    { data: 'ScmSpeed', title: 'SCM Speed', type: 'num', searchable: false, defaultContent: '' },
-                    { data: 'NavSpeed', title: 'NAV Speed', type: 'num', searchable: false, defaultContent: '' },
-                    { data: 'Agility_PYR', title: 'Agility_PYR', defaultContent: '',
+                    { data: 'Crew', title: 'Crew Max', searchable: false, className: 'dt-body-center dt-head-center' },
+                    { data: 'CargoGrid', title: 'Cargo Grid', className: 'dt-body-center dt-head-center' },
+                    { data: 'Inventory', title: 'Inventory', searchable: false, defaultContent: '', className: 'dt-body-center dt-head-center' },
+                    { data: 'ScmSpeed', title: 'SCM Speed', type: 'num', searchable: false, defaultContent: '', className: 'dt-body-center dt-head-center' },
+                    { data: 'NavSpeed', title: 'NAV Speed', type: 'num', searchable: false, defaultContent: '', className: 'dt-body-center dt-head-center' },
+                    { data: 'Agility_PYR', title: 'Agility', defaultContent: '', className: 'dt-body-center dt-head-center',
                         render: function (data, type, row, meta) {
                             if (type === 'display') {
                                 if (isValidString(data)) {
@@ -744,10 +767,10 @@ function SetShipsDataTable_DT(shipsDataRaw) {
                         }
                     },
 
-                    { data: 'Fuel_H', title: 'Hidrogen', type: 'num-fmt', searchable: false, defaultContent: '', render: DataTable.render.number(',', '.', 0) },
-                    { data: 'Fuel_QT', title: 'Fuel QT', type: 'num', searchable: false, render: DataTable.render.number(',', '.', 0) },
-                    { data: 'Capacitor', title: 'Weapons Capacitor', type: 'num', searchable: false, render: DataTable.render.number(',', '.', 0) },
-                    { data: 'CapRefill', title: 'Cap Refill', searchable: false, defaultContent: '', render: DataTable.render.number(',', '.', 0) }
+                    { data: 'Fuel_H', title: 'Hidrogen', type: 'num-fmt', searchable: false, defaultContent: '', render: DataTable.render.number(',', '.', 0), className: 'dt-body-center dt-head-center' },
+                    { data: 'Fuel_QT', title: 'Fuel QT', type: 'num', searchable: false, render: DataTable.render.number(',', '.', 0), className: 'dt-body-center dt-head-center' },
+                    { data: 'Capacitor', title: 'Weapons Capacitor', type: 'num', searchable: false, render: DataTable.render.number(',', '.', 0), className: 'dt-body-center dt-head-center' },
+                    { data: 'CapRefill', title: 'Cap Refill', searchable: false, defaultContent: '', render: DataTable.render.number(',', '.', 0), className: 'dt-body-center dt-head-center' }
                 ]
             });
 
@@ -945,18 +968,20 @@ function GetTableRowsEx(hardPoint = 1, pSize = 'S1', pWeapons = '1') {
 
 function ShowAgilityInfo(data) {    
     if (data != undefined) {
+        var mSeleccionado = $('#agilCboShips option:selected');
         const jsonData = data.toString().split('|');
         if (jsonData != undefined) {
+            
             const agilData_A = GetAgility(jsonData[1]); //console.log(agilData);
+            if (agilData_A != undefined) {
+                $('#agilTxtShipName').val(jsonData[0]);
+                $('#agilTxtShipName').attr('data-ship', jsonData[1]);
 
-            $('#agilTxtShipName').val(jsonData[0]);
-            $('#agilTxtShipName').attr('data-ship', jsonData[1]);
+                $('#agilTxtP_1').val('Pitch: ' + agilData_A.pitch);
+                $('#agilTxtY_1').val('Yaw:   ' + agilData_A.yaw);
+                $('#agilTxtR_1').val('Roll:  ' + agilData_A.roll);
+            }
 
-            $('#agilTxtP_1').val('Pitch: ' + agilData_A.pitch);
-            $('#agilTxtY_1').val('Yaw:   ' + agilData_A.yaw);
-            $('#agilTxtR_1').val('Roll:  ' + agilData_A.roll);
-
-            var mSeleccionado = $('#agilCboShips option:selected');
             const dataB = mSeleccionado.data("datos"); //<- Obtiene los datos del elemento seleccionado
             if (dataB != undefined) {
                 const agilData_B = GetAgility(dataB.Agility_PYR); 
