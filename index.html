@@ -24,6 +24,7 @@
     <link rel="stylesheet" href="js/jquery-confirm.min.css" />
     <link rel="stylesheet" href="js/noty/noty.css" />
     <link rel="stylesheet" href="css/jquery.mCustomScrollbar.min.css" />
+    <link rel="stylesheet" href="css/styles.css" />
 
     <script type="application/javascript" src="js/jquery-2.1.1.min.js"></script>
     <script type="application/javascript" src="js/jquery.mobile-1.4.5.min.js"></script>
@@ -34,183 +35,6 @@
     <script type="application/javascript" src="js/datatables/datatables.min.js"></script>
 
     <style type="text/css">
-        /* Prevent copy paste for all elements except text fields */
-        * {
-            user-select: none;
-            -webkit-user-select: none;
-            -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
-        }
-
-        input,
-        textarea {
-            user-select: text;
-            -webkit-user-select: text;
-        }
-
-        input.centerText {
-            text-align: center;
-            font-weight: bold;
-        }
-
-        /* Oculta la scroll-bar pero sigue permitiendo hacer scroll con el mouse */
-        body::-webkit-scrollbar {
-            display: none;
-        }
-
-        .ui-page {
-            /* background-image: url('img/fondo_17.jpg'); */
-            background-size: auto;
-            background-repeat: repeat;
-        }
-
-        html,
-        body,
-        #pageChat {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-        }
-
-        #pageChat,
-        #pageChat * {
-            -webkit-box-sizing: border-box;
-            -moz-box-sizing: border-box;
-            box-sizing: border-box;
-        }
-
-        #pageChat .ui-content {
-            height: inherit;
-            /* inherit height without padding nor border */
-        }
-
-        a.media {
-            display: block;
-        }
-
-        div.media {
-            font-size: small;
-            margin: 25px;
-            margin: auto
-        }
-
-        div.media div {
-            font-style: italic;
-            color: #888;
-        }
-
-        .TextLabel {
-            color: white !important;
-        }
-
-        .cls_text_title {
-            color: black !important;
-        }
-
-        .cls_text_normal {
-            color: black;
-        }
-
-        /* Permite que el Panel Scrolee independientemente del Body */
-        .ui-panel.ui-panel-open {
-            position: fixed;
-        }
-
-        .ui-panel-inner {
-            position: absolute;
-            top: 1px;
-            left: 0;
-            right: 0;
-            bottom: 0px;
-            overflow: auto;
-            -webkit-overflow-scrolling: touch;
-        }
-
-        .ui-grid-a {
-            position: absolute;
-            top: 50px;
-            right: 10px;
-            bottom: 10px;
-            left: 10px;
-            background: white;
-        }
-
-        .ui-block-a,
-        .ui-block-b,
-        .ui-block-c {
-            height: 100%;
-        }
-
-        .ui-bar {
-            height: 100%;
-        }
-
-        /* Tabla con Celdas Burbuja  */
-        .Bubbles table,
-        .Bubbles th,
-        .Bubbles td {
-            border: 1px solid black;
-            border-color: #96D4D4;
-            border-radius: 10px;
-            text-align: center;
-        }
-
-        .BorderTbl table, 
-        .BorderTbl th, 
-        .BorderTbl td {
-            border: 1px solid black;
-            border-collapse: collapse;
-            text-align: center;
-        }
-
-        /* Hace que la tabla se muestre 100% y arregla el problema del WordWrap */
-        .ui-table-stroke .ui-responsive {
-            display: table !important;
-            border-collapse: collapse;
-            white-space: nowrap;
-        }
-
-        /* Estilos del Encabezado */
-        .table-stroke thead th {
-            color: #FFFFFF;
-            color: rgba(255, 255, 255, .90);
-
-            background-color: #254D86;
-            background-color: rgba(37, 77, 134, .90);
-            border: 1px solid gray;
-            white-space: nowrap;
-        }
-
-        /* Estilos del Cuerpo */
-        .table-stroke tbody th,
-        .table-stroke tbody td {
-            border: 1px solid gray;
-            padding: 0.25rem 0.5rem;
-            white-space: nowrap;
-        }
-
-        .table-stroke tbody td:last-child {
-            white-space: nowrap;
-        }
-
-        /* Stop Line Break inside Cell */
-        .dt-body-nowrap {
-            white-space: nowrap;
-            text-align: left;
-        }
-
-        .text-center {
-            text-align: center;
-        }
-
-        .text-right {
-            text-align: right;
-        }
-
-        .text-left {
-            text-align: left;
-        }
-
-       
     </style>
 
 </head>
@@ -236,11 +60,11 @@
 
         <!-- popup para detalles de los Hardpoints -->
         <div data-role="popup" id="popDlgHardPoints" data-overlay-theme="b" data-theme="b" data-dismissible="false" style="max-width:400px;">
+            <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
             <div data-role="header" data-theme="a"><h1>Hardpoint Info</h1></div>
             <div role="main" class="ui-content">
                 <table id="tableHardPoints" name="tableHardPoints" class="BorderTbl" style="width:360px"></table>
                 <p id="lblHardPoints">1 Hardpoints, 1 Weapons</p>
-                <a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b" data-rel="back">Close</a>
             </div>
         </div>
         
@@ -277,9 +101,17 @@
             <p id="lblCompareAgility">A is 100% better than B</p>            
         </div>
 
+        <div data-role="popup" id="popVerticalGrid" data-overlay-theme="b" data-theme="b" data-dismissible="false">
+            <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
+            <div data-role="header" data-theme="a"><h1 id="pVG_lblShipName">[Ship Name]</h1></div>
+            <div role="main" class="ui-content">
+                <img id="pVG_imgShipFoto" src="img/ships/1306.jpg" alt=""  width="300" height="120">
+                <table id="pVG_tblVerticalData"  class="display nowrap"></table>
+            </div>
+        </div>
+
         <!-- Cuerpo -->
         <div role="main" data-theme="b" data-content-theme="b" class="ui-content jqm-content jqm-fullwidth  ">
-
             <!-- Tabla con el 'DataTable' widget -->
             <table id="TableOfShips" class="display nowrap"></table>
         </div><!-- /main -->

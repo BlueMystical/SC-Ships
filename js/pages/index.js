@@ -589,9 +589,12 @@ function SetShipsDataTable_DT(shipsDataRaw) {
                         render: function (data, type, row, meta) {
                             if (type === 'display') {
                                 // Agrega 2 Botones: un link a la pagina del Store y una Imagen preview         
-                                var storeLink = row.StorePage; //'aegis-avenger/Avenger-Titan-Renegade'; //              
+                                var storeLink = row.StorePage; 
+                                //const rowData = JSON.stringify(row);   console.log(rowData);       
+
                                 let controls = `<a href="#" data-ltype="linkShipPageF" data-shipid="${storeLink}" class="my-tooltip-btn ui-btn ui-alt-icon ui-nodisc-icon ui-btn-inline ui-icon-info ui-btn-icon-notext">RSI Page</a>`;
                                 controls += `<a href="#" data-ltype="popImgPreview" data-shipid="${data}"      class="my-tooltip-btn ui-btn ui-alt-icon ui-nodisc-icon ui-btn-inline ui-icon-camera ui-btn-icon-notext">Preview</a>`;
+                                controls += `<a href="#" data-ltype="popVerticalData" data-shipid="${data}"    class="my-tooltip-btn ui-btn ui-alt-icon ui-nodisc-icon ui-btn-inline ui-icon-bullets ui-btn-icon-notext">Details</a>`;
                                 return controls;
                             }
                             return data;
@@ -812,15 +815,32 @@ function SetShipsDataTable_DT(shipsDataRaw) {
                         }
                         if (lType == 'popAgilty') {
                             ShowAgilityInfo(ShipID);
+                        } 
+                        if (lType == 'popVerticalData') {
+                            ShowVerticalGrid_1Column(ShipID);
                         }
                     }
                 }
             });
-
         }
     } catch (error) {
         console.log(error);
     }
+}
+
+function ShowVerticalGrid_1Column(data) {
+    const shipInfo = shipsData.data.find((element) => element.ID == data);  
+
+    $('#pVG_lblShipName').html(shipInfo.Name);
+    $('#pVG_imgShipFoto').attr('src', `img/ships/${shipInfo.ID}.jpg`);
+    $("#pVG_tblVerticalData").empty().append(GetShipTableRows(shipInfo)).enhanceWithin();
+
+    var timeoutID = window.setTimeout(function () {
+        $("#popVerticalGrid").popup("open", {
+            positionTo: 'window',
+            transition: "flip"
+        });
+    }, 200);
 }
 
 /** Extrae la informacion de los hardpoints y los muestra en forma de Tabla
@@ -965,6 +985,68 @@ function GetTableRowsEx(hardPoint = 1, pSize = 'S1', pWeapons = '1') {
     }
     return rowHTML;
 }
+function GetShipTableRows(shipInfo) {
+    var htmTable = '';
+    if (shipInfo != undefined) {
+        htmTable += `<tr><td>Manufacturer:</td><td>${shipsData.Manufacturers.find((element) => element.ID == shipInfo.Manufacturer).Name}</td></tr>`;
+        htmTable += `<tr><td>Type:</td><td>${shipsData.Types.find((element) => element.ID == shipInfo.Type).Name}</td></tr>`;
+        htmTable += `<tr><td>Career:</td><td>${shipsData.Careers.find((element) => element.ID == shipInfo.Career).Name}</td></tr>`;
+        htmTable += `<tr><td>Role:</td><td>${shipInfo.Role}</td></tr>`;
+
+        var Availability = '';
+        if (shipInfo.FlyReady === 1) {
+            Availability += 'Fly Ready';
+        }
+        else {
+            Availability += 'Concept';
+        }
+        if (shipInfo.StandAlone === 1) {
+            Availability += ', Standalone Sale';
+        }
+        
+        htmTable += `<tr><td>Availability:</td><td>${Availability}</td></tr>`;
+        htmTable += `<tr><td>Pledge USD:</td><td>$ ${formatNumber(shipInfo.PledgeUSD,0)}</td></tr>`;
+        htmTable += `<tr><td>Value aUEC:</td><td>$ ${formatNumber(shipInfo.aUEC,0)}</td></tr>`;
+        htmTable += `<tr><td>Buy Location:</td><td>${shipInfo.BuyLocation}</td></tr>`;
+        htmTable += `<tr><td>Vehicle Size:</td><td>${shipInfo.VehicleSize}</td></tr>`;
+
+        if (shipInfo.Weapons != '-') {
+            htmTable += `<tr><td>Weapons:</td><td><a href="#" data-ltype="popHardPoint" data-shipid="${shipInfo.Weapons}">${shipInfo.Weapons}</a></td></tr>`;
+        }
+        else  { htmTable += `<tr><td>Weapons:</td><td>${shipInfo.Weapons}</td></tr>`; }
+
+        if (shipInfo.Turrets != '-') {
+            htmTable += `<tr><td>Turrets:</td><td><a href="#" data-ltype="popTurrets" data-shipid="${shipInfo.Turrets}">${shipInfo.Turrets}</a></td></tr>`;
+        }
+        else { htmTable += `<tr><td>Turrets:</td><td>${shipInfo.Turrets}</td></tr>`; }
+        
+        if (shipInfo.popMissiles != '-') {
+            htmTable += `<tr><td>Missiles:</td><td><a href="#" data-ltype="popHardPoint" data-shipid="${shipInfo.popMissiles}">${shipInfo.MissileRacks}</a></td></tr>`;
+        }
+        else { htmTable += `<tr><td>Missiles:</td><td>${shipInfo.popMissiles}</td></tr>`;}
+
+        htmTable += `<tr><td>QT Drive:</td><td>${shipInfo.QTDrive}</td></tr>`;
+        htmTable += `<tr><td>Power Plant:</td><td>${shipInfo.PowPlant}</td></tr>`;
+        htmTable += `<tr><td>Shields:</td><td>${shipInfo.Shields}</td></tr>`;
+        htmTable += `<tr><td>Shield Type:</td><td>${shipInfo.ShieldType}</td></tr>`;
+        htmTable += `<tr><td>Hull HP:</td><td>${formatNumber(shipInfo.HP, 0)}</td></tr>`;
+
+        htmTable += `<tr><td>Max Crew:</td><td>${shipInfo.Crew}</td></tr>`;
+        htmTable += `<tr><td>Cargo Grid:</td><td>${shipInfo.CargoGrid} scu</td></tr>`;
+        htmTable += `<tr><td>Inventory:</td><td>${shipInfo.Inventory} scu</td></tr>`;
+        htmTable += `<tr><td>SCM Speed:</td><td>${shipInfo.ScmSpeed} m/s</td></tr>`;
+        htmTable += `<tr><td>NAV Speed:</td><td>${shipInfo.NavSpeed} m/s</td></tr>`;
+
+        const jsonData = shipInfo.Name + '|' + shipInfo.Agility_PY;
+        htmTable += `<tr><td>Agility:</td><td><a href="#" data-ltype="popAgilty" data-shipid="${jsonData}">${shipInfo.Agility_PYR}</a> (Pitch,Yaw,Roll)</td></tr>`;
+
+        htmTable += `<tr><td>Hidrogen:</td><td>${formatNumber(shipInfo.Fuel_H,0)} L</td></tr>`;
+        htmTable += `<tr><td>Fuel QT:</td><td>${formatNumber(shipInfo.Fuel_QT,0)} L</td></tr>`;
+        htmTable += `<tr><td>Capacitor:</td><td>${formatNumber(shipInfo.Capacitor,0)}</td></tr>`;
+        htmTable += `<tr><td>Cap Refill:</td><td>${formatNumber(shipInfo.CapRefill,0)}</td></tr>`;
+    }
+    return htmTable;
+}
 
 function ShowAgilityInfo(data) {    
     if (data != undefined) {
@@ -1035,7 +1117,7 @@ function calculateAgilityPercentage(vehicleA, vehicleB) {
     } else {
       return `Vehicle B is ${percentageDifference.toFixed(1)}% more agile than vehicle A.`;
     }
-  }
+}
 /* ---------------------- UTILITY FUNCTIONS ---------------------------------------------- */
 function isValidString(text) {
     return text !== null && text !== "-" && text !== "";
