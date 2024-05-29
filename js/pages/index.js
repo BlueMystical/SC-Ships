@@ -17,7 +17,7 @@ function Iniciar() {
         //console.log('loading..');
         $.getJSON('data/sc_ships_ccu.json', function (data) {
             shipsData = data; // console.log(shipsData);
-            SetShipsDataTable_DT(shipsData);            
+            SetShipsDataTable_DT(shipsData);
             CargarComboDatos(shipsData.data, '#agilCboShips');
             HideLoading();
         });
@@ -536,7 +536,8 @@ function SetShipsDataTable_DT(shipsDataRaw) {
                 fixedColumns: {
                     start: 2
                 },
-                orderMulti: true,                
+                order: [[2, 'asc'], [1, 'asc']],
+                orderMulti: true,
                 paging: false,
                 layout: {
                     top1: {
@@ -560,14 +561,18 @@ function SetShipsDataTable_DT(shipsDataRaw) {
                                     //Compara las filas seleccionadas
                                     var SelectedRows = table.rows('.selected').data();
                                     if (SelectedRows != null && SelectedRows.length > 0) {
-                                        var Filter = '';
+                                        var Filter = ''; // Prepare a Filter Text for the Selected Rows's Index (ID):
                                         for (let index = 0; index < SelectedRows.length; index++) {
-                                            //console.log(SelectedRows[index]); 
                                             Filter += '\\b' + SelectedRows[index].ID + '\\b|';
                                         }
-                                        Filter = Filter.slice(0, -1);
-                                        //console.log(Filter);
-                                        table.column(0).search(Filter, true, true).draw();
+                                        Filter = Filter.slice(0, -1);  //<- Cleans the tail                                      
+                                        table.column(0).search(Filter, true, true).draw(); //<- Applies the Filter
+
+                                        try {
+                                            Comare2Ships(SelectedRows[0], SelectedRows[1]); //<- Shows a Vertical Comparation
+                                        } catch (error) {
+                                            console.log(error);
+                                        }
                                     }
                                 }
                             },
@@ -580,7 +585,7 @@ function SetShipsDataTable_DT(shipsDataRaw) {
                         ]
                     }
                 },
-                
+
                 columns: [
                     {   //index: 0
                         data: 'ID',
@@ -589,7 +594,7 @@ function SetShipsDataTable_DT(shipsDataRaw) {
                         render: function (data, type, row, meta) {
                             if (type === 'display') {
                                 // Agrega 2 Botones: un link a la pagina del Store y una Imagen preview         
-                                var storeLink = row.StorePage; 
+                                var storeLink = row.StorePage;
                                 //const rowData = JSON.stringify(row);   console.log(rowData);       
 
                                 let controls = `<a href="#" data-ltype="linkShipPageF" data-shipid="${storeLink}" class="my-tooltip-btn ui-btn ui-alt-icon ui-nodisc-icon ui-btn-inline ui-icon-info ui-btn-icon-notext">RSI Page</a>`;
@@ -629,7 +634,7 @@ function SetShipsDataTable_DT(shipsDataRaw) {
                             }
                             return ShipID;
                         }
-                    },                    
+                    },
                     {   //index: 3
                         data: 'FlyReady', title: 'FlyReady', searchable: false,
                         className: 'dt-body-center dt-head-center',
@@ -663,7 +668,7 @@ function SetShipsDataTable_DT(shipsDataRaw) {
                         className: 'dt-body-center dt-head-center',
                         render: function (ShipID, type) {
                             const found = shipsData.Types.find((element) => element.ID == ShipID);
-                            if (type === 'display') {                                
+                            if (type === 'display') {
                                 if (found != null) {
                                     return found.Name;
                                 }
@@ -681,7 +686,7 @@ function SetShipsDataTable_DT(shipsDataRaw) {
                         className: 'dt-body-center dt-head-center',
                         render: function (ShipID, type) {
                             const found = shipsData.Careers.find((element) => element.ID == ShipID);
-                            if (type === 'display') {                                
+                            if (type === 'display') {
                                 if (found != null) {
                                     return found.Name;
                                 }
@@ -715,7 +720,8 @@ function SetShipsDataTable_DT(shipsDataRaw) {
                             return data;
                         }
                     },
-                    {   data: 'Turrets', title: 'Turrets', searchable: false,
+                    {
+                        data: 'Turrets', title: 'Turrets', searchable: false,
                         className: 'dt-body-center dt-head-center',
                         render: function (data, type) {
                             if (type === 'display') {
@@ -729,7 +735,8 @@ function SetShipsDataTable_DT(shipsDataRaw) {
                             return data;
                         }
                     },
-                    {   data: 'MissileRacks', title: 'Missile Racks', searchable: false,
+                    {
+                        data: 'MissileRacks', title: 'Missile Racks', searchable: false,
                         className: 'dt-body-center dt-head-center',
                         render: function (data, type) {
                             if (type === 'display') {
@@ -755,7 +762,8 @@ function SetShipsDataTable_DT(shipsDataRaw) {
                     { data: 'Inventory', title: 'Inventory', searchable: false, defaultContent: '', className: 'dt-body-center dt-head-center' },
                     { data: 'ScmSpeed', title: 'SCM Speed', type: 'num', searchable: false, defaultContent: '', className: 'dt-body-center dt-head-center' },
                     { data: 'NavSpeed', title: 'NAV Speed', type: 'num', searchable: false, defaultContent: '', className: 'dt-body-center dt-head-center' },
-                    { data: 'Agility_PYR', title: 'Agility', defaultContent: '', className: 'dt-body-center dt-head-center',
+                    {
+                        data: 'Agility_PYR', title: 'Agility', defaultContent: '', className: 'dt-body-center dt-head-center',
                         render: function (data, type, row, meta) {
                             if (type === 'display') {
                                 if (isValidString(data)) {
@@ -815,7 +823,7 @@ function SetShipsDataTable_DT(shipsDataRaw) {
                         }
                         if (lType == 'popAgilty') {
                             ShowAgilityInfo(ShipID);
-                        } 
+                        }
                         if (lType == 'popVerticalData') {
                             ShowVerticalGrid_1Column(ShipID);
                         }
@@ -828,8 +836,10 @@ function SetShipsDataTable_DT(shipsDataRaw) {
     }
 }
 
+
+
 function ShowVerticalGrid_1Column(data) {
-    const shipInfo = shipsData.data.find((element) => element.ID == data);  
+    const shipInfo = shipsData.data.find((element) => element.ID == data);
 
     $('#pVG_lblShipName').html(shipInfo.Name);
     $('#pVG_imgShipFoto').attr('src', `img/ships/${shipInfo.ID}.jpg`);
@@ -842,13 +852,28 @@ function ShowVerticalGrid_1Column(data) {
         });
     }, 200);
 }
+function Comare2Ships(ShipA, ShipB) {
+    if (ShipA != undefined && ShipB != undefined) {
+
+        //console.log(ShipA); console.log(ShipB);
+
+        $("#pVG2cB_tblVerticalData").empty().append(GetCompareTable_2Ships(ShipA, ShipB)).enhanceWithin();
+
+        var timeoutID = window.setTimeout(function () {
+            $("#popVerticalGrid2C").popup("open", {
+                positionTo: 'window',
+                transition: "flip"
+            });
+        }, 400);
+    }
+}
 
 /** Extrae la informacion de los hardpoints y los muestra en forma de Tabla
  * @param {string} data Datos del Hardpoint, ejem: '2xS3x2, 1xS4'  */
 function ShowHardPointInfo(data) {
     //console.log(data);
     let totHardPoints = 0;
-    let totalWeapons = 0;    
+    let totalWeapons = 0;
     let htmTable = '<tr><th>Hardpoints</th><th>Weapons</th></tr>'; //Agrega fila de Titulos  
 
     let words = data.split(","); //Separa los hardpoints
@@ -877,7 +902,7 @@ function ShowHardPointInfo(data) {
 function ShowTurretsInfo(data) {
     //console.log(data);
     let totHardPoints = 0;
-    let totalWeapons = 0;    
+    let totalWeapons = 0;
     let htmTable = '<tr><th>Turrets</th><th>Hardpoints</th></tr>'; //Agrega fila de Titulos  
 
     let words = data.split(","); //Separa los hardpoints
@@ -906,7 +931,7 @@ function ShowTurretsInfo(data) {
 function ShowMissilesInfo(data) {
     //console.log(data);
     let totHardPoints = 0;
-    let totalWeapons = 0;    
+    let totalWeapons = 0;
     let htmTable = '<tr><th>Racks</th><th>Missiles</th></tr>'; //Agrega fila de Titulos  
 
     let words = data.split(","); //Separa los hardpoints
@@ -937,8 +962,8 @@ function ShowMissilesInfo(data) {
  * @param {string}  pSize Tamaño del Hardpoint (y de las Armas)
  * @param {integer} Weapons Cantidad de armas en cada Hardpoint */
 function GetTableRowsEx(hardPoint = 1, pSize = 'S1', pWeapons = '1') {
-    let rowHTML = ''; 
-    try {        
+    let rowHTML = '';
+    try {
         //console.log(`Size:${pSize}`); console.log(`Weapons:${pWeapons}`);
 
         // Get the Size and Type of the Hardpoint:
@@ -947,11 +972,15 @@ function GetTableRowsEx(hardPoint = 1, pSize = 'S1', pWeapons = '1') {
         let hType = NVL(X[1], '');          //<- MC        
         const dType = shipsData.HardPointTypes.find((Codigo) => Codigo.ID == hType); //<- Manned Control
         hType = dType ? '<br>' + dType.Name : '';
-        
+
         // Get the Quantity and Size of the Weapons on each hardpoint:
         let W = pWeapons.toString().split('-');  //<- 4,S2
         let Quantity = parseInt(NVL(W[0], '1')); //<- 4
         let wSize = NVL(W[1], hSize);            //<- S2
+        const wType = shipsData.HardPointTypes.find((Codigo) => Codigo.ID == wSize);
+        if (wType != undefined) {
+            wSize = wType.Name;
+        }
 
         //El color del texto lo determina el tamaño
         const colorMap = {
@@ -971,7 +1000,7 @@ function GetTableRowsEx(hardPoint = 1, pSize = 'S1', pWeapons = '1') {
         for (let Hindex = 0; Hindex < hardPoint; Hindex++) {
             if (Quantity > 1) {
                 rowHTML += `<tr><th rowspan="${Quantity}">${hSize} ${hType}</th><td style="color:${rColor}">${wSize}</td></tr>`;
-                for (let SpanIndex = 0; SpanIndex < Quantity-1; SpanIndex++) {
+                for (let SpanIndex = 0; SpanIndex < Quantity - 1; SpanIndex++) {
                     rowHTML += `<tr><td style="color:${rColor}">${wSize}</td></tr>`;
                 }
             }
@@ -1003,33 +1032,33 @@ function GetShipTableRows(shipInfo) {
         if (shipInfo.StandAlone === 1) {
             Availability += ', Standalone Sale';
         }
-        
+
         htmTable += `<tr><td>Availability:</td><td>${Availability}</td></tr>`;
-        htmTable += `<tr><td>Pledge USD:</td><td>$ ${formatNumber(shipInfo.PledgeUSD,0)}</td></tr>`;
-        htmTable += `<tr><td>Value aUEC:</td><td>$ ${formatNumber(shipInfo.aUEC,0)}</td></tr>`;
+        htmTable += `<tr><td>Pledge USD:</td><td>$ ${formatNumber(shipInfo.PledgeUSD, 0)}</td></tr>`;
+        htmTable += `<tr><td>Value aUEC:</td><td>$ ${formatNumber(shipInfo.aUEC, 0)}</td></tr>`;
         htmTable += `<tr><td>Buy Location:</td><td>${shipInfo.BuyLocation}</td></tr>`;
-        htmTable += `<tr><td>Vehicle Size:</td><td>${shipInfo.VehicleSize}</td></tr>`;
+        htmTable += `<tr style='border-bottom:1px solid white'><td>Vehicle Size:</td><td>${shipInfo.VehicleSize}</td></tr>`;
 
         if (shipInfo.Weapons != '-') {
             htmTable += `<tr><td>Weapons:</td><td><a href="#" data-ltype="popHardPoint" data-shipid="${shipInfo.Weapons}">${shipInfo.Weapons}</a></td></tr>`;
         }
-        else  { htmTable += `<tr><td>Weapons:</td><td>${shipInfo.Weapons}</td></tr>`; }
+        else { htmTable += `<tr><td>Weapons:</td><td>${shipInfo.Weapons}</td></tr>`; }
 
         if (shipInfo.Turrets != '-') {
             htmTable += `<tr><td>Turrets:</td><td><a href="#" data-ltype="popTurrets" data-shipid="${shipInfo.Turrets}">${shipInfo.Turrets}</a></td></tr>`;
         }
         else { htmTable += `<tr><td>Turrets:</td><td>${shipInfo.Turrets}</td></tr>`; }
-        
-        if (shipInfo.popMissiles != '-') {
-            htmTable += `<tr><td>Missiles:</td><td><a href="#" data-ltype="popHardPoint" data-shipid="${shipInfo.popMissiles}">${shipInfo.MissileRacks}</a></td></tr>`;
+
+        if (shipInfo.MissileRacks != '-') {
+            htmTable += `<tr><td>Missiles:</td><td><a href="#" data-ltype="popMissiles" data-shipid="${shipInfo.MissileRacks}">${shipInfo.MissileRacks}</a></td></tr>`;
         }
-        else { htmTable += `<tr><td>Missiles:</td><td>${shipInfo.popMissiles}</td></tr>`;}
+        else { htmTable += `<tr><td>Missiles:</td><td>${shipInfo.MissileRacks}</td></tr>`; }
 
         htmTable += `<tr><td>QT Drive:</td><td>${shipInfo.QTDrive}</td></tr>`;
         htmTable += `<tr><td>Power Plant:</td><td>${shipInfo.PowPlant}</td></tr>`;
         htmTable += `<tr><td>Shields:</td><td>${shipInfo.Shields}</td></tr>`;
         htmTable += `<tr><td>Shield Type:</td><td>${shipInfo.ShieldType}</td></tr>`;
-        htmTable += `<tr><td>Hull HP:</td><td>${formatNumber(shipInfo.HP, 0)}</td></tr>`;
+        htmTable += `<tr style='border-bottom:1px solid white'><td>Hull HP:</td><td>${formatNumber(shipInfo.HP, 0)}</td></tr>`;
 
         htmTable += `<tr><td>Max Crew:</td><td>${shipInfo.Crew}</td></tr>`;
         htmTable += `<tr><td>Cargo Grid:</td><td>${shipInfo.CargoGrid} scu</td></tr>`;
@@ -1040,20 +1069,103 @@ function GetShipTableRows(shipInfo) {
         const jsonData = shipInfo.Name + '|' + shipInfo.Agility_PY;
         htmTable += `<tr><td>Agility:</td><td><a href="#" data-ltype="popAgilty" data-shipid="${jsonData}">${shipInfo.Agility_PYR}</a> (Pitch,Yaw,Roll)</td></tr>`;
 
-        htmTable += `<tr><td>Hidrogen:</td><td>${formatNumber(shipInfo.Fuel_H,0)} L</td></tr>`;
-        htmTable += `<tr><td>Fuel QT:</td><td>${formatNumber(shipInfo.Fuel_QT,0)} L</td></tr>`;
-        htmTable += `<tr><td>Capacitor:</td><td>${formatNumber(shipInfo.Capacitor,0)}</td></tr>`;
-        htmTable += `<tr><td>Cap Refill:</td><td>${formatNumber(shipInfo.CapRefill,0)}</td></tr>`;
+        htmTable += `<tr><td>Hidrogen:</td><td>${formatNumber(shipInfo.Fuel_H, 0)} L</td></tr>`;
+        htmTable += `<tr><td>Fuel QT:</td><td>${formatNumber(shipInfo.Fuel_QT, 0)} L</td></tr>`;
+        htmTable += `<tr><td>Capacitor:</td><td>${formatNumber(shipInfo.Capacitor, 0)}</td></tr>`;
+        htmTable += `<tr><td>Cap Refill:</td><td>${formatNumber(shipInfo.CapRefill, 0)}</td></tr>`;
+    }
+    return htmTable;
+}
+function GetCompareTable_2Ships(ShipA, ShipB) {
+    var htmTable = '';
+    if (ShipA != undefined && ShipB != undefined) {
+
+        htmTable += `<thead><tr><th colspan="2">${ShipA.Name}</th><th colspan="2">${ShipB.Name}</th></tr>`;
+        htmTable += `<tr><th colspan="2"><img src="img/ships/${ShipA.ID}.jpg" alt=""  width="300" height="120"></th>`;
+        htmTable += `    <th colspan="2"><img src="img/ships/${ShipB.ID}.jpg" alt=""  width="300" height="120"></th></tr>`;
+        htmTable += '</thead><tbody>';
+
+        htmTable += `<tr><td>Manufacturer:</td><td>${shipsData.Manufacturers.find((element) => element.ID == ShipA.Manufacturer).Name}</td>`;
+        htmTable += `<td>${shipsData.Manufacturers.find((element) => element.ID == ShipB.Manufacturer).Name}</td>`;
+        htmTable += `<td>-</td></tr>`;
+
+        htmTable += `<tr><td>Type:</td><td>${shipsData.Types.find((element) => element.ID == ShipA.Type).Name}</td>`;
+        htmTable += `<td>${shipsData.Types.find((element) => element.ID == ShipB.Type).Name}</td>`;
+        htmTable += `<td>-</td></tr>`;
+
+        htmTable += `<tr><td>Career:</td><td>${shipsData.Careers.find((element) => element.ID == ShipA.Career).Name}</td>`;
+        htmTable += `<td>${shipsData.Careers.find((element) => element.ID == ShipB.Career).Name}</td>`;
+        htmTable += `<td>-</td></tr>`;
+
+        htmTable += `<tr><td>Role:</td><td>${ShipA.Role}</td><td>${ShipB.Role}</td><td>-</td></tr>`;
+
+        var Availability_A = ShipA.FlyReady ? 'Fly Ready' : 'Concept';
+        if (ShipA.StandAlone) { Availability_A += ', Standalone Sale'; }
+        var Availability_B = ShipB.FlyReady ? 'Fly Ready' : 'Concept';
+        if (ShipB.StandAlone) { Availability_B += ', Standalone Sale'; }
+        htmTable += `<tr><td>Availability:</td><td>${Availability_A}</td><td>${Availability_B}</td><td>-</td></tr>`;
+
+        htmTable += `<tr><td>Pledge USD:</td><td>$ ${formatNumber(ShipA.PledgeUSD, 0)}</td><td>$ ${formatNumber(ShipB.PledgeUSD, 0)}</td><td>$ ${CompareValues(ShipA.PledgeUSD, ShipB.PledgeUSD, 0, '', true)}</td></tr>`;
+        htmTable += `<tr><td>Value aUEC:</td><td>$ ${formatNumber(ShipA.aUEC, 0)}</td><td>$ ${formatNumber(ShipB.aUEC, 0)}</td><td>$ ${CompareValues(ShipA.aUEC, ShipB.aUEC, 0, '', true)}</td></tr>`;
+        htmTable += `<tr><td>Buy Location:</td><td>${ShipA.BuyLocation}</td><td>${ShipB.BuyLocation}</td><td>-</td></tr>`;
+        htmTable += `<tr><td>Vehicle Size:</td><td>${ShipA.VehicleSize}</td><td>${ShipB.VehicleSize}</td><td>${CompareValues(ShipA.VehicleSize, ShipB.VehicleSize, 0, 'size')}</td></tr>`;
+
+        htmTable += '<tr><td>Weapons:</td>';
+        if (ShipA.Weapons != '-') { htmTable += `<td><a href="#">${ShipA.Weapons}</a></td>`; }
+        else { htmTable += `<td>${ShipA.Weapons}</td>`; }
+        if (ShipB.Weapons != '-') { htmTable += `<td><a href="#">${ShipB.Weapons}</a></td>`; }
+        else { htmTable += `<td>${ShipB.Weapons}</td>`; }
+        htmTable += `<td>${CompareHardPoints(GetHardPointInfo(ShipA.Weapons), GetHardPointInfo(ShipB.Weapons))}</td></tr>`;
+
+        htmTable += '<tr><td>Turrets:</td>';
+        if (ShipA.Turrets != '-') { htmTable += `<td><a href="#">${ShipA.Turrets}</a></td>`; }
+        else { htmTable += `<td>${ShipA.Turrets}</td>`; }
+        if (ShipB.Turrets != '-') { htmTable += `<td><a href="#">${ShipB.Turrets}</a></td>`; }
+        else { htmTable += `<td>${ShipB.Turrets}</td>`; } //
+        htmTable += `<td>${CompareHardPoints(GetHardPointInfo(ShipA.Turrets), GetHardPointInfo(ShipB.Turrets))}</td></tr>`;
+
+        htmTable += '<tr><td>Missiles:</td>';
+        if (ShipA.MissileRacks != '-') { htmTable += `<td><a href="#">${ShipA.MissileRacks}</a></td>`; }
+        else { htmTable += `<td>${ShipA.MissileRacks}</td>`; }
+        if (ShipB.MissileRacks != '-') { htmTable += `<td><a href="#">${ShipB.MissileRacks}</a></td>`; }
+        else { htmTable += `<td>${ShipB.MissileRacks}</td>`; }
+        htmTable += `<td>${CompareHardPoints(GetHardPointInfo(ShipA.MissileRacks), GetHardPointInfo(ShipB.MissileRacks))}</td></tr>`;
+
+        htmTable += `<tr><td>QT Drive:</td><td>${ShipA.QTDrive}</td><td>${ShipB.QTDrive}</td>`;
+        htmTable += `<td>${CompareHardPoints(GetHardPointInfo(ShipA.QTDrive), GetHardPointInfo(ShipB.QTDrive))}</td></tr>`;
+
+        htmTable += `<tr><td>Power Plant:</td><td>${ShipA.PowPlant}</td><td>${ShipB.PowPlant}</td>`;
+        htmTable += `<td>${CompareHardPoints(GetHardPointInfo(ShipA.PowPlant), GetHardPointInfo(ShipB.PowPlant))}</td></tr>`;
+
+        htmTable += `<tr><td>Shields:</td><td>${ShipA.Shields}</td><td>${ShipB.Shields}</td>`;
+        htmTable += `<td>${CompareHardPoints(GetHardPointInfo(ShipA.Shields), GetHardPointInfo(ShipB.Shields))}</td></tr>`;
+
+        htmTable += `<tr><td>Shield Type:</td><td>${ShipA.ShieldType}</td><td>${ShipB.ShieldType}</td><td>-</td></tr>`;
+        htmTable += `<tr><td>Hull HP:</td><td>${formatNumber(ShipA.HP, 0)}</td><td>${formatNumber(ShipB.HP, 0)}</td><td>${CompareValues(ShipA.HP, ShipB.HP, 0, 'hp')}</td></tr>`;
+
+        htmTable += `<tr><td>Max Crew:</td><td>${ShipA.Crew}</td><td>${ShipB.Crew}</td><td>-</td></tr>`;
+        htmTable += `<tr><td>Cargo Grid:</td><td>${ShipA.CargoGrid} scu</td><td>${ShipB.CargoGrid} scu</td><td>${CompareValues(ShipA.CargoGrid, ShipB.CargoGrid, 0, 'scu')}</td></tr>`;
+        htmTable += `<tr><td>Inventory:</td><td>${ShipA.Inventory} scu</td><td>${ShipB.Inventory} scu</td><td>${CompareValues(ShipA.Inventory, ShipB.Inventory, 2, 'scu')}</td></tr>`;
+        htmTable += `<tr><td>SCM Speed:</td><td>${ShipA.ScmSpeed} m/s</td><td>${ShipB.ScmSpeed} m/s</td><td>${CompareValues(ShipA.ScmSpeed, ShipB.ScmSpeed, 0, 'm/s')}</td></tr>`;
+        htmTable += `<tr><td>NAV Speed:</td><td>${ShipA.NavSpeed} m/s</td><td>${ShipB.NavSpeed} m/s</td><td>${CompareValues(ShipA.NavSpeed, ShipB.NavSpeed, 0, 'm/s')}</td></tr>`;
+
+        const agilData_A = GetAgility(ShipA.Agility_PYR); const agilData_B = GetAgility(ShipB.Agility_PYR);
+        htmTable += `<tr><td>Pitch,Yaw,Roll:</td><td><a href="#">${ShipA.Agility_PYR}</a></td><td><a href="#">${ShipB.Agility_PYR}</a></td><td>${calculateAgilityPercentageEX(agilData_A, agilData_B)}</td></tr>`;
+
+        htmTable += `<tr><td>Hidrogen:</td><td>${formatNumber(ShipA.Fuel_H, 0)} L</td><td>${formatNumber(ShipB.Fuel_H, 0)} L</td><td>${CompareValues(ShipA.Fuel_H, ShipB.Fuel_H, 0, 'L')}</td></tr>`;
+        htmTable += `<tr><td>Fuel QT:</td><td>${formatNumber(ShipA.Fuel_QT, 0)} L</td><td>${formatNumber(ShipB.Fuel_QT, 0)} L</td><td>${CompareValues(ShipA.Fuel_QT, ShipB.Fuel_QT, 0, 'L')}</td></tr>`;
+        htmTable += `<tr><td>Capacitor:</td><td>${formatNumber(ShipA.Capacitor, 0)}</td><td>${formatNumber(ShipB.Capacitor, 0)}</td><td>${CompareValues(ShipA.Capacitor, ShipB.Capacitor)}</td></tr>`;
+        htmTable += `<tr><td>Cap Refill:</td><td>${formatNumber(ShipA.CapRefill, 0)}</td><td>${formatNumber(ShipB.CapRefill, 0)}</td><td>${CompareValues(ShipA.CapRefill, ShipB.CapRefill)}</td></tr>`;
     }
     return htmTable;
 }
 
-function ShowAgilityInfo(data) {    
+function ShowAgilityInfo(data) {
     if (data != undefined) {
         var mSeleccionado = $('#agilCboShips option:selected');
         const jsonData = data.toString().split('|');
         if (jsonData != undefined) {
-            
+
             const agilData_A = GetAgility(jsonData[1]); //console.log(agilData);
             if (agilData_A != undefined) {
                 $('#agilTxtShipName').val(jsonData[0]);
@@ -1066,7 +1178,7 @@ function ShowAgilityInfo(data) {
 
             const dataB = mSeleccionado.data("datos"); //<- Obtiene los datos del elemento seleccionado
             if (dataB != undefined) {
-                const agilData_B = GetAgility(dataB.Agility_PYR); 
+                const agilData_B = GetAgility(dataB.Agility_PYR);
                 const agilityComparison = calculateAgilityPercentage(agilData_A, agilData_B);
                 $('#lblCompareAgility').html(agilityComparison);
             }
@@ -1078,7 +1190,7 @@ function ShowAgilityInfo(data) {
                 });
             }, 200);
         }
-    }    
+    }
 }
 /** Converts the agility from an string to an Object * 
  * @param {*} data Agility values in string form (P/Y/R), example: '50/50/50'
@@ -1086,10 +1198,10 @@ function ShowAgilityInfo(data) {
 function GetAgility(data) {
     if (data != undefined && data != '') {
         const agil = data.toString().split('/'); //console.log(agil);
-        return { 
-            pitch: parseInt(NVL(agil[0], '0')), 
-            yaw:   parseInt(NVL(agil[1], '0')),  
-            roll:  parseInt(NVL(agil[2], '0')), 
+        return {
+            pitch: parseInt(NVL(agil[0], '0')),
+            yaw: parseInt(NVL(agil[1], '0')),
+            roll: parseInt(NVL(agil[2], '0')),
         };
     }
 }
@@ -1098,25 +1210,106 @@ function calculateAgilityPercentage(vehicleA, vehicleB) {
     const pitchDiff = Math.abs(vehicleA.pitch - vehicleB.pitch);
     const yawDiff = Math.abs(vehicleA.yaw - vehicleB.yaw);
     const rollDiff = Math.abs(vehicleA.roll - vehicleB.roll);
-  
+
     // Calculate the sum of the absolute differences.
     const totalDiff = pitchDiff + yawDiff + rollDiff;
-  
+
     // Calculate the average agility of vehicles A and B.
     const averageAgility = (vehicleA.pitch + vehicleA.yaw + vehicleA.roll +
-                            vehicleB.pitch + vehicleB.yaw + vehicleB.roll) / 6;
-  
+        vehicleB.pitch + vehicleB.yaw + vehicleB.roll) / 6;
+
     // Calculate the percentage difference in agility.
     const percentageDifference = (totalDiff / averageAgility) * 100;
-  
+
     // Determine which vehicle is more agile.
     if (percentageDifference === 0) {
-      return "The vehicles have the same agility.";
+        return "The vehicles have the same agility.";
     } else if (vehicleA.pitch + vehicleA.yaw + vehicleA.roll > vehicleB.pitch + vehicleB.yaw + vehicleB.roll) {
-      return `Vehicle A is ${percentageDifference.toFixed(1)}% more agile than vehicle B.`;
+        return `Vehicle A is ${percentageDifference.toFixed(1)}% more agile than vehicle B.`;
     } else {
-      return `Vehicle B is ${percentageDifference.toFixed(1)}% more agile than vehicle A.`;
+        return `Vehicle B is ${percentageDifference.toFixed(1)}% more agile than vehicle A.`;
     }
+}
+function calculateAgilityPercentageEX(vehicleA, vehicleB) {
+    // Calculate the absolute difference for each agility metric (pitch, yaw, roll).
+    const pitchDiff = Math.abs(vehicleA.pitch - vehicleB.pitch);
+    const yawDiff = Math.abs(vehicleA.yaw - vehicleB.yaw);
+    const rollDiff = Math.abs(vehicleA.roll - vehicleB.roll);
+
+    // Calculate the sum of the absolute differences.
+    const totalDiff = pitchDiff + yawDiff + rollDiff;
+
+    // Calculate the average agility of vehicles A and B.
+    const averageAgility = (vehicleA.pitch + vehicleA.yaw + vehicleA.roll +
+        vehicleB.pitch + vehicleB.yaw + vehicleB.roll) / 6;
+
+    // Calculate the percentage difference in agility.
+    const percentageDifference = (totalDiff / averageAgility) * 100;
+    //console.log(percentageDifference);
+
+    // Determine which vehicle is more agile.
+    var _ret = '';
+    if (percentageDifference === 0) {
+        _ret = "-";
+    } else if (vehicleA.pitch + vehicleA.yaw + vehicleA.roll > vehicleB.pitch + vehicleB.yaw + vehicleB.roll) {
+        _ret = `${percentageDifference.toFixed(1)}%`;
+        return `<a style="color: lightgreen;">${_ret}</a> more agile`;
+    } else {
+        _ret = `${percentageDifference.toFixed(1)}%`;
+        return `<a style="color: lightcoral;">${_ret}</a> less agile`;
+    }
+}
+
+function GetHardPointInfo(data) {
+    //console.log(data); //<- 'data' = '2xS3-LCx4-S2, 1xS4'
+    let totHardPoints = 0;
+    let totalWeapons = 0;
+    let MaxSize = 0;
+
+    if (data != undefined && data != '' && data != '-') {
+        let words = data.split(","); //Separa los hardpoints: ['2xS3-LCx4-S2','1xS4']
+        words.forEach(word => {
+            let X = word.split('x'); // separa las cantidades: ['2', 'S3-LC', '4-S2']
+            //console.log(X);
+            let Hardpoint = parseInt(NVL(X[0], '1'));
+            let W = NVL(X[2], '1').toString().split('-');  //<- 4,S2
+            //console.log(W);
+            let Quantity = parseInt(NVL(W[0], '1')); //<- 4
+
+            let Size = GetSize(X[1]);
+            if (Size > MaxSize) { MaxSize = Size; }
+
+            totHardPoints += Hardpoint;
+            totalWeapons += Quantity * Hardpoint;
+
+            //htmTable += GetTableRowsEx(Hardpoint, X[1], X[2]);
+        });
+    }
+    return {
+        HardpointsCount: totHardPoints,
+        WeaponsCount: totalWeapons,
+        MaxSize: MaxSize
+    }
+}
+function GetSize(data) {
+    var _ret = 0;
+    if (data != undefined && data != '') {
+        switch (data) {
+            case 'S0': _ret = 0; break;
+            case 'S1': _ret = 1; break;
+            case 'S2': _ret = 2; break;
+            case 'S3': _ret = 3; break;
+            case 'S4': _ret = 4; break;
+            case 'S5': _ret = 5; break;
+            case 'S6': _ret = 6; break;
+            case 'S7': _ret = 7; break;
+            case 'S8': _ret = 8; break;
+            case 'S9': _ret = 9; break;
+            case 'S10': _ret = 10; break;
+            default: _ret = 0; break;
+        }
+    }
+    return _ret;
 }
 /* ---------------------- UTILITY FUNCTIONS ---------------------------------------------- */
 function isValidString(text) {
@@ -1161,6 +1354,80 @@ function NVL(data, defValue = '') {
     }
     return defValue;
 }
+function CompareValues(ValueA = 0.0, ValueB = 0.0, decimalPlaces = 0, Suffix = '', Inverted = false) {
+    var _ret = '-';
+    const Value = ValueA - ValueB;
+    if (ValueA != ValueB) {
+        _ret = formatNumHTML(Value, decimalPlaces, Inverted) + ' ' + Suffix;
+    }
+    return _ret;
+}
+function CompareHardPoints(HardpointA, HardpointB) {
+    var _ret = '-';
+    var Color = 'white'; 
+    
+    var Weapons = HardpointA.WeaponsCount - HardpointB.WeaponsCount;
+    if (HardpointA.WeaponsCount != HardpointB.WeaponsCount) {
+        if (HardpointA.WeaponsCount > HardpointB.WeaponsCount) {
+            Color = 'lightgreen';
+            Weapons = '+' + Weapons;
+        } else {
+            Color = 'lightcoral';
+        }
+        _ret = `<a style="color: ${Color};">${Weapons}</a> Count`;
+    }
+    else {
+        _ret = '-';
+    }
+
+    var SizeDiff = HardpointA.MaxSize - HardpointB.MaxSize;
+    if (HardpointA.MaxSize != HardpointB.MaxSize ) {
+        if (HardpointA.MaxSize > HardpointB.MaxSize) {
+            Color = 'lightgreen';
+            SizeDiff = '+' + SizeDiff;
+        } else {
+            Color = 'lightcoral';
+        }
+        _ret += `, <a style="color: ${Color};">${SizeDiff}</a> Size`;
+    } else {
+        _ret += ', -';
+    }
+    
+    return _ret;
+}
+function CompareTurrets(HardpointA, HardpointB) {
+    var _ret = '-';
+    var Color = 'white'; 
+    
+    var Weapons = HardpointA.WeaponsCount - HardpointB.WeaponsCount;
+    if (HardpointA.WeaponsCount != HardpointB.WeaponsCount) {
+        if (HardpointA.WeaponsCount > HardpointB.WeaponsCount) {
+            Color = 'lightgreen';
+            Weapons = '+' + Weapons;
+        } else {
+            Color = 'lightcoral';
+        }
+        _ret = `<a style="color: ${Color};">${Weapons}</a> Weapon Count`;
+    }
+    else {
+        _ret = 'Eq. Weapon Count';
+    }
+
+    var SizeDiff = HardpointA.MaxSize - HardpointB.MaxSize;
+    if (HardpointA.MaxSize != HardpointB.MaxSize ) {
+        if (HardpointA.MaxSize > HardpointB.MaxSize) {
+            Color = 'lightgreen';
+            SizeDiff = '+' + SizeDiff;
+        } else {
+            Color = 'lightcoral';
+        }
+        _ret += `, <a style="color: ${Color};">${SizeDiff}</a> Size`;
+    } else {
+        _ret += ', Eq. Size';
+    }
+    
+    return _ret;
+}
 
 /** Aplica Formato a un Numero, con Decimales y Separador de Millares. 
  * @param {*} number El Numero que queremos formatear
@@ -1183,6 +1450,46 @@ function formatNumber(number, decimals = 2, separator = ',') {
     // Alternative using toFixed() for simpler formatting
     // const fixedNumber = number.toFixed(decimals);
     // return fixedNumber.replace(/\B(?=(\d{3})+(?!\d))/g, separator);
+}
+// Function to format and display the number with swapped sign
+function formatDecimal(numberString, decimalPlaces) {
+    // 1. Convert string to absolute decimal using Math.abs()
+    const absoluteNumber = Math.abs(parseFloat(numberString));
+
+    // 2. Round to the specified number of decimal places
+    const roundedNumber = Math.round(absoluteNumber * Math.pow(10, decimalPlaces)) / Math.pow(10, decimalPlaces);
+
+    // 3. Convert back to string and remove sign using toFixed()
+    return roundedNumber.toFixed(decimalPlaces).replace(/^-/, "");
+}
+
+function formatNumHTML(number, decimalPlaces = 0, invertGoodBad = false) {
+
+    const isNegative = number < 0;
+    const Sign = number > 0 ? '+' : '';
+
+    // Swap the sign of the number
+    number = -number;
+
+    // Convert the number to a string with the specified number of decimal places
+    var result = number.toFixed(decimalPlaces);
+    result = Math.abs(result);
+
+    // Add a thousands separator
+    result = parseFloat(result).toLocaleString('en-US', { minimumFractionDigits: decimalPlaces });
+    //
+
+    // Add a '+' sign in front of positive numbers
+    result = number > 0 ? '-' + result : '+' + result;
+
+    var Color = 'white'; //console.log(sign + invertGoodBad);
+    if (isNegative === false) {
+        Color = invertGoodBad ? 'lightcoral' : 'lightgreen';
+    } else {
+        Color = invertGoodBad ? 'lightgreen' : 'lightcoral';
+    }
+
+    return `<a style="color: ${Color};">${result}</a>`;
 }
 
 function downloadObjectAsJson(exportObj, exportName) {
