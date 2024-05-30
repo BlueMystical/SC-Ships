@@ -3,6 +3,7 @@ var jsonConfig = null;
 var shipsData = null;
 var tableData = null;
 var currentShip = null;
+var ComparingShips = [];
 
 //Esto se usa para leer archivos desde JQuery:
 var files;
@@ -42,6 +43,13 @@ function Iniciar() {
     $(document).on("click", "#cmdSaveData", function (evt) {
         /* GUARDA LOS DATOS EN UN ARCHIVO JSON */
         downloadObjectAsJson(shipsData, "sc_ships_ccu");
+    });
+
+    $(document).on("click", "#pVG2cB_cmdSwap", function (evt) {
+        /* INTERCAMBIA LAS NAVES QUE SE ESTAN COMPARANDO */
+        if (ComparingShips != undefined && ComparingShips.length > 0) {
+            Comare2Ships(ComparingShips[1], ComparingShips[0]); //<- Shows a Vertical Comparation
+        }
     });
 
     //Al cambiar de pagina
@@ -513,6 +521,7 @@ function SetShipsDataTable(shipsDataRaw) {
         });
     }
     $('#shipTable').table(); //<- Refresca la tabla y Muestra las barras de scroll
+    //$('#shipTable').empty().append(htmTable).enhanceWithin();
     $('#DivScrollTable').mCustomScrollbar({
         axis: "yx",
         theme: "dark",
@@ -836,8 +845,6 @@ function SetShipsDataTable_DT(shipsDataRaw) {
     }
 }
 
-
-
 function ShowVerticalGrid_1Column(data) {
     const shipInfo = shipsData.data.find((element) => element.ID == data);
 
@@ -856,6 +863,7 @@ function Comare2Ships(ShipA, ShipB) {
     if (ShipA != undefined && ShipB != undefined) {
 
         //console.log(ShipA); console.log(ShipB);
+        ComparingShips = [ShipA, ShipB];
 
         $("#pVG2cB_tblVerticalData").empty().append(GetCompareTable_2Ships(ShipA, ShipB)).enhanceWithin();
 
@@ -1081,54 +1089,44 @@ function GetCompareTable_2Ships(ShipA, ShipB) {
     if (ShipA != undefined && ShipB != undefined) {
 
         htmTable += `<thead><tr><th colspan="2">${ShipA.Name}</th><th colspan="2">${ShipB.Name}</th></tr>`;
-        htmTable += `<tr><th colspan="2"><img src="img/ships/${ShipA.ID}.jpg" alt=""  width="300" height="120"></th>`;
-        htmTable += `    <th colspan="2"><img src="img/ships/${ShipB.ID}.jpg" alt=""  width="300" height="120"></th></tr>`;
+        htmTable += `<tr><th colspan="2"><img src="img/ships/${ShipA.ID}.jpg" alt="" width="300" height="120"></th>`;
+        htmTable += `    <th colspan="2"><img src="img/ships/${ShipB.ID}.jpg" alt="" width="300" height="120"></th></tr>`;
         htmTable += '</thead><tbody>';
 
         htmTable += `<tr><td>Manufacturer:</td><td>${shipsData.Manufacturers.find((element) => element.ID == ShipA.Manufacturer).Name}</td>`;
         htmTable += `<td>${shipsData.Manufacturers.find((element) => element.ID == ShipB.Manufacturer).Name}</td>`;
-        htmTable += `<td>-</td></tr>`;
+        htmTable += `<td>${ShipA.Manufacturer !=  ShipB.Manufacturer ? '<a style="color: lightgreen;">Different</a>': '-'}</td></tr>`;
 
         htmTable += `<tr><td>Type:</td><td>${shipsData.Types.find((element) => element.ID == ShipA.Type).Name}</td>`;
         htmTable += `<td>${shipsData.Types.find((element) => element.ID == ShipB.Type).Name}</td>`;
-        htmTable += `<td>-</td></tr>`;
+        htmTable += `<td>${ShipA.Type !=  ShipB.Type ? '<a style="color: lightgreen;">Different</a>': '-'}</td></tr>`;
 
-        htmTable += `<tr><td>Career:</td><td>${shipsData.Careers.find((element) => element.ID == ShipA.Career).Name}</td>`;
-        htmTable += `<td>${shipsData.Careers.find((element) => element.ID == ShipB.Career).Name}</td>`;
-        htmTable += `<td>-</td></tr>`;
+        htmTable += `<tr><td>Career:</td><td>${shipsData.Careers.find((element) => element.ID == ShipA.Career).Name}</td>`;        
+        htmTable += `<td>${shipsData.Careers.find((element) => element.ID == ShipB.Career).Name}</td><td>${ShipA.Career !=  ShipB.Career ? '<a style="color: lightgreen;">Different</a>': '-'}</td></tr>`;
+        htmTable += `<tr><td>Role:</td><td>${ShipA.Role}</td><td>${ShipB.Role}</td><td>${ShipA.Role !=  ShipB.Role ? '<a style="color: lightgreen;">Different</a>': '-'}</td></tr>`;
 
-        htmTable += `<tr><td>Role:</td><td>${ShipA.Role}</td><td>${ShipB.Role}</td><td>-</td></tr>`;
-
-        var Availability_A = ShipA.FlyReady ? 'Fly Ready' : 'Concept';
-        if (ShipA.StandAlone) { Availability_A += ', Standalone Sale'; }
-        var Availability_B = ShipB.FlyReady ? 'Fly Ready' : 'Concept';
-        if (ShipB.StandAlone) { Availability_B += ', Standalone Sale'; }
+        var Availability_A = (ShipA.FlyReady ? 'Fly Ready' : 'Concept'); Availability_A += ShipA.StandAlone ? ', Standalone Sale' : '';
+        var Availability_B = (ShipB.FlyReady ? 'Fly Ready' : 'Concept'); Availability_B += ShipB.StandAlone ? ', Standalone Sale' : '';
         htmTable += `<tr><td>Availability:</td><td>${Availability_A}</td><td>${Availability_B}</td><td>-</td></tr>`;
 
-        htmTable += `<tr><td>Pledge USD:</td><td>$ ${formatNumber(ShipA.PledgeUSD, 0)}</td><td>$ ${formatNumber(ShipB.PledgeUSD, 0)}</td><td>$ ${CompareValues(ShipA.PledgeUSD, ShipB.PledgeUSD, 0, '', true)}</td></tr>`;
-        htmTable += `<tr><td>Value aUEC:</td><td>$ ${formatNumber(ShipA.aUEC, 0)}</td><td>$ ${formatNumber(ShipB.aUEC, 0)}</td><td>$ ${CompareValues(ShipA.aUEC, ShipB.aUEC, 0, '', true)}</td></tr>`;
+        htmTable += `<tr><td>Pledge USD:</td><td>$ ${formatNumber(ShipA.PledgeUSD, 0)}</td><td>$ ${formatNumber(ShipB.PledgeUSD, 0)}</td><td>$ ${CompareValues(ShipA.PledgeUSD, ShipB.PledgeUSD, 0, 'USD', true)}</td></tr>`;
+        htmTable += `<tr><td>Value aUEC:</td><td>$ ${formatNumber(ShipA.aUEC, 0)}</td><td>$ ${formatNumber(ShipB.aUEC, 0)}</td><td>$ ${CompareValues(ShipA.aUEC, ShipB.aUEC, 0, 'aUEC', true)}</td></tr>`;
         htmTable += `<tr><td>Buy Location:</td><td>${ShipA.BuyLocation}</td><td>${ShipB.BuyLocation}</td><td>-</td></tr>`;
         htmTable += `<tr><td>Vehicle Size:</td><td>${ShipA.VehicleSize}</td><td>${ShipB.VehicleSize}</td><td>${CompareValues(ShipA.VehicleSize, ShipB.VehicleSize, 0, 'size')}</td></tr>`;
 
         htmTable += '<tr><td>Weapons:</td>';
-        if (ShipA.Weapons != '-') { htmTable += `<td><a href="#">${ShipA.Weapons}</a></td>`; }
-        else { htmTable += `<td>${ShipA.Weapons}</td>`; }
-        if (ShipB.Weapons != '-') { htmTable += `<td><a href="#">${ShipB.Weapons}</a></td>`; }
-        else { htmTable += `<td>${ShipB.Weapons}</td>`; }
+        htmTable += ShipA.Weapons != '-' ? `<td><a href="#">${ShipA.Weapons}</a></td>` : `<td>${ShipA.Weapons}</td>`;
+        htmTable += ShipB.Weapons != '-' ? `<td><a href="#">${ShipB.Weapons}</a></td>` : `<td>${ShipB.Weapons}</td>`; 
         htmTable += `<td>${CompareHardPoints(GetHardPointInfo(ShipA.Weapons), GetHardPointInfo(ShipB.Weapons))}</td></tr>`;
 
         htmTable += '<tr><td>Turrets:</td>';
-        if (ShipA.Turrets != '-') { htmTable += `<td><a href="#">${ShipA.Turrets}</a></td>`; }
-        else { htmTable += `<td>${ShipA.Turrets}</td>`; }
-        if (ShipB.Turrets != '-') { htmTable += `<td><a href="#">${ShipB.Turrets}</a></td>`; }
-        else { htmTable += `<td>${ShipB.Turrets}</td>`; } //
+        htmTable += ShipA.Turrets != '-' ? `<td><a href="#">${ShipA.Turrets}</a></td>` : `<td>${ShipA.Turrets}</td>`;
+        htmTable += ShipB.Turrets != '-' ? `<td><a href="#">${ShipB.Turrets}</a></td>` : `<td>${ShipB.Turrets}</td>`;
         htmTable += `<td>${CompareHardPoints(GetHardPointInfo(ShipA.Turrets), GetHardPointInfo(ShipB.Turrets))}</td></tr>`;
 
         htmTable += '<tr><td>Missiles:</td>';
-        if (ShipA.MissileRacks != '-') { htmTable += `<td><a href="#">${ShipA.MissileRacks}</a></td>`; }
-        else { htmTable += `<td>${ShipA.MissileRacks}</td>`; }
-        if (ShipB.MissileRacks != '-') { htmTable += `<td><a href="#">${ShipB.MissileRacks}</a></td>`; }
-        else { htmTable += `<td>${ShipB.MissileRacks}</td>`; }
+        htmTable += ShipA.MissileRacks != '-' ? `<td><a href="#">${ShipA.MissileRacks}</a></td>` : `<td>${ShipA.MissileRacks}</td>`;
+        htmTable += ShipB.MissileRacks != '-' ? `<td><a href="#">${ShipB.MissileRacks}</a></td>` : `<td>${ShipB.MissileRacks}</td>`;
         htmTable += `<td>${CompareHardPoints(GetHardPointInfo(ShipA.MissileRacks), GetHardPointInfo(ShipB.MissileRacks))}</td></tr>`;
 
         htmTable += `<tr><td>QT Drive:</td><td>${ShipA.QTDrive}</td><td>${ShipB.QTDrive}</td>`;
@@ -1149,8 +1147,8 @@ function GetCompareTable_2Ships(ShipA, ShipB) {
         htmTable += `<tr><td>SCM Speed:</td><td>${ShipA.ScmSpeed} m/s</td><td>${ShipB.ScmSpeed} m/s</td><td>${CompareValues(ShipA.ScmSpeed, ShipB.ScmSpeed, 0, 'm/s')}</td></tr>`;
         htmTable += `<tr><td>NAV Speed:</td><td>${ShipA.NavSpeed} m/s</td><td>${ShipB.NavSpeed} m/s</td><td>${CompareValues(ShipA.NavSpeed, ShipB.NavSpeed, 0, 'm/s')}</td></tr>`;
 
-        const agilData_A = GetAgility(ShipA.Agility_PYR); const agilData_B = GetAgility(ShipB.Agility_PYR);
-        htmTable += `<tr><td>Pitch,Yaw,Roll:</td><td><a href="#">${ShipA.Agility_PYR}</a></td><td><a href="#">${ShipB.Agility_PYR}</a></td><td>${calculateAgilityPercentageEX(agilData_A, agilData_B)}</td></tr>`;
+        htmTable += `<tr><td>Pitch,Yaw,Roll:</td><td><a href="#">${ShipA.Agility_PYR}</a></td><td><a href="#">${ShipB.Agility_PYR}</a></td>`;
+        htmTable += `<td>${CompareAgilityHTML(ShipA.Agility_PYR, ShipB.Agility_PYR)}</td></tr>`;
 
         htmTable += `<tr><td>Hidrogen:</td><td>${formatNumber(ShipA.Fuel_H, 0)} L</td><td>${formatNumber(ShipB.Fuel_H, 0)} L</td><td>${CompareValues(ShipA.Fuel_H, ShipB.Fuel_H, 0, 'L')}</td></tr>`;
         htmTable += `<tr><td>Fuel QT:</td><td>${formatNumber(ShipA.Fuel_QT, 0)} L</td><td>${formatNumber(ShipB.Fuel_QT, 0)} L</td><td>${CompareValues(ShipA.Fuel_QT, ShipB.Fuel_QT, 0, 'L')}</td></tr>`;
@@ -1230,34 +1228,41 @@ function calculateAgilityPercentage(vehicleA, vehicleB) {
         return `Vehicle B is ${percentageDifference.toFixed(1)}% more agile than vehicle A.`;
     }
 }
-function calculateAgilityPercentageEX(vehicleA, vehicleB) {
+function CompareAgilityHTML(agilData_A, agilData_B) {
     // Calculate the absolute difference for each agility metric (pitch, yaw, roll).
-    const pitchDiff = Math.abs(vehicleA.pitch - vehicleB.pitch);
-    const yawDiff = Math.abs(vehicleA.yaw - vehicleB.yaw);
-    const rollDiff = Math.abs(vehicleA.roll - vehicleB.roll);
+    if (agilData_A != agilData_B) {
+        const vehicleA = GetAgility(agilData_A); 
+        const vehicleB = GetAgility(agilData_B);
 
-    // Calculate the sum of the absolute differences.
-    const totalDiff = pitchDiff + yawDiff + rollDiff;
+        //console.log(vehicleA);console.log(vehicleB);
+        const pitchDiff = Math.abs(vehicleA.pitch - vehicleB.pitch);
+        const yawDiff = Math.abs(vehicleA.yaw - vehicleB.yaw);
+        const rollDiff = Math.abs(vehicleA.roll - vehicleB.roll);
 
-    // Calculate the average agility of vehicles A and B.
-    const averageAgility = (vehicleA.pitch + vehicleA.yaw + vehicleA.roll +
-        vehicleB.pitch + vehicleB.yaw + vehicleB.roll) / 6;
+        // Calculate the sum of the absolute differences.
+        const totalDiff = pitchDiff + yawDiff + rollDiff;
 
-    // Calculate the percentage difference in agility.
-    const percentageDifference = (totalDiff / averageAgility) * 100;
-    //console.log(percentageDifference);
+        // Calculate the average agility of vehicles A and B.
+        const averageAgility = (vehicleA.pitch + vehicleA.yaw + vehicleA.roll +
+            vehicleB.pitch + vehicleB.yaw + vehicleB.roll) / 6;
 
-    // Determine which vehicle is more agile.
-    var _ret = '';
-    if (percentageDifference === 0) {
-        _ret = "-";
-    } else if (vehicleA.pitch + vehicleA.yaw + vehicleA.roll > vehicleB.pitch + vehicleB.yaw + vehicleB.roll) {
-        _ret = `${percentageDifference.toFixed(1)}%`;
-        return `<a style="color: lightgreen;">${_ret}</a> more agile`;
+        // Calculate the percentage difference in agility.
+        const percentageDifference = (totalDiff / averageAgility) * 100;
+
+        // Determine which vehicle is more agile.
+        var _ret = '';
+        if (percentageDifference === 0) {
+            _ret = "-";
+        } else if (vehicleA.pitch + vehicleA.yaw + vehicleA.roll > vehicleB.pitch + vehicleB.yaw + vehicleB.roll) {
+            _ret = `${percentageDifference.toFixed(1)}%`;
+            return `<a style="color: lightgreen;">${_ret}</a> more agile`;
+        } else {
+            _ret = `${percentageDifference.toFixed(1)}%`;
+            return `<a style="color: lightcoral;">${_ret}</a> less agile`;
+        }
     } else {
-        _ret = `${percentageDifference.toFixed(1)}%`;
-        return `<a style="color: lightcoral;">${_ret}</a> less agile`;
-    }
+        return '-';
+    }    
 }
 
 function GetHardPointInfo(data) {
@@ -1286,6 +1291,7 @@ function GetHardPointInfo(data) {
         });
     }
     return {
+        Info: data,
         HardpointsCount: totHardPoints,
         WeaponsCount: totalWeapons,
         MaxSize: MaxSize
@@ -1366,66 +1372,29 @@ function CompareHardPoints(HardpointA, HardpointB) {
     var _ret = '-';
     var Color = 'white'; 
     
-    var Weapons = HardpointA.WeaponsCount - HardpointB.WeaponsCount;
-    if (HardpointA.WeaponsCount != HardpointB.WeaponsCount) {
-        if (HardpointA.WeaponsCount > HardpointB.WeaponsCount) {
-            Color = 'lightgreen';
-            Weapons = '+' + Weapons;
-        } else {
-            Color = 'lightcoral';
+    if (HardpointA != HardpointB) {
+        var Weapons = HardpointA.WeaponsCount - HardpointB.WeaponsCount;
+        if (HardpointA.WeaponsCount != HardpointB.WeaponsCount) {
+            if (HardpointA.WeaponsCount > HardpointB.WeaponsCount) {
+                Color = 'lightgreen';
+                Weapons = '+' + Weapons;
+            } else {
+                Color = 'lightcoral';
+            }
+            _ret = `<a style="color: ${Color};">${Weapons}</a> Count`;
         }
-        _ret = `<a style="color: ${Color};">${Weapons}</a> Count`;
-    }
-    else {
-        _ret = '-';
-    }
 
-    var SizeDiff = HardpointA.MaxSize - HardpointB.MaxSize;
-    if (HardpointA.MaxSize != HardpointB.MaxSize ) {
-        if (HardpointA.MaxSize > HardpointB.MaxSize) {
-            Color = 'lightgreen';
-            SizeDiff = '+' + SizeDiff;
-        } else {
-            Color = 'lightcoral';
+        var SizeDiff = HardpointA.MaxSize - HardpointB.MaxSize;
+        if (HardpointA.MaxSize != HardpointB.MaxSize ) {
+            if (HardpointA.MaxSize > HardpointB.MaxSize) {
+                Color = 'lightgreen';
+                SizeDiff = '+' + SizeDiff;
+            } else {
+                Color = 'lightcoral';
+            }
+            _ret += ` <a style="color: ${Color};">${SizeDiff}</a> Size`;
         }
-        _ret += `, <a style="color: ${Color};">${SizeDiff}</a> Size`;
-    } else {
-        _ret += ', -';
-    }
-    
-    return _ret;
-}
-function CompareTurrets(HardpointA, HardpointB) {
-    var _ret = '-';
-    var Color = 'white'; 
-    
-    var Weapons = HardpointA.WeaponsCount - HardpointB.WeaponsCount;
-    if (HardpointA.WeaponsCount != HardpointB.WeaponsCount) {
-        if (HardpointA.WeaponsCount > HardpointB.WeaponsCount) {
-            Color = 'lightgreen';
-            Weapons = '+' + Weapons;
-        } else {
-            Color = 'lightcoral';
-        }
-        _ret = `<a style="color: ${Color};">${Weapons}</a> Weapon Count`;
-    }
-    else {
-        _ret = 'Eq. Weapon Count';
-    }
-
-    var SizeDiff = HardpointA.MaxSize - HardpointB.MaxSize;
-    if (HardpointA.MaxSize != HardpointB.MaxSize ) {
-        if (HardpointA.MaxSize > HardpointB.MaxSize) {
-            Color = 'lightgreen';
-            SizeDiff = '+' + SizeDiff;
-        } else {
-            Color = 'lightcoral';
-        }
-        _ret += `, <a style="color: ${Color};">${SizeDiff}</a> Size`;
-    } else {
-        _ret += ', Eq. Size';
-    }
-    
+    } 
     return _ret;
 }
 
