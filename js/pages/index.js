@@ -1248,11 +1248,12 @@ function CompareAgilityHTML(agilData_A, agilData_B) {
 
         // Calculate the percentage difference in agility.
         const percentageDifference = (totalDiff / averageAgility) * 100;
+        //console.log(percentageDifference);
 
         // Determine which vehicle is more agile.
         var _ret = '';
         if (percentageDifference === 0) {
-            _ret = "-";
+            return "-";
         } else if (vehicleA.pitch + vehicleA.yaw + vehicleA.roll > vehicleB.pitch + vehicleB.yaw + vehicleB.roll) {
             _ret = `${percentageDifference.toFixed(1)}%`;
             return `<a style="color: lightgreen;">${_ret}</a> more agile`;
