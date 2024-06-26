@@ -531,7 +531,8 @@ function SetShipsDataTable(shipsDataRaw) {
 }
 function SetShipsDataTable_DT(shipsDataRaw) {
     try {
-        //console.log(shipsDataRaw);
+        /* CARGA LOS DATOS EN UN DATATABLE: https://datatables.net */
+
         if (shipsDataRaw != null && shipsDataRaw.data.length > 0) {
 
             const table = new DataTable('#TableOfShips', {
@@ -620,9 +621,9 @@ function SetShipsDataTable_DT(shipsDataRaw) {
                             if (type === 'display') {
                                 // Colorear en rojo si la nave no es FlyReady o en Verde si esta en venta sin paquete
                                 let color = 'white';
-                                if (row.FlyReady === 0) { color = 'red'; }
+                                if (row.FlyReady === 0) { color = '#FE1800'; }
                                 else {
-                                    if (row.StandAlone === 1) { color = 'green'; }
+                                    if (row.StandAlone === 1) { color = '#04FC22'; }
                                 }
                                 return `<span style="color:${color}">${ShipID}  </span>`;
                             }

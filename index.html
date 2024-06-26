@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
@@ -49,19 +49,19 @@
             <a href="#pageTable"
                 class="ui-btn-left ui-btn ui-btn-inline ui-mini ui-corner-all ui-btn-icon-left ui-icon-carat-r">Ships
                 for CCU</a>
-            <h1>Star Citizen - Ships Information</h1>
+            <h1>Star Citizen - Ships Information | Updated for SC v3.23.2</h1>
         </div><!-- /header -->
 
         <!-- Popup para la foto de las Naves -->
-        <div data-role="popup" id="popShipPreview" class="photopopup" data-overlay-theme="a" data-corners="false" data-tolerance="30,15">
-            <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
+        <div data-role="popup" id="popShipPreview" class="photopopup" data-overlay-theme="b" data-corners="false" data-tolerance="30,15">
+            <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
             <img id="imgShipPreview" src="" alt="Photo landscape">
         </div>
 
         <!-- popup para detalles de los Hardpoints -->
         <div data-role="popup" id="popDlgHardPoints" data-overlay-theme="b" data-theme="b" data-dismissible="false" style="max-width:400px;">
-            <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
-            <div data-role="header" data-theme="a"><h1>Hardpoint Info</h1></div>
+            <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
+            <div data-role="header" data-theme="b"><h1>Hardpoint Info</h1></div>
             <div role="main" class="ui-content">
                 <table id="tableHardPoints" name="tableHardPoints" class="BorderTbl" style="width:360px"></table>
                 <p id="lblHardPoints">1 Hardpoints, 1 Weapons</p>
@@ -69,13 +69,14 @@
         </div>
         
         <!-- popup para la Agilidad -->
-        <div data-role="popup" id="popAgilty" data-overlay-theme="b" data-theme="b" data-dismissible="false" style="width:400px; height:300px; max-width:400px;">
-            <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
-            <div data-role="header" data-theme="a"><h1>Agility Comparation</h1></div>
-            <div role="main" class="ui-content">
-                <div class="ui-grid-a"  style="height:216px">
-                    <div class="ui-block-a"><div class="ui-bar ui-bar-a" style="height:200px">
-                        <div class="ui-field-contain">
+        <div data-role="popup" id="popAgilty" data-overlay-theme="b" data-theme="b" style="width:400px; height:300px; max-width:400px;">
+            <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
+            <div data-role="header" data-theme="b"><h1>Agility Comparation</h1></div>
+            
+            <div role="main" data-theme="b" class="ui-content">
+                <div class="ui-grid-a" style="height:216px">
+                    <div class="ui-block-a"><div class="ui-bar ui-bar-b" style="height:200px">
+                        <div class="ui-field-contain" >
                             <fieldset data-role="controlgroup">
                                 <input type="text" id="agilTxtP_1" placeholder="Pitch" value="Pitch: 130" data-mini="true">
                                 <input type="text" id="agilTxtY_1" placeholder="Yaw"   value="Yaw:   100" data-mini="true">
@@ -85,7 +86,7 @@
                             <input type="text" id="agilTxtShipName" placeholder="Ship Name" value="" data-mini="true">                            
                         </div>
                     </div></div>
-                    <div class="ui-block-b"><div class="ui-bar ui-bar-a" style="height:200px">
+                    <div class="ui-block-b"><div class="ui-bar ui-bar-b" style="height:200px">
                         <div class="ui-field-contain">
                             <fieldset data-role="controlgroup">
                                 <input type="text" id="agilTxtP_2" placeholder="Pitch" value="" data-mini="true">
@@ -102,9 +103,9 @@
         </div>
 
         <!-- popup para Detalles de la Nave -->
-        <div data-role="popup" id="popVerticalGrid" data-overlay-theme="b" data-theme="b" data-dismissible="false">
-            <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
-            <div data-role="header" data-theme="a"><h1 id="pVG_lblShipName">[Ship Name]</h1></div>
+        <div data-role="popup" id="popVerticalGrid" data-overlay-theme="b" data-theme="b" >
+            <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
+            <div data-role="header" data-theme="b"><h1 id="pVG_lblShipName">[Ship Name]</h1></div>
             <div role="main" class="ui-content">
                 <img id="pVG_imgShipFoto" src="" alt=""  width="300" height="120">
                 <table id="pVG_tblVerticalData"  class="display nowrap"></table>
@@ -112,10 +113,10 @@
         </div>
 
         <!-- popup para comparar 2 naves-->
-        <div data-role="popup" id="popVerticalGrid2C" data-overlay-theme="b" data-theme="b" data-dismissible="false" style="width:760px; height:900px; ">
+        <div data-role="popup" id="popVerticalGrid2C" data-overlay-theme="b" data-theme="b" style="width:760px; height:900px; ">
             <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
             <a href="#" id="pVG2cB_cmdSwap" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-recycle ui-btn-icon-notext ui-btn-left">Swap</a>
-            <div data-role="header" data-theme="a"><h1>Ship Compare</h1></div>
+            <div data-role="header" data-theme="b"><h1>Ship Compare</h1></div>
             <div role="main" class="ui-content">
                 <table id="pVG2cB_tblVerticalData" ></table>
             </div><!-- /content -->         
@@ -124,7 +125,7 @@
         <!-- Cuerpo -->
         <div role="main" data-theme="b" data-content-theme="b" class="ui-content jqm-content jqm-fullwidth  ">
             <!-- Tabla con el 'DataTable' widget -->
-            <table id="TableOfShips" class="display nowrap"></table>
+            <table id="TableOfShips" data-theme="b" class="display nowrap" ></table>
         </div><!-- /main -->
         
 
