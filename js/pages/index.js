@@ -607,9 +607,9 @@ function SetShipsDataTable_DT(shipsDataRaw) {
                                 var storeLink = row.StorePage;
                                 //const rowData = JSON.stringify(row);   console.log(rowData);       
 
-                                let controls = `<a href="#" data-ltype="linkShipPageF" data-shipid="${storeLink}" class="my-tooltip-btn ui-btn ui-alt-icon ui-nodisc-icon ui-btn-inline ui-icon-info ui-btn-icon-notext">RSI Page</a>`;
-                                controls += `<a href="#" data-ltype="popImgPreview" data-shipid="${data}"      class="my-tooltip-btn ui-btn ui-alt-icon ui-nodisc-icon ui-btn-inline ui-icon-camera ui-btn-icon-notext">Preview</a>`;
-                                controls += `<a href="#" data-ltype="popVerticalData" data-shipid="${data}"    class="my-tooltip-btn ui-btn ui-alt-icon ui-nodisc-icon ui-btn-inline ui-icon-bullets ui-btn-icon-notext">Details</a>`;
+                                let controls = `<a href="#" data-ltype="linkShipPageF" data-shipid="${storeLink}" class="my-tooltip-btn ui-btn ui-icon ui-nodisc-icon ui-btn-inline ui-icon-info ui-btn-icon-notext">RSI Page</a>`;
+                                    controls += `<a href="#" data-ltype="popImgPreview" data-shipid="${data}"     class="my-tooltip-btn ui-btn ui-icon ui-nodisc-icon ui-btn-inline ui-icon-camera ui-btn-icon-notext">Preview</a>`;
+                                    controls += `<a href="#" data-ltype="popVerticalData" data-shipid="${data}"   class="my-tooltip-btn ui-btn ui-icon ui-nodisc-icon ui-btn-inline ui-icon-bullets ui-btn-icon-notext">Details</a>`;
                                 return controls;
                             }
                             return data;
@@ -621,9 +621,9 @@ function SetShipsDataTable_DT(shipsDataRaw) {
                             if (type === 'display') {
                                 // Colorear en rojo si la nave no es FlyReady o en Verde si esta en venta sin paquete
                                 let color = 'white';
-                                if (row.FlyReady === 0) { color = '#FE1800'; }
+                                if (row.FlyReady === 0) { color = '#fa4848'; } //<- Rojo
                                 else {
-                                    if (row.StandAlone === 1) { color = '#04FC22'; }
+                                    if (row.StandAlone === 1) { color = '#4aff9b'; } //<- Verde 04FC22
                                 }
                                 return `<span style="color:${color}">${ShipID}  </span>`;
                             }
@@ -713,7 +713,6 @@ function SetShipsDataTable_DT(shipsDataRaw) {
                     { data: 'PledgeUSD', title: 'Pledge USD', searchable: false, render: DataTable.render.number(',', '.', 0, '$'), className: 'dt-body-center dt-head-center' },
                     { data: 'aUEC', title: 'In Game Price', searchable: false, render: DataTable.render.number(',', '.', 0, '$'), className: 'dt-body-center dt-head-center' },
                     { data: 'BuyLocation', title: 'Buy Location', searchable: false, className: 'dt-body-center dt-head-center' },
-
                     { data: 'VehicleSize', title: 'Vehicle Size', searchable: false, className: 'dt-body-center dt-head-center' },
                     {
                         data: 'Weapons', title: 'Weapons',
@@ -814,7 +813,7 @@ function SetShipsDataTable_DT(shipsDataRaw) {
                                     positionTo: 'window',
                                     transition: "flip"
                                 });
-                            }, 600);
+                            }, 700);
                         }
                         if (lType === "linkShipPageF") {
                             //Abre un link a la pagina de la nave en el Store de RSI
@@ -966,6 +965,7 @@ function ShowMissilesInfo(data) {
         });
     }, 200);
 }
+
 /** Produce filas de tabla para el Harpoint indicado. * 
  * @param {integer} hardPoint Cantidad de Hardpoints
  * @param {string}  pSize Tamaño del Hardpoint (y de las Armas)
@@ -1411,16 +1411,10 @@ function formatNumber(number, decimals = 2, separator = ',') {
     if (isNaN(number)) {
         return number; // Return the original value if not a number
     }
-
-    // Use toLocaleString() for locale-aware formatting (recommended)
     return number.toLocaleString('en-US', {
         minimumFractionDigits: decimals,
         maximumFractionDigits: decimals
     }).replace(/\B(?=(\d{3})+(?!\d))/g, separator);
-
-    // Alternative using toFixed() for simpler formatting
-    // const fixedNumber = number.toFixed(decimals);
-    // return fixedNumber.replace(/\B(?=(\d{3})+(?!\d))/g, separator);
 }
 // Function to format and display the number with swapped sign
 function formatDecimal(numberString, decimalPlaces) {
