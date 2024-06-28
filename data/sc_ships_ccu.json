@@ -1263,7 +1263,7 @@
       "CapRefill": 1875,
       "HP": 13160,
       "ShieldType": "Bubble",
-      "StorePage": "ships/sabre/Sabre-Raven",
+      "StorePage": "sabre/Sabre-Raven",
       "CCUFromID": []
     },
     {
@@ -1297,7 +1297,7 @@
       "CapRefill": 1875,
       "HP": 13160,
       "ShieldType": "Bubble",
-      "StorePage": "ships/sabre/Sabre-Firebird",
+      "StorePage": "sabre/Sabre-Firebird", 
       "CCUFromID": []
     },
     {

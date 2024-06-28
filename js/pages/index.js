@@ -818,6 +818,7 @@ function SetShipsDataTable_DT(shipsDataRaw) {
                         if (lType === "linkShipPageF") {
                             //Abre un link a la pagina de la nave en el Store de RSI
                             if (ShipID != undefined) {
+                               // https://robertsspaceindustries.com/pledge/ships/sabre/Sabre-Firebird
                                 window.open('https://robertsspaceindustries.com/pledge/ships/' + ShipID, '_blank');
                             }
                         }
